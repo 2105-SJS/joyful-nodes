@@ -1,5 +1,5 @@
+const client = require("./client");
 const {
-  client,
   createProduct
 } = require('./index');
 
