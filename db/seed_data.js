@@ -1,32 +1,32 @@
 const {
-    client
-    // other db methods 
-  } = require('./index');
+  client,
+  createProduct
+} = require('./index');
 
 const dropTables = async () => {
-    try {
-      console.log("Starting to drop tables...");
-  
-      await client.query(`
+  try {
+    console.log("Starting to drop tables...");
+
+    await client.query(`
         DROP TABLE IF EXISTS order_products;
         DROP TABLE IF EXISTS orders;
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS products;
       `)
-      
-      console.log("Finished dropping tables...")
-    }
-    catch (error) {
-      console.log("Error dropping tables!");
-      throw error;
-    }
+
+    console.log("Finished dropping tables...")
   }
-  
-  const createTables = async () => {
-    try {
-      console.log("Starting to create tables...");
-  
-      await client.query(`
+  catch (error) {
+    console.log("Error dropping tables!");
+    throw error;
+  }
+}
+
+const createTables = async () => {
+  try {
+    console.log("Starting to create tables...");
+
+    await client.query(`
         CREATE TABLE products (
           id SERIAL PRIMARY KEY,
           name VARCHAR(255) NOT NULL,
@@ -64,32 +64,46 @@ const dropTables = async () => {
           UNIQUE("productId", "tagId")
         );
       `)
-    }
-    catch (error) {
-      console.log("Error in creating tables...");
-      throw error;
-    }
   }
-
-const rebuildDB = () => {
-    try {
-        await dropTables();
-        await createTables();
-    }
-    catch (error) {
-        throw error
-    }
+  catch (error) {
+    console.log("Error in creating tables...");
+    throw error;
+  }
 }
-  
-  const populateInitialData = () => {
-    try {
-      // create useful starting data
-    } catch (error) {
-      throw error;
-    }
+
+const rebuildDB = async () => {
+  try {
+    await dropTables();
+    await createTables();
   }
+  catch (error) {
+    throw error
+  }
+}
+
+const populateInitialData = async () => {
+  try {
+    // create useful starting data
+    console.log("Creating data...");
+    const productsToCreate = [
+      {name: "Nike OffWhite Air Jordan One", 
+      description: "This shoe is red, white, and black with a deconstructed look.",
+      price: "$6000",
+      imgURL,
+      inStock,
+      category: "Casual Sneaker"
+    }
+    ]
+    const products = await Promise.all(productsToCreate.map(createProduct));
+    console.log('Products created:');
+    console.log(products);
+    console.log('Finished creating products!');
+  } catch (error) {
+    throw error;
+  }
+}
 
 module.exports = {
-    rebuildDB,
-    populateInitialData
+  rebuildDB,
+  populateInitialData
 }

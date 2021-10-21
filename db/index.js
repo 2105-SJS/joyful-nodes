@@ -1,8 +1,8 @@
-// Connect to DB
-const { Client } = require('pg');
-const DB_NAME = 'shoes-dev'
-const DB_URL = process.env.DATABASE_URL || `postgres://${ DB_NAME }`;
-const client = new Client(DB_URL);
+const { Client } = require("pg");
+const client = new Client({
+  connectionString: process.env.DATABASE_URL || 'postgres://localhost:5432/shoes-dev',
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
+});
 
 // database methods
 
