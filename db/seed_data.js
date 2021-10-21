@@ -31,9 +31,9 @@ const createTables = async () => {
           id SERIAL PRIMARY KEY,
           name VARCHAR(255) NOT NULL,
           description VARCHAR(255) NOT NULL,
-          price VARCHAR(255) NOT NULL,
+          price INT NOT NULL,
           "imgURL" VARCHAR(255) DEFAULT 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
-          "inStock" BOOLEAN DEFAULT true NOT NULL,
+          "inStock" BOOLEAN DEFAULT false NOT NULL,
           category VARCHAR(255) NOT NULL
         );
   
@@ -45,14 +45,14 @@ const createTables = async () => {
           "imageURL" VARCHAR(255) DEFAULT 'https://louisville.edu/enrollmentmanagement/images/person-icon/image',
           username VARCHAR(255) UNIQUE NOT NULL,
           password VARCHAR(255) UNIQUE NOT NULL,
-          "isAdmin" DEFAULT true NOT NULL
+          "isAdmin" BOOLEAN DEFAULT FALSE
         );
   
         CREATE TABLE orders (
           id SERIAL PRIMARY KEY,
-          status DEFAULT 'created',
+          status VARCHAR(255) DEFAULT 'created',
           "userId" INTEGER REFERENCES users(id),
-          "datePlaced" TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+          "datePlaced" DATE NOT NULL
         );
   
         CREATE TABLE order_products (
@@ -60,8 +60,8 @@ const createTables = async () => {
           "productId" INTEGER REFERENCES products(id),
           "orderId" INTEGER REFERENCES orders(id),
           price VARCHAR(255) NOT NULL,
-          quantity DEFAULT '0' NOT NULL,
-          UNIQUE("productId", "tagId")
+          quantity INT NOT NULL DEFAULT 0,
+          UNIQUE("productId", "orderId")
         );
       `)
   }
@@ -88,9 +88,9 @@ const populateInitialData = async () => {
     const productsToCreate = [
       {name: "Nike OffWhite Air Jordan One", 
       description: "This shoe is red, white, and black with a deconstructed look.",
-      price: "$6000",
-      imgURL,
-      inStock,
+      price: 6000,
+      imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
+      inStock: true,
       category: "Casual Sneaker"
     }
     ]
