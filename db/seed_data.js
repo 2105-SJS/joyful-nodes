@@ -1,6 +1,8 @@
 const client = require("./client");
 const {
-  createProduct
+  createProduct,
+  createUser,
+  createOrder
 } = require('./index');
 
 const dropTables = async () => {
@@ -52,7 +54,7 @@ const createTables = async () => {
           id SERIAL PRIMARY KEY,
           status VARCHAR(255) DEFAULT 'created',
           "userId" INTEGER REFERENCES users(id),
-          "datePlaced" DATE NOT NULL
+          "datePlaced" DATE DEFAULT CURRENT_TIMESTAMP NOT NULL
         );
   
         CREATE TABLE order_products (
@@ -85,6 +87,7 @@ const populateInitialData = async () => {
   try {
     // create useful starting data
     console.log("Creating data...");
+    console.log("Creating products...");
     const productsToCreate = [
       {name: "Nike OffWhite Air Jordan One", 
       description: "This shoe is red, white, and black with a deconstructed look.",
@@ -98,6 +101,30 @@ const populateInitialData = async () => {
     console.log('Products created:');
     console.log(products);
     console.log('Finished creating products!');
+
+
+    console.log("Creating users...");
+    const usersToCreate = [
+      { firstName: 'Mary', lastName: 'Jane', email: 'mary.jane@gmail.com', username: 'mj2003', password: 'gr33ni$g00d' },
+      { firstName: 'Rocco', lastName: 'Stalwart', email: 'deergod@myspace.com', username: 'antlers54', password: 'password124' }
+    ]
+    const users = await Promise.all(usersToCreate.map(createUser));
+    console.log('Users created:');
+    console.log(users);
+    console.log('Finished creating users!');
+
+
+    console.log("Creating orders...");
+    const ordersToCreate = [
+      { status: 'created', userId: 2 },
+      { status: 'in progress', userId: 1 },
+      { status: 'shipped', userId: 1 }
+    ]
+    const orders = await Promise.all(ordersToCreate.map(createOrder));
+    console.log('Orders created:');
+    console.log(orders);
+    console.log('Finished creating orders!');
+
   } catch (error) {
     throw error;
   }
