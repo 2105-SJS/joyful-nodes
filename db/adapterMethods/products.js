@@ -46,6 +46,7 @@ async function createProduct({
 }
 
 module.exports = {
+    // db methods
     getProductById,
     getAllProducts,
     createProduct
