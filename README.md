@@ -12,7 +12,7 @@ We've got your back:
 
 ## Local Development
 
-### Setting Up
+### Setting Up   
 
 First, clone this repo locally.
 

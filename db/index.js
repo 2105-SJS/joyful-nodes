@@ -1,13 +1,10 @@
-// Connect to DB
-const { Client } = require('pg');
-const DB_NAME = 'change-this-name'
-const DB_URL = process.env.DATABASE_URL || `postgres://${ DB_NAME }`;
-const client = new Client(DB_URL);
+// require and re-export all the files in the adapterMethods folder
+const { client } = require('./client');
 
-// database methods
-
-// export
 module.exports = {
   client,
-  // db methods
+  ...require("./adapterMethods/products"),
+  ...require("./adapterMethods/users"),
+  ...require("./adapterMethods/orders"),
+  ...require("./adapterMethods/order_products")
 }

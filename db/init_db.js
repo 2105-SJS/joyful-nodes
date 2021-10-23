@@ -1,31 +1,11 @@
-// code to build and initialize DB goes here
+const { client } = require('./client');
 const {
-  client
-  // other db methods 
-} = require('./index');
+  rebuildDB,
+  populateInitialData
+} = require('./seed_data');
 
-async function buildTables() {
-  try {
-    client.connect();
-
-    // drop tables in correct order
-
-    // build tables in correct order
-
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function populateInitialData() {
-  try {
-    // create useful starting data
-  } catch (error) {
-    throw error;
-  }
-}
-
-buildTables()
+client.connect()
+  .then(rebuildDB)
   .then(populateInitialData)
   .catch(console.error)
   .finally(() => client.end());
