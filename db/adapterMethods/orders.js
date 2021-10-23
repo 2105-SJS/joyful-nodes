@@ -13,7 +13,7 @@ const createOrder = async ({status, userId}) => {
     };
 };
 
-const getOrderById(id) = async () => {
+const getOrderById = async (id) => {
     try {
         const { rows: [order]} = await client.query (`
             SELECT * FROM orders
@@ -38,6 +38,21 @@ const getAllOrders = async () => {
     };
 };
 
+const getOrdersByUser = async ({ id }) => {
+    try {
+        const { rows: orders } = await client.query(`
+            SELECT * FROM orders
+            WHERE "userId" = $1;
+        `,[id]);
+        return orders;
+    } catch (error) {
+        console.error (error);
+    };
+};
+
 module.exports = {
-    createOrder
-}
+    createOrder,
+    getOrderById,
+    getAllOrders,
+    getOrdersByUser
+};
