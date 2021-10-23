@@ -1,6 +1,5 @@
 const {client} = require("../client");
 
-
 async function getProductById(id) {
     try {
         const { rows: [product] } = await client.query(`
@@ -47,10 +46,9 @@ async function createProduct({
     }
 }
 
-// export
 module.exports = {
+    // db methods
     getProductById,
     getAllProducts,
     createProduct
-    // db methods
 }
