@@ -1,6 +1,6 @@
-const {client} = require("../client");
+const { client } = require("../client");
 
-const createUser = async ({firstName, lastName, email, imageURL, username, password, isAdmin}) => {
+const createUser = async ({ firstName, lastName, email, imageURL, username, password, isAdmin }) => {
     try {
         if (!isAdmin) {
             isAdmin = false;

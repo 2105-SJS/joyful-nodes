@@ -1,6 +1,6 @@
-const {client} = require("../client");
+const { client } = require("../client");
 
-const createOrder = async ({status, userId}) => {
+const createOrder = async ({ status, userId }) => {
     try {
         const { rows: [order] } = await client.query(`
             INSERT INTO orders (status, "userId")
