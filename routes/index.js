@@ -1,9 +1,7 @@
-const apiRouter = require('express').Router();
+const express = require("express");
+const productsRouter = require("./products");
+const apiRouter = express();
 
-apiRouter.get("/", (req, res, next) => {
-  res.send({
-    message: "API is under construction!"
-  });
-});
+apiRouter.use("/products", productsRouter);
 
 module.exports = apiRouter;
