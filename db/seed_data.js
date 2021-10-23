@@ -2,7 +2,8 @@ const client = require("./client");
 const {
   createProduct,
   createUser,
-  createOrder
+  createOrder,
+  addProductToOrder
 } = require('./index');
 
 const dropTables = async () => {
@@ -128,13 +129,13 @@ const populateInitialData = async () => {
     console.log("Adding products to orders...");
     const productsToAdd = [
       { orderId: 1, productId: 1, price: 60, quantity: 1 },      
-      { orderId: 2, productId: 1, price: 55, quantity: 3 },      
+      { orderId: 1, productId: 1, price: 55, quantity: 3 },      
       { orderId: 3, productId: 1, price: 65, quantity: 7 }
     ]
-    const productOrders = await Promise.all(productsToAdd.map(addProductToOrder));
-    console.log('Orders created:');
-    console.log(orders);
-    console.log('Finished creating orders!');
+    const orderProducts = await Promise.all(productsToAdd.map(addProductToOrder));
+    console.log('Added products:');
+    console.log(orderProducts);
+    console.log('Finished adding products to orders!');
 
   } catch (error) {
     throw error;
