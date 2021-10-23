@@ -89,13 +89,30 @@ const populateInitialData = async () => {
     console.log("Creating data...");
     console.log("Creating products...");
     const productsToCreate = [
-      {name: "Nike OffWhite Air Jordan One", 
-      description: "This shoe is red, white, and black with a deconstructed look.",
-      price: 6000,
-      imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
-      inStock: true,
-      category: "Casual Sneaker"
-    }
+      {
+        name: "Nike OffWhite Air Jordan One",
+        description: "This shoe is red, white, and black with a deconstructed look.",
+        price: 6000,
+        imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
+        inStock: true,
+        category: "Casual Sneaker"
+      },
+      {
+        name: "Adidas Yeezy Foam RNNR",
+        description: "The adidas Yeezy Foam RNNR Ochre features a golden Ochre one-piece EVA foam construction. Oval cut-outs throughout the design provide ventilation, while a cushioned footbed offers support.",
+        price: 342,
+        imgURL: 'https://cdn.flightclub.com/TEMPLATE/267256/1.jpg',
+        inStock: true,
+        category: "Casual Sneaker"
+      },
+      {
+        name: "Nike Dunk Low",
+        description: "The upper Nike Dunk Low Retro White Black is constructed of white leather with black leather overlays and Swooshes.",
+        price: 260,
+        imgURL: 'https://cdn-images.farfetch-contents.com/16/40/35/69/16403569_31752432_600.jpg',
+        inStock: true,
+        category: "Casual Sneaker"
+      },
     ]
     const products = await Promise.all(productsToCreate.map(createProduct));
     console.log('Products created:');
