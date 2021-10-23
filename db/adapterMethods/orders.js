@@ -13,7 +13,7 @@ const createOrder = async ({status, userId}) => {
     };
 };
 
-const getOrderById(id) = async => {
+const getOrderById(id) = async () => {
     try {
         const { rows: [order]} = await client.query (`
             SELECT * FROM orders
@@ -24,6 +24,17 @@ const getOrderById(id) = async => {
         catch (error) {
             console.errorb(error);
         };
+    };
+};
+
+const getAllOrders = async () => {
+    try {
+        const { rows } = await client.query(`
+            SELECT * FROM orders;
+        `);
+        return rows;
+    } catch (error) {
+        console.error (error);
     };
 };
 
