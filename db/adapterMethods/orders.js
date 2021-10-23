@@ -21,9 +21,7 @@ const getOrderById = async (id) => {
         `,[id]);
         return order;
     } catch (error) {
-        catch (error) {
-            console.errorb(error);
-        };
+        console.error(error);
     };
 };
 
