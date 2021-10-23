@@ -1,5 +1,4 @@
-const {client} = require("../client");
-
+const { client } = require("../client");
 
 async function getProductById(id) {
     try {
@@ -40,17 +39,14 @@ async function createProduct({
         VALUES($1, $2, $3, $4, $5, $6)
         RETURNING *;
       `, [name, description, price, imgURL, inStock, category]);
-
         return product;
     } catch (error) {
         throw error;
     }
 }
 
-// export
 module.exports = {
     getProductById,
     getAllProducts,
     createProduct
-    // db methods
 }
