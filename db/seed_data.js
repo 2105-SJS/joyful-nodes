@@ -2,12 +2,17 @@ const client = require("./client");
 const {
   createProduct,
   createUser,
-  createOrder,
   addProductToOrder,
   getOrderProductById,
   updateOrderProduct,
-  destroyOrderProduct 
+  destroyOrderProduct,
+  createOrder,
+    getOrderById,
+    getAllOrders,
+    getOrdersByUser 
 } = require('./index');
+
+const util = require('util');
 
 const dropTables = async () => {
   try {
@@ -169,6 +174,9 @@ const populateInitialData = async () => {
     console.log('');
     console.log('Deleting order_products with ID 1');
     console.log(await destroyOrderProduct(1));
+    console.log('');
+    console.log('Getting all orders');
+    console.log(util.inspect(await getAllOrders(), {depth: 9}));
 
 
   } catch (error) {
