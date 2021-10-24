@@ -79,7 +79,31 @@ const getOrdersByUser = async ({ id }) => {
             SELECT * FROM orders
             WHERE "userId" = $1;
         `,[id]);
-        return orders;
+        const orderProducts = await Promise.all(orders.map(async (order) => {
+            const orderProduct = _joinOrderProducts(order.id);
+            return orderProduct;
+        }));
+        return orderProducts;
+    } catch (error) {
+        console.error (error);
+    };
+};
+
+const getOrdersByProduct = async ({ id }) => {
+    try {
+        const { rows: [_productId] } = await client.query (`
+            SELECT * FROM order_products
+            WHERE "productId" = $1;
+        `,[id]);
+        const { rows: orders } = await client.query(`
+            SELECT * FROM orders
+            WHERE id = $1;
+        `,[_productId.orderId]);
+        const orderProducts = await Promise.all(orders.map(async (order) => {
+            const orderProduct = _joinOrderProducts(order.id);
+            return orderProduct;
+        }));
+        return orderProducts;
     } catch (error) {
         console.error (error);
     };
@@ -89,5 +113,6 @@ module.exports = {
     createOrder,
     getAllOrders,
     getOrderById,
+    getOrdersByProduct,
     getOrdersByUser
 };

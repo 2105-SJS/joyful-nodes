@@ -9,7 +9,8 @@ const {
   createOrder,
     getOrderById,
     getAllOrders,
-    getOrdersByUser 
+    getOrdersByUser,
+    getOrdersByProduct 
 } = require('./index');
 
 const util = require('util');
@@ -180,6 +181,11 @@ const populateInitialData = async () => {
     console.log('');
     console.log('Getting order by ID 1');
     console.log(util.inspect(await getOrderById(1), {depth: 9}));
+    console.log('');
+    console.log('Getting order by user ID 1');
+    console.log(util.inspect(await getOrdersByUser({id: 1}), {depth: 9}));
+    console.log('Getting order by product ID 1');
+    console.log(util.inspect(await getOrdersByProduct({id: 1}), {depth: 9}));
 
 
   } catch (error) {
