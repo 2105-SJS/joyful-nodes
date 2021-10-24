@@ -1,5 +1,5 @@
 // require and re-export all the files in the adapterMethods folder
-const client = require('./client');
+const { client } = require('./client');
 
 module.exports = {
   client,

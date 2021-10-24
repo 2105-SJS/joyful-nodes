@@ -1,4 +1,3 @@
-
 const client = require("../client");
 const { getOrderProductsByOrder } = require ('./order_products');
 const { getProductById } = require('./products');
