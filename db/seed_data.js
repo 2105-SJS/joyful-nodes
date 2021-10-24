@@ -3,7 +3,10 @@ const {
   createProduct,
   createUser,
   createOrder,
-  addProductToOrder
+  addProductToOrder,
+  getOrderProductById,
+  updateOrderProduct,
+  destroyOrderProduct 
 } = require('./index');
 
 const dropTables = async () => {
@@ -62,7 +65,7 @@ const createTables = async () => {
           id SERIAL PRIMARY KEY,
           "productId" INTEGER REFERENCES products(id),
           "orderId" INTEGER REFERENCES orders(id),
-          price VARCHAR(255) NOT NULL,
+          price DECIMAL(100, 2) NOT NULL,
           quantity INT NOT NULL DEFAULT 0,
           UNIQuE ("productId", "orderId")
         );
@@ -154,6 +157,16 @@ const populateInitialData = async () => {
     console.log('Added products:');
     console.log(orderProducts);
     console.log('Finished adding products to orders!');
+
+    console.log('-Testing adapters-');    
+    console.log('');
+    console.log('Getting order_products by ID 1');
+    console.log(await getOrderProductById(1));
+    console.log('')
+    console.log('Updating order_products with ID 1');
+    console.log(await updateOrderProduct({ id: 1, price: 95, quantity: 23 })
+    )
+
 
   } catch (error) {
     throw error;
