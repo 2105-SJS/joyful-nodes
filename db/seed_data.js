@@ -10,7 +10,8 @@ const {
     getOrderById,
     getAllOrders,
     getOrdersByUser,
-    getOrdersByProduct 
+    getOrdersByProduct,
+    getCartByUser 
 } = require('./index');
 
 const util = require('util');
@@ -99,33 +100,19 @@ const populateInitialData = async () => {
     console.log("Creating data...");
     console.log("Creating products...");
     const productsToCreate = [
-      {name: "Nike OffWhite Air Jordan One", 
-      description: "This shoe is red, white, and black with a deconstructed look.",
-      price: 6000,
-      imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
-      inStock: true,
-      category: "Casual Sneaker"
-    },
-    {name: "Nike OffWhite Air Jordan One", 
-      description: "This shoe is red, white, and black with a deconstructed look.",
-      price: 6000,
-      imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
-      inStock: true,
-      category: "Casual Sneaker"
-    },
-    {name: "Nike OffWhite Air Jordan One", 
-      description: "This shoe is red, white, and black with a deconstructed look.",
-      price: 6000,
-      imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
-      inStock: true,
-      category: "Casual Sneaker"
-    }
+      {
+        name: "Nike OffWhite Air Jordan One", 
+        description: "This shoe is red, white, and black with a deconstructed look.",
+        price: 6000,
+        imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
+        inStock: true,
+        category: "Casual Sneaker"
+      }
     ]
     const products = await Promise.all(productsToCreate.map(createProduct));
     console.log('Products created:');
     console.log(products);
     console.log('Finished creating products!');
-
 
     console.log("Creating users...");
     const usersToCreate = [
@@ -163,35 +150,10 @@ const populateInitialData = async () => {
     console.log('Added products:');
     console.log(orderProducts);
     console.log('Finished adding products to orders!');
-
-    console.log('-Testing adapters-');    
-    console.log('');
-    console.log('Getting order_products by ID 1');
-    console.log(await getOrderProductById(1));
-    console.log('')
-    console.log('Updating order_products with ID 1');
-    console.log(await updateOrderProduct({ id: 1, price: 95, quantity: 23 })
-    )
-    console.log('');
-    console.log('Deleting order_products with ID 1');
-    console.log(await destroyOrderProduct(1));
-    console.log('');
-    console.log('Getting all orders');
-    console.log(util.inspect(await getAllOrders(), {depth: 9}));
-    console.log('');
-    console.log('Getting order by ID 1');
-    console.log(util.inspect(await getOrderById(1), {depth: 9}));
-    console.log('');
-    console.log('Getting order by user ID 1');
-    console.log(util.inspect(await getOrdersByUser({id: 1}), {depth: 9}));
-    console.log('Getting order by product ID 1');
-    console.log(util.inspect(await getOrdersByProduct({id: 1}), {depth: 9}));
-
-
   } catch (error) {
     throw error;
-  }
-}
+  };
+};
 
 module.exports = {
   rebuildDB,
