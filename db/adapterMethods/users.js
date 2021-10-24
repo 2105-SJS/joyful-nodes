@@ -1,19 +1,22 @@
 const {client} = require("../client");
+const bcrypt = require("bcrypt");
 
 const createUser = async ({firstName, lastName, email, imageURL, username, password, isAdmin}) => {
     try {
+        const saltRounds = 10;
         if (!isAdmin) {
             isAdmin = false;
         };
         if (!imageURL) {
             imageURL = 'https://louisville.edu/enrollmentmanagement/images/person-icon/image'
         };
-        const {rows: [user] } = await client.query(`
+const hashPw = await bcrypt.hash(password, saltRounds);
+    const {rows: [user] } = await client.query(`
             INSERT INTO users ("firstName", "lastName", email, "imageURL", username, password, "isAdmin")
             VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING *;
-        `, [firstName, lastName, email, imageURL, username, password, isAdmin]);
-        return user;        
+        `, [firstName, lastName, email, imageURL, username, hashPw, isAdmin]);
+        return user; 
     } catch (error) {
         console.error(error);
     };
@@ -24,13 +27,19 @@ async function getUser({
     password
 }) {
     try {
-        const { rows: [ user ] } = await client.query(`
-            SELECT *
-            FROM users
-            WHERE username=$1 
-            AND password=$2;
-      `, [username, password]);
-        return user;
+        const userTarget = await getUserByUsername(username);
+        const hashedPw = await userTarget.password;
+        const res = await bcrypt.compare(password, hashedPw);
+        if(res){
+            const { rows: [ user ] } = await client.query(`
+                SELECT *
+                FROM users
+                WHERE username=$1 
+                AND password=$2;
+            `, [username, hashedPw]);
+            return user;
+        }
+        
     } catch (error) {
         throw error;
     }
@@ -75,7 +84,6 @@ async function getUserByUsername(username){
             FROM users
             WHERE username=$1
             `, [username]);
-        delete user.password;
         return user;
     } catch (error) {
         throw error;
