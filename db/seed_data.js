@@ -1,20 +1,10 @@
 const { client } = require("./client");
 const {
-  createProduct,
-  createUser,
   addProductToOrder,
-  getOrderProductById,
-  updateOrderProduct,
-  destroyOrderProduct,
+  createProduct,
   createOrder,
-    getOrderById,
-    getAllOrders,
-    getOrdersByUser,
-    getOrdersByProduct,
-    getCartByUser 
+  createUser
 } = require('./index');
-
-const util = require('util');
 
 const dropTables = async () => {
   try {

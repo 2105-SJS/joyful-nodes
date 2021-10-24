@@ -1,4 +1,4 @@
-const client = require("../client");
+const { client } = require ('../client');
 
 const addProductToOrder = async ({ orderId, productId, price, quantity }) => {
     try {
