@@ -154,7 +154,7 @@ const populateInitialData = async () => {
       { orderId: 1, productId: 1, price: 60, quantity: 2 },
       { orderId: 2, productId: 1, price: 55, quantity: 2 },      
       { orderId: 1, productId: 2, price: 55, quantity: 1 },
-      { orderId: 1, productId: 3, price: 65, quantity: 1 },      
+      { orderId: 3, productId: 3, price: 65, quantity: 1 },      
       { orderId: 2, productId: 3, price: 65, quantity: 1 },      
       { orderId: 1, productId: 1, price: 70, quantity: 2 }
     ]
@@ -177,6 +177,9 @@ const populateInitialData = async () => {
     console.log('');
     console.log('Getting all orders');
     console.log(util.inspect(await getAllOrders(), {depth: 9}));
+    console.log('');
+    console.log('Getting order by ID 1');
+    console.log(util.inspect(await getOrderById(1), {depth: 9}));
 
 
   } catch (error) {

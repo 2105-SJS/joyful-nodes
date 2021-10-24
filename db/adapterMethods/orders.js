@@ -16,9 +16,21 @@ const createOrder = async ({ status, userId }) => {
     };
 };
 
+const _getOrderById = async (id) => {
+    try {
+        const { rows: [order]} = await client.query (`
+            SELECT * FROM orders
+            WHERE id = $1;
+        `,[id]);
+        return order;
+    } catch (error) {
+        console.error(error);
+    };
+};
+
 const _joinOrderProducts = async (orderId) => {
     try {
-        const order = await getOrderById(orderId);
+        const order = await _getOrderById(orderId);
         const orderProducts = await getOrderProductsByOrder({id: orderId});
         order.products = [];
         await Promise.all(orderProducts.map(async (orderProduct) => {
@@ -54,7 +66,8 @@ const getOrderById = async (id) => {
             SELECT * FROM orders
             WHERE id = $1;
         `,[id]);
-        return order;
+        const orderWithProducts = await _joinOrderProducts(order.id);
+        return orderWithProducts;
     } catch (error) {
         console.error(error);
     };
