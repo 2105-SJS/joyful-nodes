@@ -166,6 +166,9 @@ const populateInitialData = async () => {
     console.log('Updating order_products with ID 1');
     console.log(await updateOrderProduct({ id: 1, price: 95, quantity: 23 })
     )
+    console.log('');
+    console.log('Deleting order_products with ID 1');
+    console.log(await destroyOrderProduct(1));
 
 
   } catch (error) {
