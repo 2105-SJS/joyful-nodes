@@ -29,7 +29,13 @@ const getOrderProductById = async (id) => {
 
 const updateOrderProduct = async({ id, price, quantity }) => {
     try {
-        
+        const { rows: [orderProduct] } = await client.query (`
+            UPDATE order_products
+            SET price = $1, quantity = $2
+            WHERE id = $3
+            RETURNING *;
+        `,[price, quantity, id]);
+        return orderProduct;
     } catch (error) {
         console.error(error);
     };
@@ -37,7 +43,12 @@ const updateOrderProduct = async({ id, price, quantity }) => {
 
 const destroyOrderProduct = async (id) => {
     try {
-        
+        const { rows: [destroyedOrderProduct] } = await client.query (`
+            DELETE * FROM order_products
+            WHERE id = $1
+            RETURNING *;
+        `,[id]);
+        return destroyedOrderProduct;
     } catch (error) {
         console.error(error);
     };
