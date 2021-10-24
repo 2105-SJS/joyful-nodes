@@ -63,8 +63,7 @@ const createTables = async () => {
           "productId" INTEGER REFERENCES products(id),
           "orderId" INTEGER REFERENCES orders(id),
           price VARCHAR(255) NOT NULL,
-          quantity INT NOT NULL DEFAULT 0,
-          UNIQUE("productId", "orderId")
+          quantity INT NOT NULL DEFAULT 0
         );
       `)
   }
@@ -129,8 +128,8 @@ const populateInitialData = async () => {
     console.log("Adding products to orders...");
     const productsToAdd = [
       { orderId: 1, productId: 1, price: 60, quantity: 1 },      
-      { orderId: 1, productId: 1, price: 55, quantity: 3 },      
-      { orderId: 3, productId: 1, price: 65, quantity: 7 }
+      { orderId: 1, productId: 1, price: 55, quantity: 1 },      
+      { orderId: 1, productId: 1, price: 55, quantity: 3 }
     ]
     const orderProducts = await Promise.all(productsToAdd.map(addProductToOrder));
     console.log('Added products:');
