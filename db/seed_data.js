@@ -1,8 +1,9 @@
 const { client } = require("./client");
 const {
+  addProductToOrder,
   createProduct,
-  createUser,
-  createOrder
+  createOrder,
+  createUser
 } = require('./index');
 
 const dropTables = async () => {
@@ -61,9 +62,9 @@ const createTables = async () => {
           id SERIAL PRIMARY KEY,
           "productId" INTEGER REFERENCES products(id),
           "orderId" INTEGER REFERENCES orders(id),
-          price VARCHAR(255) NOT NULL,
+          price DECIMAL(100, 2) NOT NULL,
           quantity INT NOT NULL DEFAULT 0,
-          UNIQUE("productId", "orderId")
+          UNIQuE ("productId", "orderId")
         );
       `)
   }
@@ -90,7 +91,7 @@ const populateInitialData = async () => {
     console.log("Creating products...");
     const productsToCreate = [
       {
-        name: "Nike OffWhite Air Jordan One",
+        name: "Nike OffWhite Air Jordan One", 
         description: "This shoe is red, white, and black with a deconstructed look.",
         price: 6000,
         imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
@@ -119,7 +120,6 @@ const populateInitialData = async () => {
     console.log(products);
     console.log('Finished creating products!');
 
-
     console.log("Creating users...");
     const usersToCreate = [
       { firstName: 'Mary', lastName: 'Jane', email: 'mary.jane@gmail.com', username: 'mj2003', password: 'gr33ni$g00d' },
@@ -142,10 +142,24 @@ const populateInitialData = async () => {
     console.log(orders);
     console.log('Finished creating orders!');
 
+    console.log("Adding products to orders...");
+    const productsToAdd = [
+      { orderId: 1, productId: 1, price: 60, quantity: 1 },      
+      { orderId: 1, productId: 1, price: 60, quantity: 2 },
+      { orderId: 2, productId: 1, price: 55, quantity: 2 },      
+      { orderId: 1, productId: 2, price: 55, quantity: 1 },
+      { orderId: 3, productId: 3, price: 65, quantity: 1 },      
+      { orderId: 2, productId: 3, price: 65, quantity: 1 },      
+      { orderId: 1, productId: 1, price: 70, quantity: 2 }
+    ]
+    const orderProducts = await Promise.all(productsToAdd.map(addProductToOrder));
+    console.log('Added products:');
+    console.log(orderProducts);
+    console.log('Finished adding products to orders!');
   } catch (error) {
     throw error;
-  }
-}
+  };
+};
 
 module.exports = {
   rebuildDB,
