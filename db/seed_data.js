@@ -63,7 +63,8 @@ const createTables = async () => {
           "productId" INTEGER REFERENCES products(id),
           "orderId" INTEGER REFERENCES orders(id),
           price VARCHAR(255) NOT NULL,
-          quantity INT NOT NULL DEFAULT 0
+          quantity INT NOT NULL DEFAULT 0,
+          UNIQuE ("productId", "orderId")
         );
       `)
   }
@@ -90,6 +91,20 @@ const populateInitialData = async () => {
     console.log("Creating products...");
     const productsToCreate = [
       {name: "Nike OffWhite Air Jordan One", 
+      description: "This shoe is red, white, and black with a deconstructed look.",
+      price: 6000,
+      imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
+      inStock: true,
+      category: "Casual Sneaker"
+    },
+    {name: "Nike OffWhite Air Jordan One", 
+      description: "This shoe is red, white, and black with a deconstructed look.",
+      price: 6000,
+      imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
+      inStock: true,
+      category: "Casual Sneaker"
+    },
+    {name: "Nike OffWhite Air Jordan One", 
       description: "This shoe is red, white, and black with a deconstructed look.",
       price: 6000,
       imgURL: 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
@@ -128,8 +143,12 @@ const populateInitialData = async () => {
     console.log("Adding products to orders...");
     const productsToAdd = [
       { orderId: 1, productId: 1, price: 60, quantity: 1 },      
-      { orderId: 1, productId: 1, price: 55, quantity: 1 },      
-      { orderId: 1, productId: 1, price: 55, quantity: 3 }
+      { orderId: 1, productId: 1, price: 60, quantity: 2 },
+      { orderId: 2, productId: 1, price: 55, quantity: 2 },      
+      { orderId: 1, productId: 2, price: 55, quantity: 1 },
+      { orderId: 1, productId: 3, price: 65, quantity: 1 },      
+      { orderId: 2, productId: 3, price: 65, quantity: 1 },      
+      { orderId: 1, productId: 1, price: 70, quantity: 2 }
     ]
     const orderProducts = await Promise.all(productsToAdd.map(addProductToOrder));
     console.log('Added products:');
