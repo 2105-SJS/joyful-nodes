@@ -2,7 +2,6 @@ const { client } = require('../db/client');
 const { rebuildDB } = require('../db/seed_data');
 const { createUser, getUser, getUserById, getUserByUsername, getAllUsers } = require('../db/index');
 
-
 describe('Database', () => {
     beforeAll(async() => {
       await client.connect();
@@ -55,8 +54,6 @@ describe('Database', () => {
             Users.map((user) => {
               expect(typeof user).toBe("object");
             })
-          
-          
         })
       })
       describe('getUserById(id)', () => {
