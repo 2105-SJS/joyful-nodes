@@ -18,7 +18,7 @@ server.use((req, res, next) => {
 });
 
 server.listen(PORT, async () => {
-  console.log(`Server is running on http://127.0.01.:${PORT}`);
+  console.log(`Server is running on http://127.0.0.1.:${PORT}`);
   try {
     await client.connect();
     console.log('Database is open for business!');
