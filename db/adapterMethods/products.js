@@ -1,6 +1,6 @@
 const { client } = require("../client");
 
-async function getProductById(id) {
+const getProductById = async (id) => {
     try {
         const { rows: [product] } = await client.query(`
         SELECT *
@@ -13,7 +13,7 @@ async function getProductById(id) {
     }
 }
 
-async function getAllProducts() {
+const getAllProducts = () => {
     try {
         const { rows: [products] } = await client.query(`
         SELECT *
@@ -25,14 +25,14 @@ async function getAllProducts() {
     }
 }
 
-async function createProduct({
+const createProduct = ({
     name,
     description,
     price,
     imgURL,
     inStock,
     category
-}) {
+}) => {
     try {
         const { rows: [product] } = await client.query(`
         INSERT INTO products(name, description, price, "imgURL", "inStock", category) 
