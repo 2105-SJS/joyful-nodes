@@ -22,10 +22,10 @@ const hashPw = await bcrypt.hash(password, saltRounds);
     };
 };
 
-async function getUser({
+const getUser = async ({
     username,
     password
-}) {
+}) => {
     try {
         const userTarget = await getUserByUsername(username);
         const hashedPw = await userTarget.password;
@@ -45,7 +45,7 @@ async function getUser({
     }
 }
 
-async function getAllUsers(){
+const getAllUsers = async () => {
     try{
         const { rows: users } = await client.query(`
             SELECT *
@@ -63,7 +63,7 @@ async function getAllUsers(){
     }
 }
 
-async function getUserById(id){
+const getUserById = async (id) => {
     try {
         const { rows: [ user ] } = await client.query(`
             SELECT *
@@ -77,7 +77,7 @@ async function getUserById(id){
     }
 }
 
-async function getUserByUsername(username){
+const getUserByUsername = async (username) => {
     try {
         const { rows: [ user ] } = await client.query(`
             SELECT *

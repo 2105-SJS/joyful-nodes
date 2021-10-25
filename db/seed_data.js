@@ -36,7 +36,7 @@ const createTables = async () => {
           description VARCHAR(255) NOT NULL,
           price INT NOT NULL,
           "imgURL" VARCHAR(255) DEFAULT 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
-          "inStock" BOOLEAN DEFAULT false NOT NULL,
+          "inStock" BOOLEAN DEFAULT false,
           category VARCHAR(255) NOT NULL
         );
   
