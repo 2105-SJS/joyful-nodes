@@ -1,11 +1,11 @@
 // This is the Web Server
 require("dotenv").config();
 const express = require("express");
-const { PORT = 3000 } = process.env;
 const server = express();
 const morgan = require("morgan");
-const { client } = require('./db');
 const path = require('path');
+const { PORT = 3000 } = process.env;
+const { client } = require('./db');
 
 server.use(express.json());
 server.use(morgan("dev"));
