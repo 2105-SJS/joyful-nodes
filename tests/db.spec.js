@@ -1,6 +1,6 @@
 const { client } = require('../db/client');
 const { rebuildDB } = require('../db/seed_data');
-const { createUser, getUser, getUserById, getUserByUsername } = require('../db/index');
+const { createUser, getUser, getUserById, getUserByUsername, getAllUsers } = require('../db/index');
 
 
 describe('Database', () => {
@@ -33,11 +33,30 @@ describe('Database', () => {
         beforeAll(async () => {
           verifiedUser = await getUser(userCredentials);
         })
-        it('Verifies the passed-in, plain-text password against the password in the database (the hashed password)', async () => {  //Faulty Test Fix This 1
+        it('Verifies the passed-in, plain-text password against the password in the database (the hashed password)', async () => {  
           const unVerifiedUser = await getUser({username: userCredentials.username, password: 'badPassword'});
           expect(verifiedUser).toBeTruthy();
           expect(verifiedUser.username).toBe(userCredentials.username);
-          expect(unVerifiedUser).toBeTruthy();
+          expect(unVerifiedUser).toBeFalsy();
+        })
+      })
+      describe('getAllUsers()', () => {
+        let Users;
+        beforeAll(async () => {
+          Users = await getAllUsers();
+        })
+        it('Does not return the passwords', async () => {  
+          Users.map((user) => {
+            expect(user.password).toBeFalsy();
+            expect(typeof user).toBe("object");
+          })
+        })
+          it('Returns all user objects', async () => {  
+            Users.map((user) => {
+              expect(typeof user).toBe("object");
+            })
+          
+          
         })
       })
       describe('getUserById(id)', () => {
@@ -58,11 +77,6 @@ describe('Database', () => {
           expect(user).toBeTruthy();
           expect(user.username).toBe(userToCreateAndUpdate.username);
         })
-        it('Does not return the password', async () => {
-            const user = await getUserByUsername(userToCreateAndUpdate.username);
-            expect(user).toBeTruthy();
-            expect(user.password).toBeFalsy();
-          })
       })
     })
 })
