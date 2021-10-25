@@ -4,7 +4,7 @@ const router = express.Router();
 const {  } = require("../db");
 
 router.use((req, res, next) => {
-    console.log('A request has been made to /orders');
+    console.log("A request has been made to /orders");
 
     next();
 });
