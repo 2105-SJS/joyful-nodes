@@ -13,9 +13,9 @@ const getProductById = async (id) => {
     }
 }
 
-const getAllProducts = () => {
+const getAllProducts = async () => {
     try {
-        const { rows: [products] } = await client.query(`
+        const { rows: products } = await client.query(`
         SELECT *
         FROM products;
       `);
@@ -25,7 +25,7 @@ const getAllProducts = () => {
     }
 }
 
-const createProduct = ({
+const createProduct = async ({
     name,
     description,
     price,
