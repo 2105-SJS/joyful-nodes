@@ -34,6 +34,9 @@ const createProduct = async ({
     category
 }) => {
     try {
+        if(!inStock){
+            inStock = false;
+        }
         const { rows: [product] } = await client.query(`
         INSERT INTO products(name, description, price, "imgURL", "inStock", category) 
         VALUES($1, $2, $3, $4, $5, $6)
