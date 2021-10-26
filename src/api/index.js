@@ -1,6 +1,6 @@
 const APIURL = `https://joyful-nodes-shop.herokuapp.com/api/`;
 
-export const callApi = async () => {
+export const callApi = async ({ url, method, token, body }) => {
   try {
     const options = {
       method: method ? method.toUpperCase() : "GET",
