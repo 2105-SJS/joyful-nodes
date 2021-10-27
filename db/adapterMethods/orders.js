@@ -155,7 +155,22 @@ const completeOrder = async ({ id }) => {
     };
 };
 
+const cancelOrder = async (id) => {
+    try {
+        const { rows: [order] } = await client.query (`
+            UPDATE orders
+            SET status = "cancelled"
+            WHERE id = $1
+            RETURNING *;
+        `,[id]);
+        return order;
+    } catch (error) {
+        console.error (error);
+    };
+};
+
 module.exports = {
+    cancelOrder,
     completeOrder,
     createOrder,
     getAllOrders,
