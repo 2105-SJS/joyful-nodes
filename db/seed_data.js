@@ -133,9 +133,9 @@ const populateInitialData = async () => {
 
     console.log("Creating orders...");
     const ordersToCreate = [
-      { status: 'created', userId: 2 },
-      { status: 'in progress', userId: 1 },
-      { status: 'shipped', userId: 1 }
+      { userId: 2 },
+      { userId: 1 },
+      { userId: 1 }
     ]
     const orders = await Promise.all(ordersToCreate.map(createOrder));
     console.log('Orders created:');

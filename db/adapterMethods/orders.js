@@ -4,7 +4,9 @@ const { getProductById } = require ('./products');
 
 const createOrder = async ({ status, userId }) => {
     try {
-        status = 'created';
+        if (!status) {
+            status = 'created';
+        };
         const { rows: [order] } = await client.query(`
             INSERT INTO orders (status, "userId")
             VALUES ($1, $2)
@@ -139,7 +141,22 @@ const updateOrder = async ({ id, status, userId }) => {
     };
 };
 
+const completeOrder = async ({ id }) => {
+    try {
+        const { rows: [order] } = await client.query (`
+            UPDATE orders
+            SET status = "completed"
+            WHERE id = $1
+            RETURNING *;
+        `,[id]);
+        return order;
+    } catch (error) {
+        console.error (error);
+    };
+};
+
 module.exports = {
+    completeOrder,
     createOrder,
     getAllOrders,
     getCartByUser,
