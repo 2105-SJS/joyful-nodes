@@ -8,14 +8,11 @@ const {
   getAllUsers,
   addProductToOrder,
   destroyOrderProduct,
-  getOrderProductById,
-  getOrderProductsByOrder,
   updateOrderProduct,
   getProductById,
-  createOrder,
   getAllOrders,
   getCartByUser,
-  getOrderById,
+  getOrderProductsByOrder,
   getOrdersByProduct,
   getOrdersByUser
 
