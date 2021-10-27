@@ -83,6 +83,24 @@ describe('Database', () => {
         expect(user).toBeTruthy();
         expect(user.id).toBe(userToCreateAndUpdate.id);
       })
+      it('Does not return the passwords', async () => {
+        Users.map((user) => {
+          expect(user.password).toBeFalsy();
+          expect(typeof user).toBe("object");
+        })
+      })
+      it('Returns all user objects', async () => {
+        Users.map((user) => {
+          expect(typeof user).toBe("object");
+        })
+      })
+    })
+    describe('getUserById(id)', () => {
+      it('Gets a user based on the user Id', async () => {
+        const user = await getUserById(userToCreateAndUpdate.id);
+        expect(user).toBeTruthy();
+        expect(user.id).toBe(userToCreateAndUpdate.id);
+      })
       it('Does not return the password', async () => {
         const user = await getUserById(userToCreateAndUpdate.id);
         expect(user).toBeTruthy();
@@ -208,13 +226,12 @@ describe('Database', () => {
       productId: 1,
       orderId: 3,
       price: '85.00',
-      quantity: 3
+      quantity: 3 
     }
     let orderProductToCreateAndUpdate;
     describe('addProductToOrder({ productId, orderId, price, quantity })', () => {
       it('creates a new order_product, and return it', async () => {
-        orderProductToCreateAndUpdate = await addProductToOrder(orderProductData);
-
+        orderProductToCreateAndUpdate = await addProductToOrder(orderProductData);        
         expect(orderProductToCreateAndUpdate.productId).toBe(orderProductData.productId);
         expect(orderProductToCreateAndUpdate.orderId).toBe(orderProductData.orderId);
         expect(orderProductToCreateAndUpdate.price).toBe(orderProductData.price);
@@ -223,7 +240,7 @@ describe('Database', () => {
     })
     describe('updateOrderProduct({ id, count, duration })', () => {
       it('Finds the order with id equal to the passed in id. Updates the price or quantity as necessary.', async () => {
-        const newOrderProductData = { id: orderProductToCreateAndUpdate.id, price: '150.00', quantity: 15 };
+        const newOrderProductData = {id: orderProductToCreateAndUpdate.id, price: '150.00', quantity: 15};
         orderProductToCreateAndUpdate = await updateOrderProduct(newOrderProductData);
         expect(orderProductToCreateAndUpdate.id).toBe(newOrderProductData.id);
         expect(orderProductToCreateAndUpdate.price).toBe(newOrderProductData.price);
@@ -234,7 +251,7 @@ describe('Database', () => {
       it('remove order_product from database', async () => {
         const deletedOrder = await destroyOrderProduct(orderProductToCreateAndUpdate.id);
         expect(deletedOrder.id).toBe(orderProductToCreateAndUpdate.id);
-        const { rows } = await client.query(`
+        const {rows} = await client.query(`
           SELECT * FROM order_products
           WHERE id = ${deletedOrder.id};
         `)
