@@ -3,7 +3,7 @@ const {
   addProductToOrder,
   createProduct,
   createOrder,
-  createUser
+  createUser, updateOrder, cancelOrder
 } = require('./index');
 
 const dropTables = async () => {

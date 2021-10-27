@@ -131,7 +131,7 @@ const updateOrder = async ({ id, status, userId }) => {
     try {
         const { rows: [order] } = await client.query (`
             UPDATE orders
-            SET status = $1, userId = $2
+            SET status = $1, "userId" = $2
             WHERE id = $3
             RETURNING *;
         `,[status, userId, id]);
@@ -145,7 +145,7 @@ const completeOrder = async ({ id }) => {
     try {
         const { rows: [order] } = await client.query (`
             UPDATE orders
-            SET status = "completed"
+            SET status = 'completed'
             WHERE id = $1
             RETURNING *;
         `,[id]);
@@ -159,7 +159,7 @@ const cancelOrder = async (id) => {
     try {
         const { rows: [order] } = await client.query (`
             UPDATE orders
-            SET status = "cancelled"
+            SET status = 'cancelled'
             WHERE id = $1
             RETURNING *;
         `,[id]);

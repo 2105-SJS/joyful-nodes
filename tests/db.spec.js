@@ -6,6 +6,7 @@ const {
   getUserById,
   getUserByUsername,
   getAllUsers,
+  //
   addProductToOrder,
   destroyOrderProduct,
   updateOrderProduct,
@@ -14,8 +15,10 @@ const {
   getCartByUser,
   getOrderProductsByOrder,
   getOrdersByProduct,
-  getOrdersByUser
-
+  getOrdersByUser,
+  cancelOrder,
+  completeOrder,
+  createOrder
 } = require('../db/index');
 
 describe('Database', () => {
@@ -96,7 +99,6 @@ describe('Database', () => {
   })
   //---ORDERS TESTS---//
   describe('Orders', () => {
-    let orderToCreateAndUpdate;
     describe('getProductById', () => {
       it('gets products by their id', async () => {
         const product = await getProductById(1);
@@ -167,6 +169,32 @@ describe('Database', () => {
       })
       it('includes price and quantity on products, from order_products join', async () => {
         const { products: [firstProduct] } = order;
+        expect(firstProduct).toEqual(expect.objectContaining({
+          price: expect.any(String),
+          quantity: expect.any(Number),
+        }));
+      })
+    })
+    describe('getCartByUser', () => {
+      let cart, user;
+      beforeAll(async () => {
+        user = await getUserById(1);
+        const { id } = user;
+        [cart] = await getCartByUser({ id });
+      })
+      it('selects and return an array of all orders made by user where the status is "created", includes their products', async () => {
+        expect(cart).toEqual(expect.objectContaining({
+          id: expect.any(Number),
+          status: expect.any(String),
+          userId: expect.any(Number),
+          datePlaced: expect.any(Date),
+          products: expect.any(Array),
+        }));
+        expect(cart.status).toBe('created')
+        expect(cart.userId).toBe(user.id);
+      })
+      it('includes price and quantity on products, from order_products join', async () => {
+        const { products: [firstProduct] } = cart;
         expect(firstProduct).toEqual(expect.objectContaining({
           price: expect.any(String),
           quantity: expect.any(Number),
