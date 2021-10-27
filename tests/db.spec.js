@@ -83,24 +83,6 @@ describe('Database', () => {
         expect(user).toBeTruthy();
         expect(user.id).toBe(userToCreateAndUpdate.id);
       })
-      it('Does not return the passwords', async () => {
-        Users.map((user) => {
-          expect(user.password).toBeFalsy();
-          expect(typeof user).toBe("object");
-        })
-      })
-      it('Returns all user objects', async () => {
-        Users.map((user) => {
-          expect(typeof user).toBe("object");
-        })
-      })
-    })
-    describe('getUserById(id)', () => {
-      it('Gets a user based on the user Id', async () => {
-        const user = await getUserById(userToCreateAndUpdate.id);
-        expect(user).toBeTruthy();
-        expect(user.id).toBe(userToCreateAndUpdate.id);
-      })
       it('Does not return the password', async () => {
         const user = await getUserById(userToCreateAndUpdate.id);
         expect(user).toBeTruthy();
@@ -231,7 +213,8 @@ describe('Database', () => {
     let orderProductToCreateAndUpdate;
     describe('addProductToOrder({ productId, orderId, price, quantity })', () => {
       it('creates a new order_product, and return it', async () => {
-        orderProductToCreateAndUpdate = await addProductToOrder(orderProductData);        
+        orderProductToCreateAndUpdate = await addProductToOrder(orderProductData);
+        
         expect(orderProductToCreateAndUpdate.productId).toBe(orderProductData.productId);
         expect(orderProductToCreateAndUpdate.orderId).toBe(orderProductData.orderId);
         expect(orderProductToCreateAndUpdate.price).toBe(orderProductData.price);
@@ -258,5 +241,6 @@ describe('Database', () => {
         expect(rows.length).toBe(0);
       })
     })
+
   })
 })
