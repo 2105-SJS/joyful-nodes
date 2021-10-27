@@ -4,6 +4,9 @@ const { getProductById } = require ('./products');
 
 const createOrder = async ({ status, userId }) => {
     try {
+        if (!status) {
+            status = 'created';
+        };
         const { rows: [order] } = await client.query(`
             INSERT INTO orders (status, "userId")
             VALUES ($1, $2)
@@ -11,7 +14,7 @@ const createOrder = async ({ status, userId }) => {
         `, [status, userId]);
         return order;        
     } catch (error) {
-        console.error(error)
+        console.error(error);
     };
 };
 
@@ -124,11 +127,56 @@ const getCartByUser = async ({ id }) => {
     };
 };
 
+const updateOrder = async ({ id, status, userId }) => {
+    try {
+        const { rows: [order] } = await client.query (`
+            UPDATE orders
+            SET status = $1, "userId" = $2
+            WHERE id = $3
+            RETURNING *;
+        `,[status, userId, id]);
+        return order;
+    } catch (error) {
+        console.error (error);
+    };
+};
+
+const completeOrder = async ({ id }) => {
+    try {
+        const { rows: [order] } = await client.query (`
+            UPDATE orders
+            SET status = 'completed'
+            WHERE id = $1
+            RETURNING *;
+        `,[id]);
+        return order;
+    } catch (error) {
+        console.error (error);
+    };
+};
+
+const cancelOrder = async (id) => {
+    try {
+        const { rows: [order] } = await client.query (`
+            UPDATE orders
+            SET status = 'cancelled'
+            WHERE id = $1
+            RETURNING *;
+        `,[id]);
+        return order;
+    } catch (error) {
+        console.error (error);
+    };
+};
+
 module.exports = {
+    cancelOrder,
+    completeOrder,
     createOrder,
     getAllOrders,
     getCartByUser,
     getOrderById,
     getOrdersByProduct,
-    getOrdersByUser
+    getOrdersByUser,
+    updateOrder
 };
