@@ -33,7 +33,7 @@
     "jest": "^24.9.0",
     "nodemon": "^2.0.4"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:5000/",
   "browserslist": {
     "production": [
       ">0.2%",

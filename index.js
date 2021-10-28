@@ -4,7 +4,7 @@ const express = require("express");
 const server = express();
 const morgan = require("morgan");
 const path = require('path');
-const { PORT = 3000 } = process.env;
+const { PORT = 5000 } = process.env;
 const { client } = require('./db');
 
 server.use(express.json());

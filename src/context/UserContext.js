@@ -1,14 +1,15 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState } from 'react';
 
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-    // global variables/state go here
+    const [token, setToken] = useState("");
 
     return (
         <UserContext.Provider
             value={{
-                // global values to be passed down
+                token,
+                setToken
             }}
         >{children}</UserContext.Provider>
     )
