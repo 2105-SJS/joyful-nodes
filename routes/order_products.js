@@ -6,6 +6,6 @@ const { requireUser } = require('./utils');
 router.use((req, res, next) => {
     console.log('A request is being made to /order_products');
     next();
-})
+});
 
 module.exports = router;
