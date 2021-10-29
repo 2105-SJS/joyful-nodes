@@ -51,8 +51,7 @@ usersRouter.post("/register", async (req, res, next) => {
 usersRouter.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
     try {
-        const user = await getUserByUsername(username);
-        console.log(user)
+        const user = await getUserByUsername(username.toLowerCase());
         const hashedPassword = user.password;
         const passwordsMatch = await bcrypt.compare(password, hashedPassword);
         if (!username || !password) {
@@ -66,7 +65,6 @@ usersRouter.post('/login', async (req, res, next) => {
             const { id, firstName, lastName, username, isAdmin } = user;
             res.send({ message: `You're logged in!`, token, user: { id, firstName, lastName, username, isAdmin } });
         } else {
-            res.status(401);
             next({
                 name: 'CredentialsError',
                 message: 'Invalid credentials'
