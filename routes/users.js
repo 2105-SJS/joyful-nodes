@@ -1,6 +1,8 @@
 const express = require("express");
 const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
+const bcrypt = require ('bcrypt');
+const { JWT_SECRET } = process.env;
 const { createUser, getUser, getUserByUsername } = require("../db");
 
 usersRouter.use((req, res, next) => {
@@ -34,7 +36,7 @@ usersRouter.post("/register", async (req, res, next) => {
             firstName: firstName,
             lastName: lastName,
             email: email,
-            username: username,
+            username: username.toLowerCase(),
             password: password
         });
         res.send({
@@ -46,30 +48,31 @@ usersRouter.post("/register", async (req, res, next) => {
     }
 });
 
-usersRouter.post("/login", async (req, res, next) => {
+usersRouter.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
-    if(!username || !password){
-        next({
-            name: 'CredentialsError',
-            message: 'Username and Password are required'
-          });
-    }
     try {
-        const user = getUser({ username, password });
-        if(user){
-            const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET);
-            res.send({ message: "You have succesfully logged in!", token: token });
-        }
-        else{
+        const user = await getUserByUsername(username.toLowerCase());
+        const hashedPassword = user.password;
+        const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+        if (!username || !password) {
+            next ({
+                name: 'MissingCredentialsError',
+                message: 'Please supply both a username and password'
+            });
+        };
+        if (user && passwordsMatch) {
+            const token = jwt.sign(user, JWT_SECRET);
+            const { id, firstName, lastName, username, isAdmin } = user;
+            res.send({ message: `You're logged in!`, token, user: { id, firstName, lastName, username, isAdmin } });
+        } else {
             next({
                 name: 'CredentialsError',
                 message: 'Invalid credentials'
               });
-        }
-    }
-    catch (error) {
+        };
+    } catch (error) {
         next(error);
-    }
+    };
 });
 
 usersRouter.get("/me", async (req, res, next) => {

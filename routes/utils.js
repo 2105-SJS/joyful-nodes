@@ -11,4 +11,18 @@ const requireUser = (req, res, next) => {
     };    
 };
 
-module.exports = { requireUser };
+const requireAdmin = (req, res, next) => {
+    try {
+        const { isUser } = req.user;
+        if (isUser) {
+            next();
+        } else {
+            res.sendStatus(401);
+            next();
+        }
+    } catch (error) {
+        next (error);
+    };    
+};
+
+module.exports = { requireAdmin, requireUser };
