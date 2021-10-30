@@ -65,6 +65,7 @@ usersRouter.post('/login', async (req, res, next) => {
             const { id, firstName, lastName, username, isAdmin } = user;
             res.send({ message: `You're logged in!`, token, user: { id, firstName, lastName, username, isAdmin } });
         } else {
+            res.status(401);
             next({
                 name: 'CredentialsError',
                 message: 'Invalid credentials'

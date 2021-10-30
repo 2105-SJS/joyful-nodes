@@ -1,14 +1,15 @@
 //ORDERS ROUTER
 const express = require('express');
-const router = express.Router();
+const ordersRouter = express.Router();
 const { requireAdmin, requireUser } = require('./utils');
+const { createOrder, getAllOrders } = require('../db')
 
-router.use((req, res, next) => {
+ordersRouter.use((req, res, next) => {
     console.log('A request is being made to /orders');
     next();
 });
 
-router.get('/', requireAdmin, async (req, res, next) => {
+ordersRouter.get('/', requireAdmin, async (req, res, next) => {
     try {
         const orders = await getAllOrders();
         if (orders) {
@@ -19,4 +20,22 @@ router.get('/', requireAdmin, async (req, res, next) => {
     };
 });
 
-module.exports = router;
+ordersRouter.post('/', requireUser, async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const order = await createOrder({ userId: id });
+        if (order) {
+            res.send (order);
+        } else {
+            res.sendStatus(401);
+                next ({
+                    name: 'FailedCreateError',
+                    message: 'This order was not sucessfully created'
+                });
+        };
+    } catch (error) {
+        next (error);
+    };
+});
+
+module.exports = ordersRouter;
