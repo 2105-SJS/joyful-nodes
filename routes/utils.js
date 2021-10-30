@@ -13,7 +13,6 @@ const requireUser = (req, res, next) => {
 
 const requireAdmin = (req, res, next) => {
     try {
-        console.log(req.user)
         const { isAdmin } = req.user;
         if (isAdmin) {
             next();

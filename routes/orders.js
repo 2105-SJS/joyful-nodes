@@ -9,9 +9,9 @@ const {
     addProductToOrder, 
     getOrderById, 
     getOrderProductByOrderAndProduct, 
-    updateOrderProduct } = require('../db')
-
-const client = require('../db/client')
+    updateOrderProduct,
+    getProductById
+} = require('../db');
 
 ordersRouter.use((req, res, next) => {
     console.log('A request is being made to /orders');
@@ -62,47 +62,36 @@ ordersRouter.post('/', requireUser, async (req, res, next) => {
 
 ordersRouter.post('/:orderId/products', requireUser, async (req, res, next) => {
     try {
-        const { productId, price, quantity } = req.body;
         const { orderId } = req.params;
-        const _isOwner = async () => {
-            const order = await getOrderById(orderId)
-            if (order) {
-                if (order.userId === req.user.id) {
-                    return true;
+        const { productId, quantity } = req.body;
+        const order = await getOrderById(orderId);
+        const product = await getProductById(productId);
+        const newPrice = quantity * Number(product.price);
+        if (order) {
+            if (order.userId !== req.user.id) {
+                res.status(401);
+                throw new Error ('UnauthorizedUser')
+            }
+            const orderProduct = await getOrderProductByOrderAndProduct({ orderId, productId });
+            if (!orderProduct) {
+                const newOrderProduct = await addProductToOrder ({ orderId, productId, price: newPrice, quantity })
+                if (newOrderProduct) {
+                    res.status(200);
+                    res.send(newOrderProduct);
                 } else {
-                    return false;
+                    res.sendStatus(401);
+                    next ({
+                        name: 'FailedCreateError',
+                        message: 'The product was not successfully added to the order'
+                    });
                 };
-            };
+            } else {
+                const { id } = orderProduct;
+                const updatedOrderProduct = await updateOrderProduct ({ id, price: newPrice, quantity })
+                console.log(updatedOrderProduct)
+            }
+            
         };
-        const orderProduct = await getOrderProductByOrderAndProduct ({ orderId, productId });
-        if (!orderProduct && _isOwner) {
-            const prodAddedToOrder = await addProductToOrder({ orderId, productId, price, quantity });
-            if (prodAddedToOrder) {
-                res.status(200);
-                res.send(prodAddedToOrder);
-            } else {
-                res.sendStatus(401);
-                next ({
-                    name: 'FailedCreateError',
-                    message: 'This product was not successfully added to the order'
-                });
-            };   
-        } else if (_isOwner) {
-            const { id } = orderProduct;
-            const updatedOrderProd = await updateOrderProduct({ id, price, quantity });
-            if (updatedOrderProd) {
-                res.status(200);
-                res.send(updatedOrderProd);
-            } else {
-                res.sendStatus(401);
-                next ({
-                    name: 'FailedUpdateError',
-                    message: 'This order product was not successfully updated'
-                });
-            };
-        } else {
-            res.status (401);
-        };        
     } catch (error) {
         next (error);
     };
