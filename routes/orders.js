@@ -2,7 +2,7 @@
 const express = require('express');
 const ordersRouter = express.Router();
 const { requireAdmin, requireUser } = require('./utils');
-const { createOrder, getAllOrders } = require('../db')
+const { createOrder, getAllOrders, getCartByUser } = require('../db')
 
 ordersRouter.use((req, res, next) => {
     console.log('A request is being made to /orders');
@@ -20,18 +20,31 @@ ordersRouter.get('/', requireAdmin, async (req, res, next) => {
     };
 });
 
+ordersRouter.get('/cart', requireUser, async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const cart = await getCartByUser({ id });
+        if (cart) {
+            res.send (cart);
+        };
+    } catch (error) {
+        next (error);
+    };
+});
+
 ordersRouter.post('/', requireUser, async (req, res, next) => {
     try {
         const { id } = req.user;
         const order = await createOrder({ userId: id });
         if (order) {
+            res.status(200);
             res.send (order);
         } else {
             res.sendStatus(401);
-                next ({
-                    name: 'FailedCreateError',
-                    message: 'This order was not sucessfully created'
-                });
+            next ({
+                name: 'FailedCreateError',
+                message: 'This order was not sucessfully created'
+            });
         };
     } catch (error) {
         next (error);
