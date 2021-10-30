@@ -54,7 +54,7 @@ const destroyOrderProduct = async (id) => {
     };
 };
 
-const getOrderProductsByOrder = async ({id: orderId}) => {
+const getOrderProductsByOrder = async ({ id: orderId }) => {
     try {
         const { rows: orderProducts } = await client.query (`
             SELECT * FROM order_products
@@ -66,10 +66,23 @@ const getOrderProductsByOrder = async ({id: orderId}) => {
     };
 };
 
+const getOrderProductByOrderAndProduct = async ({ orderId, productId }) => {
+    try {
+        const { rows: [orderProduct] } = await client.query(`
+            SELECT * FROM order_products
+            WHERE "orderId" = $1 AND "productId" = $2;
+        `, [orderId, productId]);
+        return orderProduct;
+    } catch (error) {
+        console.error (error);
+    };
+};
+
 module.exports = {
     addProductToOrder,
     destroyOrderProduct,
     getOrderProductById,
+    getOrderProductByOrderAndProduct,
     getOrderProductsByOrder,
     updateOrderProduct    
 };

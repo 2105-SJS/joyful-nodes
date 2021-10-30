@@ -2,7 +2,16 @@
 const express = require('express');
 const ordersRouter = express.Router();
 const { requireAdmin, requireUser } = require('./utils');
-const { createOrder, getAllOrders, getCartByUser } = require('../db')
+const { 
+    createOrder,
+    getAllOrders, 
+    getCartByUser, 
+    addProductToOrder, 
+    getOrderById, 
+    getOrderProductByOrderAndProduct, 
+    updateOrderProduct } = require('../db')
+
+const client = require('../db/client')
 
 ordersRouter.use((req, res, next) => {
     console.log('A request is being made to /orders');
@@ -46,6 +55,54 @@ ordersRouter.post('/', requireUser, async (req, res, next) => {
                 message: 'This order was not sucessfully created'
             });
         };
+    } catch (error) {
+        next (error);
+    };
+});
+
+ordersRouter.post('/:orderId/products', requireUser, async (req, res, next) => {
+    try {
+        const { productId, price, quantity } = req.body;
+        const { orderId } = req.params;
+        const _isOwner = async () => {
+            const order = await getOrderById(orderId)
+            if (order) {
+                if (order.userId === req.user.id) {
+                    return true;
+                } else {
+                    return false;
+                };
+            };
+        };
+        const orderProduct = await getOrderProductByOrderAndProduct ({ orderId, productId });
+        if (!orderProduct && _isOwner) {
+            const prodAddedToOrder = await addProductToOrder({ orderId, productId, price, quantity });
+            if (prodAddedToOrder) {
+                res.status(200);
+                res.send(prodAddedToOrder);
+            } else {
+                res.sendStatus(401);
+                next ({
+                    name: 'FailedCreateError',
+                    message: 'This product was not successfully added to the order'
+                });
+            };   
+        } else if (_isOwner) {
+            const { id } = orderProduct;
+            const updatedOrderProd = await updateOrderProduct({ id, price, quantity });
+            if (updatedOrderProd) {
+                res.status(200);
+                res.send(updatedOrderProd);
+            } else {
+                res.sendStatus(401);
+                next ({
+                    name: 'FailedUpdateError',
+                    message: 'This order product was not successfully updated'
+                });
+            };
+        } else {
+            res.status (401);
+        };        
     } catch (error) {
         next (error);
     };
