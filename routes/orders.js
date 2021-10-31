@@ -88,9 +88,17 @@ ordersRouter.post('/:orderId/products', requireUser, async (req, res, next) => {
             } else {
                 const { id } = orderProduct;
                 const updatedOrderProduct = await updateOrderProduct ({ id, price: newPrice, quantity })
-                console.log(updatedOrderProduct)
-            }
-            
+                if (updatedOrderProduct) {
+                    res.status(200);
+                    res.send(updatedOrderProduct);
+                } else {
+                    res.sendStatus(401);
+                    next ({
+                        name: 'FailedCreateError',
+                        message: 'The product was not successfully added to the order'
+                    });
+                };
+            };            
         };
     } catch (error) {
         next (error);
