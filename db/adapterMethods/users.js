@@ -90,8 +90,7 @@ const getUserByUsername = async (username) => {
     }
 }
 
-const updateUser = async (user) => {
-    const { id, firstName, lastName, email, imageURL, username, password, isAdmin } = user;
+const updateUser = async ({ firstName, lastName, email, imageURL, username, password, isAdmin }) => {
     try {
         const { rows: [ user ] } = await client.query(`
             UPDATE users

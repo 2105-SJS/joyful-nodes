@@ -55,19 +55,25 @@ const destroyProduct = async (id) => {
             WHERE id = $1
             RETURNING *;
         `, [id]);
-        {await client.query(`
+        await client.query(`
             DELETE FROM order_products
             USING orders
             WHERE orders.status != 'completed' AND order_products."productId"=$1;
-    `, [id]);}
+    `, [id]);
         return product;
     } catch (error) {
         throw error;
     }
   }
 
-  const updateProduct = async (product) => {
-      const { id, name, description, price, imgURL, inStock, category } = product;
+  const updateProduct = async ({
+    name,
+    description,
+    price,
+    imgURL,
+    inStock,
+    category
+}) => {
     try {
         const {rows: [product] } = await client.query(`
             UPDATE products
