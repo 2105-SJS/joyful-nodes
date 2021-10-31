@@ -77,8 +77,8 @@ const destroyProduct = async (id) => {
     try {
         const {rows: [product] } = await client.query(`
             UPDATE products
-            SET name = $1, description = $2, price = $3, "imgURL" = $4, "inStock" = $5, category = $6
-            WHERE id = $7
+            SET name=$1, description=$2, price=$3, "imgURL"=$4, "inStock"=$5, category=$6
+            WHERE id=$7
             RETURNING *;
         `, [name, description, price, imgURL, inStock, category, id]);
         return product;
