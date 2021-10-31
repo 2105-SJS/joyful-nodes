@@ -2,7 +2,7 @@
 const express = require('express');
 const orderProductsRouter = express.Router();
 const { requireUser } = require('./utils');
-const { getOrderProductById, updateOrderProduct, getProductById } = require('../db');
+const { getOrderProductById, updateOrderProduct, getProductById, destroyOrderProduct, getOrderById } = require('../db');
 
 orderProductsRouter.use((req, res, next) => {
     console.log('A request is being made to /order_products');
@@ -40,6 +40,41 @@ orderProductsRouter.patch('/:orderProductId', requireUser, async (req, res,next)
                     message: 'This order product was not successfully updated'
                 });
             };
+        };
+    } catch (error) {
+        next (error);
+    };
+});
+
+orderProductsRouter.delete('/:orderProductId', requireUser, async (req, res, next) => {
+    try {
+        const { orderProductId} = req.params;
+        const orderProduct = await getOrderProductById(orderProductId);
+        if (orderProduct) {
+            const { orderId } = orderProduct;
+            const order = await getOrderById(orderId);
+            if (order && order.userId === req.user.id) {
+                const deletedOrderProduct = await destroyOrderProduct(orderProductId);
+                if (deletedOrderProduct) {
+                    res.status(200);
+                    res.send({
+                        name: 'DeleteSuccess',
+                        message: 'Product was removed from order'
+                    });
+                };
+            } else {
+                res.sendStatus(401);
+                next ({
+                    name: 'FailedDeleteError',
+                    message: 'Product was not successfully removed from order'
+                });
+            };
+        } else {
+            res.sendStatus(401);
+            next ({
+                name: 'FailedDeleteError',
+                message: 'Product was not successfully removed from order'
+            });
         };
     } catch (error) {
         next (error);
