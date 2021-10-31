@@ -137,4 +137,35 @@ ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
     };
 });
 
+ordersRouter.delete('/:orderId', requireUser, async (req, res, next) => {
+    try {
+        const status = 'cancelled';
+        const order = await getOrderById(req.params.orderId)
+        console.log(order)
+        if (order.userId === req.user.id) {
+            console.log('true')
+            const updatedOrder = await updateOrder({ id: req.params.orderId, status, userId: req.user.id })
+            console.log(updatedOrder)
+            if (updatedOrder) {
+                res.status(200);
+                res.send(updatedOrder);
+            } else {
+                res.status(500);
+                next({
+                    name: 'FailedUpdateError',
+                    message: 'Order not cancelled'
+                });
+            };
+        } else {
+            res.status(401);
+            next({
+                name: 'FailedUpdateError',
+                message: 'Order not cancelled'
+            });
+        };
+    } catch (error) {
+        next(error);
+    };
+});
+
 module.exports = ordersRouter;
