@@ -3,7 +3,7 @@ const requireUser = (req, res, next) => {
         if (req.user) {
             next();
         } else {
-            res.sendStatus(401);
+            res.status(401);
             next();
         };
     } catch (error) {
@@ -17,7 +17,7 @@ const requireAdmin = (req, res, next) => {
         if (isAdmin) {
             next();
         } else {
-            res.sendStatus(401);
+            res.status(401);
             next();
         };
     } catch (error) {

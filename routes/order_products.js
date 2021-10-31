@@ -2,7 +2,13 @@
 const express = require('express');
 const orderProductsRouter = express.Router();
 const { requireUser } = require('./utils');
-const { getOrderProductById, updateOrderProduct, getProductById, destroyOrderProduct, getOrderById } = require('../db');
+const {
+    getOrderProductById,
+    updateOrderProduct,
+    getProductById,
+    destroyOrderProduct,
+    getOrderById
+} = require('../db');
 
 orderProductsRouter.use((req, res, next) => {
     console.log('A request is being made to /order_products');
