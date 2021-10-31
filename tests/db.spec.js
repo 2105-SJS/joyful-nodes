@@ -18,7 +18,10 @@ const {
   getOrdersByUser,
   cancelOrder,
   completeOrder,
-  createOrder
+  createOrder,
+  destroyProduct,
+  createProduct,
+  getAllProducts
 } = require('../db/index');
 
 describe('Database', () => {
@@ -95,6 +98,47 @@ describe('Database', () => {
         expect(user).toBeTruthy();
         expect(user.username).toBe(userToCreateAndUpdate.username);
       })
+    })
+  })
+  //---PRODUCTS TESTS---//
+  describe('Products', () => {
+    let product;
+    let newProduct;
+    let productParams = { name: 'Jordan 1', description: 'Shadows 2.0', price: 250, category: 'sneakers'};
+    let newProductParams = { name: 'Jordan 12', description: 'Taxi', price: 1100, category: 'sneakers'};
+    describe('createProduct({ name, description, price, category })', () => {
+      beforeAll(async () => {
+        product = await createProduct(productParams);
+        newProduct = await createProduct(newProductParams);
+      })
+      it('Returns the new product', async () => {
+        expect(product).toBeTruthy();
+      });
+      it('Product is an object', async () => {
+        expect(typeof product).toBe('object');
+      });
+    })
+    describe('getProductById(id)', () => {
+      beforeAll(async () => {
+        searchProduct = await getProductById(product.id);
+      })
+      it('Returns an object', async () => {
+        expect(typeof searchProduct).toBe("object");
+      });
+      it('Object is corresponding product', async () => {
+        expect(searchProduct.id).toBe(product.id);
+      });
+    })
+    describe('getAllProducts()', () => {
+      beforeAll(async () => {
+        allProducts = await getAllProducts();
+      })
+      it('Returns an array of objects', async () => {
+        allProducts.map((product) => {
+          expect(product).toBeTruthy();
+          expect(typeof product).toBe("object");
+        })
+      });
     })
   })
   //---ORDERS TESTS---//
