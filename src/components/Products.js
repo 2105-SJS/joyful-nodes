@@ -9,14 +9,13 @@ const Products = () => {
             const response = await callApi({
                 url: "/products"
             })
-            console.log(response);
             if (response) {
                 setProducts(response);
             }
 
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 

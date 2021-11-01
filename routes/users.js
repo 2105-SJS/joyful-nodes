@@ -3,7 +3,8 @@ const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require ('bcrypt');
 const { JWT_SECRET } = process.env;
-const { createUser, getUser, getUserByUsername } = require("../db");
+const { requireUser } = require('./utils');
+const { createUser, getUserByUsername, getOrdersByUser } = require("../db");
 
 usersRouter.use((req, res, next) => {
     console.log("A request has been made to /users");
@@ -65,6 +66,7 @@ usersRouter.post('/login', async (req, res, next) => {
             const { id, firstName, lastName, username, isAdmin } = user;
             res.send({ message: `You're logged in!`, token, user: { id, firstName, lastName, username, isAdmin } });
         } else {
+            res.status(401);
             next({
                 name: 'CredentialsError',
                 message: 'Invalid credentials'
@@ -89,5 +91,16 @@ usersRouter.get("/me", async (req, res, next) => {
     }
 });
 
+usersRouter.get('/:userId/orders', requireUser, async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const orders = await getOrdersByUser({ id });
+        if (orders) {
+            res.send (orders);
+        };
+    } catch (error) {
+        next (error);
+    };
+});
 
 module.exports = usersRouter;

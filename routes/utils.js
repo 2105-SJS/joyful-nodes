@@ -3,9 +3,9 @@ const requireUser = (req, res, next) => {
         if (req.user) {
             next();
         } else {
-            res.sendStatus(409);
+            res.status(401);
             next();
-        }
+        };
     } catch (error) {
         next (error);
     };    
@@ -13,13 +13,13 @@ const requireUser = (req, res, next) => {
 
 const requireAdmin = (req, res, next) => {
     try {
-        const { isUser } = req.user;
-        if (isUser) {
+        const { isAdmin } = req.user;
+        if (isAdmin) {
             next();
         } else {
-            res.sendStatus(401);
+            res.status(401);
             next();
-        }
+        };
     } catch (error) {
         next (error);
     };    
