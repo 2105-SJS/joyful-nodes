@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { callApi } from '../util';
+import { useHistory } from "react-router-dom";
+
 
 
 const Register = (props) => {
@@ -13,10 +15,11 @@ const Register = (props) => {
     const setLastName = props.setLastName;
     const email = props.email;
     const setEmail = props.setEmail;
+    let history = useHistory();
+
     return <>
         <form onSubmit={ async (event) => {
             await event.preventDefault();
-            //await existing();
             try {
                 const response = await callApi({
                   url: "/users/register",
@@ -27,7 +30,7 @@ const Register = (props) => {
                             username, 
                             password }
                 });
-                console.log("!!!!!!!!", response)
+                history.push("/users/login");
                 setUsername('');
                 setPassword('');
                 setLastName('');

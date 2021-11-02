@@ -1,5 +1,7 @@
 import React from "react";
 import { callApi } from '../util';
+import { useHistory } from "react-router-dom";
+
 
 
 const Login = (props) => {
@@ -7,25 +9,23 @@ const Login = (props) => {
     const setUsername = props.setUsername;
     const password = props.password;
     const setPassword = props.setPassword;
-    const token = props.token;
     const setToken = props.setToken;
-    
+    let history = useHistory();
+
     return <>
         <form onSubmit={ async (event) => {
             await event.preventDefault();
-            //await existing();
             try {
                 const response = await callApi({
                   url: "/users/login",
                   method: 'POST',
                   body: {
-                      user: {
                           username,
                           password
-                      }
                   }
                 });
-                console.log(response)
+                setToken(response.token);
+                history.push("/");
                 setUsername('');
                 setPassword('');
               }
