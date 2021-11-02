@@ -5,12 +5,18 @@ import {
   Home,
   Products,
   SingleOrder,
-  Login
+  Login,
+  Register
 } from './';
 
 const App = () => {
-  // const [token, setToken] = useState("");
+  const [token, setToken] = useState('');
   const [products, setProducts] = useState([]);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
 
   const allProducts = async () => {
     try {
@@ -44,7 +50,10 @@ const App = () => {
         <Products products={products} />
       </Route>
       <Route exact path="/users/login">
-        <Login />
+        <Login token={token} setToken={setToken} username={username} setUsername={setUsername} password={password} setPassword={setPassword}/>
+      </Route>
+      <Route exact path="/users/register">
+        <Register firstName={firstName} setFirstName={setFirstName} lastName={lastName} setLastName={setLastName} email={email} setEmail={setEmail} username={username} setUsername={setUsername} password={password} setPassword={setPassword}/>
       </Route>
     </Switch>
   );
