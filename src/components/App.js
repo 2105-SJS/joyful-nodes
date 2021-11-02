@@ -47,7 +47,7 @@ const App = () => {
       <Route exact path='/orders/:orderId'>
         <SingleOrder />
       </Route>
-      <Route path="/products/:productId">``
+      <Route path="/products/:productId">
         <SingleProduct />
       </Route>
       <Route path="/products">
