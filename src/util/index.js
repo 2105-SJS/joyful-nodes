@@ -9,7 +9,7 @@ export const callApi = async ({ url, method, token, body }) => {
         };
         if (token) options.headers["Authorization"] = `Bearer ${token}`;
 
-        const response = await fetch(`api${url}`, options);
+        const response = await fetch(`/api/${url}`, options);
         const result = await response.json();
         if (result.error) {
             throw (result.error);
