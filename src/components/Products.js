@@ -1,38 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { callApi } from "../util";
+import React from "react";
+import { SingleProduct } from ".";
 
-const Products = () => {
-    const [products, setProducts] = useState([]);
-
-    const allProducts = async () => {
-        try {
-            const response = await callApi({
-                url: "/products"
-            })
-            if (response) {
-                setProducts(response);
-            }
-
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-
-    useEffect(() => {
-        allProducts();
-    }, [])
+const Products = ({ products }) => {
 
     return (
         <>
+            <h2>Products</h2><br />
             {
-                products.map(product => (
-                    <div key={product.id}>
-                        <h3>{product.name}</h3>
-                        <p>{product.price}</p>
-                        <p>{product.description}</p>
-                    </div>
-                ))
+                products.map(product => <SingleProduct key={product.id} product={product} />)
             }
         </>
     )
