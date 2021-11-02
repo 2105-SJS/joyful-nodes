@@ -1,27 +1,48 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { Route, Switch } from "react-router-dom";
+import { callApi } from '../util';
 import {
-  getSomething
-} from '../api';
+  Home,
+  Products,
+  SingleOrder,
+} from './';
 
 const App = () => {
-  const [message, setMessage] = useState('');
+  // const [token, setToken] = useState("");
+  const [products, setProducts] = useState([]);
+
+  const allProducts = async () => {
+    try {
+      const response = await callApi({
+        url: "/products"
+      });
+      console.log(response)
+      if (response) {
+        setProducts(response);
+      }
+
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    getSomething()
-      .then(response => {
-        setMessage(response.message);
-      })
-      .catch(error => {
-        setMessage(error.message);
-      });
-  });
+    allProducts();
+  }, []);
 
   return (
-    <div className="App">
-      <h1>Hello, World!</h1>
-      <h2>{ message }</h2>
-    </div>
+    <Switch>
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <Route exact path='/orders/:orderId'>
+        <SingleOrder />
+      </Route>
+      <Route exact path="/products">
+        <Products products={products} />
+      </Route>
+    </Switch>
   );
 }
 

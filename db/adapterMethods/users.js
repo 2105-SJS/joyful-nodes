@@ -1,42 +1,51 @@
-const { client } = require("../client");
+const {client} = require("../client");
+const bcrypt = require("bcrypt");
 
 const createUser = async ({ firstName, lastName, email, imageURL, username, password, isAdmin }) => {
     try {
+        const saltRounds = 10;
         if (!isAdmin) {
             isAdmin = false;
         };
         if (!imageURL) {
             imageURL = 'https://louisville.edu/enrollmentmanagement/images/person-icon/image'
         };
-        const {rows: [user] } = await client.query(`
+const hashPw = await bcrypt.hash(password, saltRounds);
+    const {rows: [user] } = await client.query(`
             INSERT INTO users ("firstName", "lastName", email, "imageURL", username, password, "isAdmin")
             VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING *;
-        `, [firstName, lastName, email, imageURL, username, password, isAdmin]);
-        return user;        
+        `, [firstName, lastName, email, imageURL, username, hashPw, isAdmin]);
+        return user; 
     } catch (error) {
         console.error(error);
     };
 };
 
-async function getUser({
+const getUser = async ({
     username,
     password
-}) {
+}) => {
     try {
-        const { rows: [ user ] } = await client.query(`
-            SELECT *
-            FROM users
-            WHERE username=$1 
-            AND password=$2;
-      `, [username, password]);
-        return user;
+        const userTarget = await getUserByUsername(username);
+        const hashedPw = await userTarget.password;
+        const res = await bcrypt.compare(password, hashedPw);
+        if(res){
+            const { rows: [ user ] } = await client.query(`
+                SELECT *
+                FROM users
+                WHERE username=$1 
+                AND password=$2;
+            `, [username, hashedPw]);
+            return user;
+        }
+        
     } catch (error) {
         throw error;
     }
 }
 
-async function getAllUsers(){
+const getAllUsers = async () => {
     try{
         const { rows: users } = await client.query(`
             SELECT *
@@ -54,7 +63,7 @@ async function getAllUsers(){
     }
 }
 
-async function getUserById(id){
+const getUserById = async (id) => {
     try {
         const { rows: [ user ] } = await client.query(`
             SELECT *
@@ -68,14 +77,26 @@ async function getUserById(id){
     }
 }
 
-async function getUserByUsername(username){
+const getUserByUsername = async (username) => {
     try {
         const { rows: [ user ] } = await client.query(`
             SELECT *
             FROM users
             WHERE username=$1
             `, [username]);
-        delete user.password;
+        return user;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const updateUser = async ({ firstName, lastName, email, imageURL, username, password, isAdmin }) => {
+    try {
+        const { rows: [ user ] } = await client.query(`
+            UPDATE users
+            SET "firstName"=$1, "lastName"=$2, email=$3, "imageURL"=$4, username=$5, password=$6, "isAdmin"=$7
+            WHERE id=$8
+            `, [firstName, lastName, email, imageURL, username, password, isAdmin, id]);
         return user;
     } catch (error) {
         throw error;
@@ -87,5 +108,6 @@ module.exports = {
     getUser,
     getAllUsers,
     getUserById,
-    getUserByUsername
+    getUserByUsername,
+    updateUser
 }
