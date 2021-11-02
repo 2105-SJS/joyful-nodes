@@ -3,7 +3,8 @@ import { Route, Switch } from "react-router-dom";
 import {
   Home,
   Products,
-  SingleOrder
+  SingleOrder,
+  Login
 } from './';
 
 const App = () => {
@@ -18,6 +19,9 @@ const App = () => {
       </Route>
       <Route path="/products">
         <Products />
+      </Route>
+      <Route exact path="/users/login">
+        <Login />
       </Route>
     </Switch>
   );
