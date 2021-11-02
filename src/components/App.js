@@ -5,10 +5,10 @@ import {
   Home,
   Products,
   SingleOrder,
+  SingleProduct
 } from './';
 
 const App = () => {
-  // const [token, setToken] = useState("");
   const [products, setProducts] = useState([]);
 
   const allProducts = async () => {
@@ -39,11 +39,14 @@ const App = () => {
       <Route exact path='/orders/:orderId'>
         <SingleOrder />
       </Route>
-      <Route exact path="/products">
+      <Route path="/products/:productId">
+        <SingleProduct />
+      </Route>
+      <Route path="/products">
         <Products products={products} />
       </Route>
     </Switch>
-  );
+  )
 }
 
 export default App;

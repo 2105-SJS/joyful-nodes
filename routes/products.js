@@ -24,10 +24,10 @@ productsRouter.get("/", async (req, res, next) => {
 });
 
 productsRouter.get("/:productId", async (req, res, next) => {
-    const id = req.params.productId;
+    const { productId } = req.params;
 
     try {
-        const product = await getProductById(id);
+        const product = await getProductById(productId);
 
         if (product) {
             res.send(product);
