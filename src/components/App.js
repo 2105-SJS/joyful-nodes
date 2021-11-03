@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import { callApi } from '../util';
 import {
   Home,
@@ -11,36 +11,74 @@ import {
 } from './';
 
 const App = () => {
-  const [products, setProducts] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+  const [orders, setOrders] = useState([]);
+  const [password, setPassword] = useState('');
+  const [products, setProducts] = useState([]);
   const [token, setToken] = useState('');
+  const [username, setUsername] = useState('');
+
+  const getOrders = async () => {
+    try {
+        const response = await callApi({ url: '/orders' });
+        if (response) {
+          setOrders(response);
+        };
+        return;
+    } catch (error) {
+        console.error(error);
+    };
+  };
 
   const allProducts = async () => {
     try {
-      const response = await callApi({
-        url: "/products"
-      });
-      console.log(response)
+      const response = await callApi({ url: "/products" });
       if (response) {
         setProducts(response);
-      }
+      };
+    } catch (error) {
+      console.error(error);
+    };
+  };
 
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
+  const props = {
+    email,
+    setEmail,
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    orders,
+    setOrders,
+    password,
+    setPassword,
+    products,
+    setProducts,
+    token,
+    setToken,
+    username,
+    setUsername,
+
+    allProducts,
+    getOrders
+  };
 
   useEffect(() => {
     allProducts();
-  }, []);
+    getOrders();
+  }, [token]);
 
-  return (
-    <Switch>
+  return <>
+    <header>
+      <div><h1>Awesome Shoe Store Name</h1></div>
+      <div className='navigation'>
+        <Link to='/products' className='nav-link'>Products</Link>
+        <Link to='/cart' className='nav-link'>View Cart</Link>        
+      </div>
+    </header>
+    <main>
       <Route exact path="/">
         <Home />
       </Route>
@@ -51,16 +89,16 @@ const App = () => {
         <SingleProduct />
       </Route>
       <Route path="/products">
-        <Products products={products} />
+        <Products {...props} />
       </Route>
       <Route exact path="/users/login">
-        <Login token={token} setToken={setToken} username={username} setUsername={setUsername} password={password} setPassword={setPassword}/>
+        <Login  {...props} />
       </Route>
       <Route exact path="/users/register">
-        <Register firstName={firstName} setFirstName={setFirstName} lastName={lastName} setLastName={setLastName} email={email} setEmail={setEmail} username={username} setUsername={setUsername} password={password} setPassword={setPassword}/>
+        <Register {...props} />
       </Route>
-    </Switch>
-  )
+    </main>
+  </>
 }
 
 export default App;
