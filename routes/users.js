@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require ('bcrypt');
 const { JWT_SECRET } = process.env;
 const { requireUser } = require('./utils');
-const { createUser, getUserByUsername, getOrdersByUser } = require("../db");
+const { createUser, getUserByUsername, getUserById, getOrdersByUser } = require("../db");
 
 usersRouter.use((req, res, next) => {
     console.log("A request has been made to /users");
@@ -40,11 +40,11 @@ usersRouter.post("/register", async (req, res, next) => {
             username: username.toLowerCase(),
             password: password
         });
-        res.send({
-            user: user
-        });
-    }
-    catch (error) {
+        if (user) {
+            const { id, firstName, lastName, username, isAdmin } = user;
+            res.send({ message: `Thank you for signing up!!`, token, user: { id, firstName, lastName, username, isAdmin } })
+        }
+    } catch (error) {
         next(error);
     }
 });
@@ -77,18 +77,21 @@ usersRouter.post('/login', async (req, res, next) => {
     };
 });
 
-usersRouter.get("/me", async (req, res, next) => {
+usersRouter.get('/me', async (req, res, next) =>{
+    const prefix = 'Bearer ';
+    const auth = req.headers.authorization;
     try {
-        if(req.auth){
-            res.send(req.auth);
+        if (!auth) {
+            res.sendStatus(401);
+        } else if (auth.startsWith(prefix)) {
+            const token = auth.slice(prefix.length)
+            const { id } = jwt.verify(token, JWT_SECRET);
+            req.user = await getUserById(id);
+            res.send(req.user)
         }
-        else{
-            next('User not found');
-        }
-    }
-    catch (error) {
-        next(error);
-    }
+    } catch (error) {
+        next (error);
+    };    
 });
 
 usersRouter.get('/:userId/orders', requireUser, async (req, res, next) => {

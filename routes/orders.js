@@ -16,6 +16,7 @@ const {
 
 ordersRouter.use((req, res, next) => {
     console.log('A request is being made to /orders');
+    console.log(req.user, '<<<<<<<<<<<<<<<<<<<')
     next();
 });
 
@@ -110,11 +111,8 @@ ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
     try {
         const { status } = req.body;
         const order = await getOrderById(req.params.orderId)
-        console.log(order)
         if (order.userId === req.user.id) {
-            console.log('true')
             const updatedOrder = await updateOrder({ id: req.params.orderId, status, userId: req.user.id })
-            console.log(updatedOrder)
             if (updatedOrder) {
                 res.status(200);
                 res.send(updatedOrder);
@@ -141,11 +139,8 @@ ordersRouter.delete('/:orderId', requireUser, async (req, res, next) => {
     try {
         const status = 'cancelled';
         const order = await getOrderById(req.params.orderId)
-        console.log(order)
         if (order.userId === req.user.id) {
-            console.log('true')
             const updatedOrder = await updateOrder({ id: req.params.orderId, status, userId: req.user.id })
-            console.log(updatedOrder)
             if (updatedOrder) {
                 res.status(200);
                 res.send(updatedOrder);

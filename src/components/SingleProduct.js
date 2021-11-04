@@ -2,6 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { callApi } from "../util";
 
+const handleAddtoCart = async (event) => {
+    try {
+        
+    } catch (error) {
+        console.error (error);
+    };
+};
+
 const SingleProduct = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState([]);
@@ -12,25 +20,25 @@ const SingleProduct = () => {
                 const response = await callApi({
                     url: `/products/${productId}`
                 })
-                console.log(response);
                 if (response) {
                     setProduct(response);
                 }
             }
             catch (error) {
-                console.log(error);
+                console.error(error);
             }
         }
         singleProduct();
     }, [productId]);
 
     return (
-        <>
-            <h2>{product.name}</h2>
+        <div className='product'>
+            <img src={product.imgURL} alt={product.name} width='128' height='128'/>                
+            <h3>{product.name}</h3>
             <p>{product.category}</p>
             <p>{product.description}</p>
-            <p>{product.price}</p>
-        </>
+            <p><b>Price:</b> ${product.price}</p>
+        </div>
     )
 }
 
