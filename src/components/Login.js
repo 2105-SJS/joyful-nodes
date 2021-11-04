@@ -1,37 +1,43 @@
 import React from "react";
 import { callApi } from '../util';
-import { useHistory } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
 
-
-
-const Login = (props) => {
-    const username = props.username;
-    const setUsername = props.setUsername;
-    const password = props.password;
-    const setPassword = props.setPassword;
-    const setToken = props.setToken;
-    let history = useHistory();
+const Login = ({
+  username, 
+  setUsername, 
+  password, 
+  setPassword, 
+  setToken,
+  setUser  
+}) => {
+    const history = useHistory();
 
     return <>
+        <h2>Sign in</h2>
         <form onSubmit={ async (event) => {
             await event.preventDefault();
             try {
                 const response = await callApi({
-                  url: "/users/login",
+                  url: 'users/login',
                   method: 'POST',
                   body: {
                           username,
                           password
                   }
                 });
-                setToken(response.token);
-                history.push("/");
-                setUsername('');
-                setPassword('');
-              }
-              catch (error) {
-                console.log(error);
-              }
+                if (response) {
+                  localStorage.setItem("token", response.token);
+                  localStorage.setItem("user", response.user);
+                  setToken(response.token);
+                  setUser(response.user);
+                  setUsername('');
+                  setPassword('');
+                  history.push("/");
+                };
+              } catch (error) {
+                console.error(error);
+              };
             }}>
             <p>Username</p>
             <input type ="text" placeholder="Username" value={username} onChange={(event) => setUsername(event.target.value)}></input>
@@ -40,7 +46,10 @@ const Login = (props) => {
           <p>By submitting this form  agree to the terms and conditions.</p>
           <button type="submit">LOGIN</button>
           </form>
+          <span>
+            Don't have an account yet? Click<Link to="/users/register" className='login-link'>here</Link> to register!
+          </span>                    
     </>
-}
+};
 
 export default Login;

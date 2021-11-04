@@ -11,34 +11,51 @@ header {
     justify-content: center;
     align-items: center;
 }
+.site-title {
+    text-decoration: none;
+}
 
 .nav-link {
     padding: 12px;
+    text-decoration: none;
 }
 
 .navigation {
     display: flex;
     border: 1px solid #000000;
-    border-radius: 22px;
+    border-radius: 50px;
     font-size: 22px;
     padding: 12px;
+    width: 85vw;
+    max-height: 24px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 
 main {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.products-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .product {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: none;
     align-items: center;
     justify-content: center;
-    width: 512px;
-    min-height: 18em;
+    width: 28vw;
+    height: 24em;
     overflow: hidden;
     border: 1px solid #000000;
     border-radius: 12px;
