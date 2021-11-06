@@ -1,5 +1,6 @@
 const express = require("express");
 const productsRouter = express.Router();
+const { requireAdmin } = require('./utils');
 const { getAllProducts, getProductById, createProduct, destroyProduct } = require("../db");
 
 productsRouter.use((req, res, next) => {
