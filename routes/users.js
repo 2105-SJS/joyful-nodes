@@ -3,8 +3,8 @@ const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require ('bcrypt');
 const { JWT_SECRET } = process.env;
-const { requireUser } = require('./utils');
-const { createUser, getUserByUsername, getUserById, getOrdersByUser } = require("../db");
+const { requireUser, requireAdmin } = require('./utils');
+const { createUser, getUserByUsername, getUserById, getOrdersByUser, getAllUsers } = require("../db");
 
 usersRouter.use((req, res, next) => {
     console.log("A request has been made to /users");
@@ -105,5 +105,17 @@ usersRouter.get('/:userId/orders', requireUser, async (req, res, next) => {
         next (error);
     };
 });
+
+usersRouter.get('/', requireAdmin, async (req, res, next) => {
+    try {
+        const users = await getAllUsers();
+        if (users) {
+            res.send (users);
+        };
+    } catch (error) {
+        next (error);
+    };
+});
+
 
 module.exports = usersRouter;
