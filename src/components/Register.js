@@ -13,7 +13,7 @@ const Register = ({
   password,
   setPassword,
   setToken,
-  setUser,
+  setUserData,
   username,
   setUsername
 }) => {

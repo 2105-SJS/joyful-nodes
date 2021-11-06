@@ -1,6 +1,7 @@
 import React from 'react';
 
-const SingleOrder = () => {
+const SingleOrder = ({order}) => {
+    console.log(order)
     return <>
     
     </>;

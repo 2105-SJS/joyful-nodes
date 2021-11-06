@@ -4,6 +4,7 @@ import { callApi } from '../util';
 import {
   Home,
   Login,
+  Orders,
   Products,
   Register,
   SingleOrder,
@@ -90,7 +91,7 @@ const App = () => {
     };
     const foundUserData = localStorage.getItem('userData');
     if (foundUserData) {
-      setUserData(foundUserData);
+      setUserData(JSON.parse(foundUserData));
     };
   },[]);
 
@@ -118,8 +119,11 @@ const App = () => {
       <Route exact path="/">
         <Home {...props} />
       </Route>
+      <Route exact path='orders'>
+        <Orders {...props} />
+      </Route>
       <Route exact path='/orders/:orderId'>
-        <SingleOrder />
+        <SingleOrder {...props} />
       </Route>
       <Route path="/products/:productId">
         <SingleProduct />
