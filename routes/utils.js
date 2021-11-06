@@ -13,9 +13,11 @@ const requireUser = (req, res, next) => {
 
 const requireAdmin = (req, res, next) => {
     try {
-        const { isAdmin } = req.user;
-        if (isAdmin) {
-            next();
+        if (req.user) {
+            const { isAdmin } = req.user;
+            if (isAdmin) {
+                next();
+            }; 
         } else {
             res.status(401);
             next();

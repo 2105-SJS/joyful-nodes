@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { callApi } from "../util";
 
-const handleAddtoCart = async (event) => {
-    try {
+// const handleAddtoCart = async (event) => {
+//     try {
+//         const response = await callApi({`
         
-    } catch (error) {
-        console.error (error);
-    };
-};
+//         `});
+//     } catch (error) {
+//         console.error (error);
+//     };
+// };
 
 const SingleProduct = () => {
     const { productId } = useParams();
@@ -18,7 +20,7 @@ const SingleProduct = () => {
         const singleProduct = async () => {
             try {
                 const response = await callApi({
-                    url: `/products/${productId}`
+                    url: `products/${productId}`
                 })
                 if (response) {
                     setProduct(response);

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { Route, Link, useHistory } from 'react-router-dom';
 import { callApi } from '../util';
 import {
   Home,
@@ -22,47 +21,29 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState('');
-  const [user, setUser] = useState({});
   const [username, setUsername] = useState('');
+  const [userData, setUserData] = useState({});
 
-  const getCart = async () => {
+  const getOrders = async () => {
     try {
-      const response = await callApi ({
-        url: '/cart'
-      });
-      if (!response) {
-        const createCart = await callApi ({
-          method: 'POST',
-          url: '/orders'
-        });
-        if (createCart) {
-          localStorage.setItem("cart", createCart);
-          setCart(createCart);
+      if (!userData.isAdmin) {
+        return;
+      } else {
+        const response = await callApi({ url: 'orders' });
+        if (response) {
+          console.log(response)
+          setOrders(response);
         };
-      } else if (response) {
-        localStorage.setItem("cart", response);
-        setCart(response);
-      };
+        return
+      };      
     } catch (error) {
       console.error(error);
     };
   };
 
-  const getOrders = async () => {
-    try {
-        const response = await callApi({ url: '/orders' });
-        if (response) {
-          setOrders(response);
-        };
-        return;
-    } catch (error) {
-        console.error(error);
-    };
-  };
-
   const allProducts = async () => {
     try {
-      const response = await callApi({ url: '/products' });
+      const response = await callApi({ url: 'products' });
       if (response) {
         setProducts(response);
       };
@@ -88,31 +69,28 @@ const App = () => {
     setProducts,
     token,
     setToken,
-    user,
-    setUser,
     username,
     setUsername,
+    userData,
+    setUserData,
 
     allProducts,
-    getCart,
     getOrders
   };
 
   useEffect(() => {
     allProducts();
-    getCart();
-    console.log(cart)
     getOrders();
-  }, [token, user]);
+  }, [token]);
 
   useEffect(() => {
-    const foundToken = localStorage.getItem("token");
-    const foundUser = localStorage.getItem("user");
+    const foundToken = localStorage.getItem('token');
     if (foundToken) {
         setToken(foundToken);
     };
-    if (foundUser) {
-        setUser(foundUser);
+    const foundUserData = localStorage.getItem('userData');
+    if (foundUserData) {
+      setUserData(foundUserData);
     };
   },[]);
 
@@ -127,9 +105,9 @@ const App = () => {
           ? <button className='nav-link' onClick={(e) => {
               e.preventDefault();
               localStorage.removeItem("token");
-              localStorage.removeItem("user");
+              localStorage.removeItem("userData");
               setToken('');
-              setUser({});
+              setUserData({});
             history.push('/');            
             }}>Log out</button>
           : <Link to='/users/login' className='nav-link'>Sign in</Link>

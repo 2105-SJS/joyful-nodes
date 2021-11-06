@@ -37,10 +37,11 @@ const Register = ({
           }
         });
         if (response) {
-          localStorage.setItem("token", response.token);
-          setToken(response.token);
-          localStorage.setItem("user", response.user);
-          setUser(response.user);
+          const { token, user } = response;
+          setUserData(user);
+          setToken(token);
+          localStorage.setItem("token", token);
+          localStorage.setItem('userData', JSON.stringify(user));
           setUsername('');
           setPassword('');
           setFirstName('');

@@ -16,7 +16,6 @@ const {
 
 ordersRouter.use((req, res, next) => {
     console.log('A request is being made to /orders');
-    console.log(req.user, '<<<<<<<<<<<<<<<<<<<')
     next();
 });
 
@@ -33,11 +32,16 @@ ordersRouter.get('/', requireAdmin, async (req, res, next) => {
 
 ordersRouter.get('/cart', requireUser, async (req, res, next) => {
     try {
-        const { id } = req.user;
-        const cart = await getCartByUser({ id });
-        if (cart) {
-            res.send(cart);
-        };
+        if (req.user) {
+            const { id } = req.user;
+            const cart = await getCartByUser({ id });
+            if (cart) {
+                res.send(cart);
+            };
+        } else {
+            res.status(500);
+            res.send('Cart not found')
+        };       
     } catch (error) {
         next(error);
     };
