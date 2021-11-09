@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Eastchaft';
+    src: local('Eastchaft'), url('./fonts/Eastchaft.FREE.ttf') format('truetype');
+}
+
+
 * {
     display: border-box;
     margin: 0;
@@ -5,33 +11,62 @@
     border: 0;
 }
 
+.bg-container {
+    box-sizing:border-box;
+    width:100%;
+    height:100%;
+    min-height: 100vh; 
+    background-image: url('/img/candra-winata-CYOFvtpOIpU-unsplash.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position:center center;
+}
+
 header {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 8px;
 }
+
 .site-title {
     text-decoration: none;
+    font-family: 'Eastchaft', sans-serif;
+    font-size: 72px;
+    color: #f0f8ff;    
+    text-shadow:
+        -2px -2px 0 #005c6d, 
+        2px -2px 0 #005c6d,
+        -2px 2px 0 #005c6d,
+        2px 2px 0 #005c6d;
 }
 
 .nav-link {
     padding: 12px;
     text-decoration: none;
+    color: #000000;
+}
+
+.cart {
+    margin-bottom: -8px;
 }
 
 .navigation {
     display: flex;
-    border: 1px solid #000000;
+    border: 2px solid #005c6d;
     border-radius: 50px;
     font-size: 22px;
     padding: 12px;
-    width: 85vw;
+    width: 65vw;
     max-height: 24px;
     justify-content: center;
     align-items: center;
     margin-top: 8px;
     margin-bottom: 8px;
+    background-color: #f0f8ffce;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.479);
 }
 
 main {
@@ -39,6 +74,18 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.component-title {
+    padding-top: 8px;
+    font-family: 'Eastchaft', sans-serif;
+    font-size: 58px;
+    color: #005d6ddf;    
+    text-shadow:
+        -2px -2px 0 #f0f8ff, 
+        2px -2px 0 #f0f8ff,
+        -2px 2px 0 #f0f8ff,
+        2px 2px 0 #f0f8ff;
 }
 
 .products-list {
@@ -56,9 +103,40 @@ main {
     width: 28vw;
     height: 24em;
     overflow: hidden;
-    border: 1px solid #000000;
+    border: 2px solid #005c6d;
     border-radius: 12px;
     padding: 8px;
     margin: 8px;
     font-size: 18px;
+    background-color: #f0f8ffce;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.479);
+}
+
+.prodIMG {
+    border: 1px solid #005c6d;
+    border-radius: 8px;
+    padding: 6px;
+    background: #ffffff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: none;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #005c6d;
+    border-radius: 12px;
+    padding: 8px;
+    margin: 8px;
+    background-color: #f0f8ffce;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.479);
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #f0f8ff7c;
+    min-width: 100vw;
+    padding: 4px;
 }

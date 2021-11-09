@@ -6,12 +6,12 @@ const Products = ({ products }) => {
 
     return (
         <>
-            <h2>Products</h2><br />
+            <h2 className='component-title'>Products</h2><br />
             <div className='products-list'>
             {
                 products.map(product => <SingleProduct key={product.id} product={product}>
                 {
-                <Link to={`/products/${product.id}`}>view product</Link>
+                <Link to={`/products/${product.id}`}>More details...</Link>
                 }
                 </SingleProduct>)
             }
