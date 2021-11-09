@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { Route, Link, useHistory } from 'react-router-dom';
 import { callApi } from '../util';
 import {
+  Cart,
   Home,
   Login,
+  Orders,
   Products,
   Register,
   SingleOrder,
@@ -14,7 +15,7 @@ import {
 
 const App = () => {
   const history = useHistory();
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState({});
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -22,47 +23,42 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState('');
-  const [user, setUser] = useState({});
   const [username, setUsername] = useState('');
+  const [userData, setUserData] = useState({});
 
   const getCart = async () => {
     try {
-      const response = await callApi ({
-        url: '/cart'
-      });
-      if (!response) {
-        const createCart = await callApi ({
-          method: 'POST',
-          url: '/orders'
-        });
-        if (createCart) {
-          localStorage.setItem("cart", createCart);
-          setCart(createCart);
-        };
-      } else if (response) {
-        localStorage.setItem("cart", response);
-        setCart(response);
+      const response = await callApi({ url: 'orders/cart', token });
+      if (response) {
+        setCart (response);
+        localStorage.setItem('cart', JSON.stringify(response));
       };
     } catch (error) {
-      console.error(error);
+      console.error (error);
     };
   };
 
   const getOrders = async () => {
     try {
-        const response = await callApi({ url: '/orders' });
+      if (!userData.isAdmin) {
+        return;
+      } else {
+        const response = await callApi({ url: 'orders' });
+          console.log(response)
         if (response) {
           setOrders(response);
+          return;
         };
-        return;
+        return
+      };      
     } catch (error) {
-        console.error(error);
+      console.error(error);
     };
   };
 
   const allProducts = async () => {
     try {
-      const response = await callApi({ url: '/products' });
+      const response = await callApi({ url: 'products' });
       if (response) {
         setProducts(response);
       };
@@ -88,31 +84,30 @@ const App = () => {
     setProducts,
     token,
     setToken,
-    user,
-    setUser,
     username,
     setUsername,
+    userData,
+    setUserData,
 
     allProducts,
-    getCart,
-    getOrders
+    getOrders,
+    getCart
   };
 
   useEffect(() => {
     allProducts();
-    getCart();
-    console.log(cart)
     getOrders();
-  }, [token, user]);
+    getCart();
+  }, [token]);
 
   useEffect(() => {
-    const foundToken = localStorage.getItem("token");
-    const foundUser = localStorage.getItem("user");
+    const foundToken = localStorage.getItem('token');
     if (foundToken) {
         setToken(foundToken);
     };
-    if (foundUser) {
-        setUser(foundUser);
+    const foundUserData = localStorage.getItem('userData');
+    if (foundUserData) {
+      setUserData(foundUserData);
     };
   },[]);
 
@@ -127,9 +122,9 @@ const App = () => {
           ? <button className='nav-link' onClick={(e) => {
               e.preventDefault();
               localStorage.removeItem("token");
-              localStorage.removeItem("user");
+              localStorage.removeItem("userData");
               setToken('');
-              setUser({});
+              setUserData({});
             history.push('/');            
             }}>Log out</button>
           : <Link to='/users/login' className='nav-link'>Sign in</Link>
@@ -140,11 +135,17 @@ const App = () => {
       <Route exact path="/">
         <Home {...props} />
       </Route>
+      <Route exact path ='/cart'>
+        <Cart {...props} />
+      </Route>
+      <Route exact path='/orders'>
+        <Orders {...props} />
+      </Route>
       <Route exact path='/orders/:orderId'>
-        <SingleOrder />
+        <SingleOrder {...props} />
       </Route>
       <Route path="/products/:productId">
-        <SingleProduct />
+        <SingleProduct {...props} />
       </Route>
       <Route exact path="/products">
         <Products {...props} />

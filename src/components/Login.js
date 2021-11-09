@@ -6,10 +6,10 @@ import { useHistory } from 'react-router';
 const Login = ({
   username, 
   setUsername, 
-  password, 
+  password,
   setPassword, 
   setToken,
-  setUser  
+  setUserData
 }) => {
     const history = useHistory();
 
@@ -27,10 +27,11 @@ const Login = ({
                   }
                 });
                 if (response) {
-                  localStorage.setItem("token", response.token);
-                  localStorage.setItem("user", response.user);
-                  setToken(response.token);
-                  setUser(response.user);
+                  const { token, user } = response;
+                  setUserData(user);
+                  setToken(token);
+                  localStorage.setItem("token", token);
+                  localStorage.setItem('userData', JSON.stringify(user));
                   setUsername('');
                   setPassword('');
                   history.push("/");

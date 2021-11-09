@@ -1,16 +1,16 @@
 import React from "react";
 
-const Home = ({ user }) => {
-    return <>
-        { 
-        user.firstName
-            ? <div>
-                Welcome back, { user.firstName }!         
-              </div>
-            : <div className="App">
-                <h1>Welcome to Awesome Shoe Store Name!</h1>
-              </div>
-        }
+const Home = ({ token, userData }) => {
+    if (userData && token) {
+        return <>
+            <div>
+                Welcome back, { userData.firstName }!         
+            </div>
+        </>
+    } else return <>
+        <div>
+            <h1>Welcome to Awesome Shoe Store Name!</h1>
+        </div>
     </>
 }
 
