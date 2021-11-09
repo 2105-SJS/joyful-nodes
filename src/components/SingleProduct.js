@@ -59,7 +59,7 @@ const SingleProduct = ({ cart, getCart, product, token }) => {
             <form onSubmit={handleAddtoCart}>
                 <fieldset>
                     <label>Quantity: </label>
-                    <input type='number' value={quantity} onChange={(event) => setQuantity(event.target.value)} placeHolder='1' />
+                    <input type='number' value={quantity} onChange={(event) => setQuantity(event.target.value)} placeholder='1' />
                     <button type='submit'>Add to cart</button>
                 </fieldset>
                 <div>{message}</div>
