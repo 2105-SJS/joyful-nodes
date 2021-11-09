@@ -10,18 +10,10 @@ const Products = ({ products }) => {
             <div className='products-list'>
             {
                 products.map(product => <SingleProduct key={product.id} product={product}>
-
+                {
+                <Link to={`/products/${product.id}`}>view product</Link>
+                }
                 </SingleProduct>)
-                // products.map(product => (
-                //     <div key={product.id} className='product'>
-                //         <img src={product.imgURL} alt={product.name} width='128' height='128'/>       
-                //         <h4>{product.name}</h4>
-                //         <p>{product.category}</p>
-                //         <p>{product.description}</p>
-                //         <p><b>Price:</b> ${product.price}</p>
-                //         <Link to={`/products/${product.id}`}>single view</Link>
-                //     </div>
-                // ))
             }
             </div>
         </>
