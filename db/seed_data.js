@@ -3,7 +3,9 @@ const {
   addProductToOrder,
   createProduct,
   createOrder,
-  createUser, updateOrder, cancelOrder
+  createUser,
+  createReview,
+   updateOrder, cancelOrder
 } = require('./index');
 
 const dropTables = async () => {
@@ -11,6 +13,7 @@ const dropTables = async () => {
     console.log("Starting to drop tables...");
 
     await client.query(`
+        DROP TABLE IF EXISTS reviews;
         DROP TABLE IF EXISTS order_products;
         DROP TABLE IF EXISTS orders;
         DROP TABLE IF EXISTS users;
@@ -65,6 +68,15 @@ const createTables = async () => {
           price DECIMAL(100, 2) NOT NULL,
           quantity INT NOT NULL DEFAULT 0,
           UNIQuE ("productId", "orderId")
+        );
+
+        CREATE TABLE reviews (
+          id SERIAL PRIMARY KEY,
+          title VARCHAR(255) NOT NULL,
+          content VARCHAR(255) NOT NULL,
+          stars INT NOT NULL,
+          "userId" INTEGER REFERENCES users(id),
+          "productId" INTEGER REFERENCES products(id)
         );
       `)
   }
@@ -156,6 +168,28 @@ const populateInitialData = async () => {
     console.log('Added products:');
     console.log(orderProducts);
     console.log('Finished adding products to orders!');
+
+    console.log("Creating reviews...");
+    const reviewsToCreate = [
+      { 
+        title: "Looks great!", 
+        content: "Shoes fit true to size. Looks even better than the picture.",
+        stars: 5,
+        userId: 2,
+        productId: 1
+     },
+     { 
+      title: "Wow! Will purchase again", 
+      content: "After not being able to find these anyhere, I found them here!. Thank You",
+      stars: 2,
+      userId: 1,
+      productId: 2
+   }
+    ]
+    const reviews = await Promise.all(reviewsToCreate.map(createReview));
+    console.log('Reviews created:');
+    console.log(reviews);
+    console.log('Finished creating reviews!');
   } catch (error) {
     throw error;
   };
