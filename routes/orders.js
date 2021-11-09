@@ -36,7 +36,7 @@ ordersRouter.get('/cart', requireUser, async (req, res, next) => {
             const { id } = req.user;
             const cart = await getCartByUser({ id });
             if (cart) {
-                res.send(cart);
+                res.send(cart[0]);
             };
         } else {
             res.status(500);

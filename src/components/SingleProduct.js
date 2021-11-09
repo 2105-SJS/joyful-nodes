@@ -2,36 +2,52 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { callApi } from "../util";
 
-// const handleAddtoCart = async (event) => {
-//     try {
-//         const response = await callApi({`
-        
-//         `});
-//     } catch (error) {
-//         console.error (error);
-//     };
-// };
-
-const SingleProduct = () => {
+const SingleProduct = ({ cart, getCart, product, token }) => {
     const { productId } = useParams();
-    const [product, setProduct] = useState([]);
-
-    useEffect(() => {
-        const singleProduct = async () => {
-            try {
+    // const [product, setProduct] = useState([]);
+    const [quantity, setQuantity] = useState(1);
+    const [message, setMessage] = useState('');
+    
+    const handleAddtoCart = async (event) => {
+        event.preventDefault();
+        try {
+            if (cart) {
+                const prodId = Number(productId)
                 const response = await callApi({
-                    url: `products/${productId}`
-                })
+                    url: `orders/${cart.id}/products`,
+                    method: 'POST',
+                    token,
+                    body: { quantity, productId: prodId }            
+                });
                 if (response) {
-                    setProduct(response);
-                }
-            }
-            catch (error) {
-                console.error(error);
-            }
-        }
-        singleProduct();
-    }, [productId]);
+                    setMessage(`${quantity} items were added to the cart!`)
+                    await getCart();
+                    setQuantity(1);
+                    return response;
+                };    
+            };            
+        } catch (error) {
+            console.error (error);
+        };
+    };
+
+    // useEffect(() => {
+    //     getCart();
+    //     const singleProduct = async () => {
+    //         try {
+    //             const response = await callApi({
+    //                 url: `products/${productId}`
+    //             })
+    //             if (response) {
+    //                 setProduct(response);
+    //             }
+    //         }
+    //         catch (error) {
+    //             console.error(error);
+    //         }
+    //     }
+    //     singleProduct();
+    // }, [productId]);
 
     return (
         <div className='product'>
@@ -40,6 +56,14 @@ const SingleProduct = () => {
             <p>{product.category}</p>
             <p>{product.description}</p>
             <p><b>Price:</b> ${product.price}</p>
+            <form onSubmit={handleAddtoCart}>
+                <fieldset>
+                    <label>Quantity: </label>
+                    <input type='number' value={quantity} onChange={(event) => setQuantity(event.target.value)} placeHolder='1' />
+                    <button type='submit'>Add to cart</button>
+                </fieldset>
+                <div>{message}</div>
+            </form>
         </div>
     )
 }

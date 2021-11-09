@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Link, useHistory } from 'react-router-dom';
 import { callApi } from '../util';
 import {
+  Cart,
   Home,
   Login,
   Orders,
@@ -14,7 +15,7 @@ import {
 
 const App = () => {
   const history = useHistory();
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState({});
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -25,15 +26,28 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [userData, setUserData] = useState({});
 
+  const getCart = async () => {
+    try {
+      const response = await callApi({ url: 'orders/cart', token });
+      if (response) {
+        setCart (response);
+        localStorage.setItem('cart', JSON.stringify(response));
+      };
+    } catch (error) {
+      console.error (error);
+    };
+  };
+
   const getOrders = async () => {
     try {
       if (!userData.isAdmin) {
         return;
       } else {
         const response = await callApi({ url: 'orders' });
-        if (response) {
           console.log(response)
+        if (response) {
           setOrders(response);
+          return;
         };
         return
       };      
@@ -76,12 +90,14 @@ const App = () => {
     setUserData,
 
     allProducts,
-    getOrders
+    getOrders,
+    getCart
   };
 
   useEffect(() => {
     allProducts();
     getOrders();
+    getCart();
   }, [token]);
 
   useEffect(() => {
@@ -91,7 +107,7 @@ const App = () => {
     };
     const foundUserData = localStorage.getItem('userData');
     if (foundUserData) {
-      setUserData(JSON.parse(foundUserData));
+      setUserData(foundUserData);
     };
   },[]);
 
@@ -119,14 +135,17 @@ const App = () => {
       <Route exact path="/">
         <Home {...props} />
       </Route>
-      <Route exact path='orders'>
+      <Route exact path ='/cart'>
+        <Cart {...props} />
+      </Route>
+      <Route exact path='/orders'>
         <Orders {...props} />
       </Route>
       <Route exact path='/orders/:orderId'>
         <SingleOrder {...props} />
       </Route>
       <Route path="/products/:productId">
-        <SingleProduct />
+        <SingleProduct {...props} />
       </Route>
       <Route exact path="/products">
         <Products {...props} />
