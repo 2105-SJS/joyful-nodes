@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { callApi } from "../util";
 
 const SingleProduct = ({ cart, children, getCart, product, token }) => {
-    const [quantity, setQuantity] = useState(1);
     const [message, setMessage] = useState('');
+    let foundProd;
+    if (cart.products) {
+        foundProd = cart.products.find(prod => prod.id === product.id);
+    };
     
     const handleAddtoCart = async (event) => {
         event.preventDefault();
@@ -14,12 +17,11 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
                     url: `orders/${cart.id}/products`,
                     method: 'POST',
                     token,
-                    body: { quantity, productId: prodId }            
+                    body: { quantity: 1, productId: prodId }            
                 });
                 if (response) {
-                    setMessage(`${quantity} items were added to the cart!`)
+                    setMessage(`Item was added to the cart!`)
                     await getCart();
-                    setQuantity(1);
                     return response;
                 };    
             };            
@@ -35,16 +37,9 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
                 <h3>{product.name}</h3>
                 <p>{product.category}</p>
                 <p><b>Price:</b> ${product.price}</p>
-                <form className='submit-form' onSubmit={handleAddtoCart}>
-                    <fieldset>
-                        <label>Quantity: </label>
-                        <input type='number' value={quantity} onChange={(event) => setQuantity(event.target.value)} />
-                        <button type='submit'>Add to cart</button>
-                    </fieldset>
-                    { message && <div>{message}</div> }                    
-                </form>
+                { !foundProd && <button onClick={handleAddtoCart}>Add to cart</button> }
                 <br />
-
+                { message && <div>{message}</div> }
                 { children }
 
             </div>

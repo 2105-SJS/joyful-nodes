@@ -3,6 +3,7 @@ import { CartProduct } from '.';
 
 const Cart = ({ cart, getCart, token }) => {
     const { products } = cart;
+    
     if (products) {
         return <div className='cart-list'>
         {
@@ -11,6 +12,9 @@ const Cart = ({ cart, getCart, token }) => {
               <div>Quantity: {product.quantity}</div>
              }
          </CartProduct>)
+        }
+        {
+        products.length === 0 && <div className='cart-message'>Your cart is empty</div>
         }
         </div>;
     } else {

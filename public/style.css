@@ -160,6 +160,12 @@ main {
     border-bottom: none;
 }
 
+.cart-message {
+    font-size: 32px;
+    text-align: center;
+    margin-top: 3em;
+}
+
 .cart-list {
     display: flex;
     flex-direction: column;
