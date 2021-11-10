@@ -69,6 +69,17 @@ const App = () => {
     };
   };
 
+  const getUser = async () => {
+    try {
+      const response = await callApi({ url: 'users/me', token });
+      if (response) {
+        setUserData (response);
+      };
+    } catch (error) {
+      console.error(error);
+    };
+  };
+
   const props = {
     cart,
     setCart,
@@ -93,23 +104,21 @@ const App = () => {
 
     allProducts,
     getOrders,
-    getCart
+    getCart,
+    getUser
   };
 
   useEffect(() => {
     allProducts();
     getOrders();
     getCart();
+    getUser();
   }, [token]);
 
   useEffect(() => {
     const foundToken = localStorage.getItem('token');
     if (foundToken) {
       setToken(foundToken);
-    };
-    const foundUserData = localStorage.getItem('userData');
-    if (foundUserData) {
-      setUserData(JSON.parse(foundUserData));
     };
   }, []);
 

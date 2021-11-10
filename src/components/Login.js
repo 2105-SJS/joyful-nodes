@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 
 const Login = ({
   username, 
-  setUsername, 
+  setUsername,
   password,
   setPassword, 
   setToken,
@@ -14,8 +14,8 @@ const Login = ({
     const history = useHistory();
 
     return <>
-        <h2>Sign in</h2>
-        <form onSubmit={ async (event) => {
+        <h2 className='component-title'>Sign in</h2>
+        <form className='user-form' onSubmit={ async (event) => {
             await event.preventDefault();
             try {
                 const response = await callApi({
@@ -31,7 +31,6 @@ const Login = ({
                   setUserData(user);
                   setToken(token);
                   localStorage.setItem("token", token);
-                  localStorage.setItem('userData', JSON.stringify(user));
                   setUsername('');
                   setPassword('');
                   history.push("/");
@@ -40,16 +39,21 @@ const Login = ({
                 console.error(error);
               };
             }}>
-            <p>Username</p>
+            <p><b>Username</b></p>
             <input type ="text" placeholder="Username" value={username} onChange={(event) => setUsername(event.target.value)}></input>
-              <p>Password</p>
+            <br />
+            <p><b>Password</b></p>            
             <input type ="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)}></input>
-          <p>By submitting this form  agree to the terms and conditions.</p>
-          <button type="submit">LOGIN</button>
+            <br />
+            <p><i>By submitting this form  agree to the terms and conditions.</i></p>
+            <br />
+            <button type="submit">LOGIN</button>
+            <br />
+            <span>
+              Don't have an account yet? Click <Link to="/users/register" className='login-link'>here</Link> to register!
+            </span> 
           </form>
-          <span>
-            Don't have an account yet? Click<Link to="/users/register" className='login-link'>here</Link> to register!
-          </span>                    
+                             
     </>
 };
 
