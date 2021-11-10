@@ -1,11 +1,18 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom'
 import { callApi } from '../util';
 
-const CartProduct = ({ cart, product, children }) => {
-    console.log(cart)
+const CartProduct = ({ cart, getCart, product, token, children }) => {
+    const history = useHistory();
+
     const handleRemoveFromCart = async () => {
         try {
-            const response = await callApi ({ url: ''})
+            const orderProd = await callApi ({ url: `orders/${cart.id}/${product.id}`, token });
+            const response = await callApi ({ url: `order_products/${orderProd.id}`, method: 'DELETE', token})
+            if (response) {
+                await getCart();
+                history.push('/cart')
+            }
         } catch (error) {
             console.error (error);
         };
@@ -17,6 +24,7 @@ const CartProduct = ({ cart, product, children }) => {
             <h3>{product.name}</h3>
             <p><b>Price:</b> ${product.price}</p>
             { children }
+            <button onClick={handleRemoveFromCart}>Remove</button>
         </div>
     )
 }
