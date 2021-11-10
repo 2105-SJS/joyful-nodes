@@ -146,6 +146,30 @@ main {
     box-shadow: 5px 5px 10px #0000007a;
 }
 
+.cart-product {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #4d4d4d;
+}
+
+.cart-product:last-child {
+    border-bottom: none;
+}
+
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    height: 70vh;
+    background-color: #f0f8ffce;
+    border: 2px solid #005c6d;
+    border-radius: 12px;
+    padding: 8px;
+}
+
 .user-form {
     display: flex;
     flex-direction: column;

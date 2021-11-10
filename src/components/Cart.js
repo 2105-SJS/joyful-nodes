@@ -4,7 +4,7 @@ import { CartProduct } from '.';
 const Cart = ({ cart }) => {
     const { products } = cart;
     if (products) {
-        return <>
+        return <div className='cart-list'>
         {
          products.map(product => <CartProduct key={product.id} product={product}>
              {
@@ -12,7 +12,7 @@ const Cart = ({ cart }) => {
              }
          </CartProduct>)
         }
-        </>;
+        </div>;
     } else {
         return null
     }
