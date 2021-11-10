@@ -153,6 +153,7 @@ main {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #4d4d4d;
+    padding-right: 12px;
 }
 
 .cart-product:last-child {

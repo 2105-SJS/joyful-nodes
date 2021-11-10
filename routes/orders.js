@@ -47,6 +47,20 @@ ordersRouter.get('/cart', requireUser, async (req, res, next) => {
     };
 });
 
+ordersRouter.get('/:orderId/:productId', requireUser, async (req, res, next) =>{
+    try {
+        if (req.user) {
+            const { orderId, productId } = req.params;
+            const orderProd = await getOrderProductByOrderAndProduct({ orderId, productId })
+            if (orderProd) {
+                res.send(orderProd);
+            };
+        };
+    } catch (error) {
+        next (error);
+    };
+});
+
 ordersRouter.post('/', requireUser, async (req, res, next) => {
     try {
         const { id } = req.user;

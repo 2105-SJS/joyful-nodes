@@ -6,7 +6,7 @@ const Cart = ({ cart }) => {
     if (products) {
         return <div className='cart-list'>
         {
-         products.map(product => <CartProduct key={product.id} product={product}>
+         products.map(product => <CartProduct key={product.id} cart={cart} product={product}>
              {
               <div>Quantity: {product.quantity}</div>
              }
