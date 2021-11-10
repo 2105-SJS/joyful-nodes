@@ -23,7 +23,7 @@ const Register = ({
   return <>
     <h2 className='component-title'>Register</h2>
     <form className='user-form' onSubmit={async (event) => {
-      await event.preventDefault();
+      event.preventDefault();
       try {
         const response = await callApi({
           url: "users/register",
@@ -37,6 +37,7 @@ const Register = ({
           }
         });
         if (response) {
+          console.log(response)
           const { token, user } = response;
           setUserData(user);
           setToken(token);

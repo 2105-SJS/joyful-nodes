@@ -16,7 +16,7 @@ const Login = ({
     return <>
         <h2 className='component-title'>Sign in</h2>
         <form className='user-form' onSubmit={ async (event) => {
-            await event.preventDefault();
+            event.preventDefault();
             try {
                 const response = await callApi({
                   url: 'users/login',

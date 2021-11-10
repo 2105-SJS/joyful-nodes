@@ -29,15 +29,23 @@ const App = () => {
   const getCart = async () => {
     try {
       const response = await callApi({ url: 'orders/cart', token });
-      if (!response) {
-        await callApi ({ method: 'POST', url: 'orders', token });
-      }
       if (response) {
         setCart(response);
         localStorage.setItem('cart', JSON.stringify(response));
       };
     } catch (error) {
       console.error(error);
+    };
+  };
+
+  const createCart = async () => {
+    try {
+      const response = callApi ({ method: 'POST', url: 'orders', token });
+      if  (response) {
+        setCart (response);
+      };      
+    } catch (error) {
+      console.error (error);
     };
   };
 
@@ -104,15 +112,21 @@ const App = () => {
 
     allProducts,
     getOrders,
-    getCart,
-    getUser
+    getCart
   };
 
   useEffect(() => {
     allProducts();
-    getOrders();
+    if (userData.isAdmin) {
+      getOrders();
+    };
     getCart();
-    getUser();
+    if (!cart) {
+      createCart();
+    };
+    if (token) {
+      getUser();
+    };
   }, [token]);
 
   useEffect(() => {

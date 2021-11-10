@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { SingleProduct } from '.';
 import { callApi } from '../util';
 
-const ProductView = () => {
+const ProductView = ({ cart, getCart, token }) => {
     const { productId } = useParams();
     const [product, setProduct] = useState([])
 
@@ -25,7 +25,7 @@ const ProductView = () => {
         getSingleProd();
     }, [productId]);
 
-    return <SingleProduct product={product}>
+    return <SingleProduct key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
         { <p>{product.description}</p> }
         { <Link to='/products'>Go back</Link>}
     </SingleProduct>
