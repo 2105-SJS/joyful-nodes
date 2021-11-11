@@ -28,9 +28,13 @@ const Login = ({
                 });
                 if (response) {
                   const { token, user } = response;
-                  setUserData(user);
-                  setToken(token);
-                  localStorage.setItem("token", token);
+                  if (user) {
+                    setUserData(user);
+                  };
+                  if (token) {
+                    setToken(token);
+                    localStorage.setItem("token", token);
+                  };
                   setUsername('');
                   setPassword('');
                   history.push("/");

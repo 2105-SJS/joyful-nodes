@@ -51,9 +51,10 @@ const App = () => {
 
   const getOrders = async () => {
     try {
-      if (!userData.isAdmin) {
+      const { admin } = userData;
+      if (!admin) {
         return;
-      } else if (userData.isAdmin) {
+      } else {
         const response = await callApi({ url: 'orders' });
         if (response) {
           setOrders(response);
@@ -117,7 +118,8 @@ const App = () => {
 
   useEffect(() => {
     allProducts();
-    if (userData.isAdmin) {
+    const { admin } = userData;
+    if (admin) {
       getOrders();
     };
     getCart();
