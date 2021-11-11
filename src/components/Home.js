@@ -4,14 +4,14 @@ const Home = ({ token, userData }) => {
     if (userData && token) {
         return <>
             <div>
-                Welcome back, { userData.firstName }!         
+                <h2 className='component-title'>Welcome back, { userData.firstName }!</h2>         
             </div>
         </>
-    } else return <>
+    } else {return <>
         <div>
-            <h1>Welcome to Awesome Shoe Store Name!</h1>
-        </div>
-    </>
-}
+            <h2 className='component-title'>Welcome to Awesome Shoe Store Name!</h2>
+        </div> 
+    </>}
+};
 
 export default Home;

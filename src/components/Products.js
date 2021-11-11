@@ -2,26 +2,18 @@ import React from "react";
 import { SingleProduct } from ".";
 import { Link } from "react-router-dom";
 
-const Products = ({ products }) => {
+const Products = ({ cart, getCart, products, token }) => {
 
     return (
         <>
-            <h2>Products</h2><br />
+            <h2 className='component-title'>Products</h2><br />
             <div className='products-list'>
             {
-                products.map(product => <SingleProduct key={product.id} product={product}>
-
+                products.map(product => <SingleProduct key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
+                {
+                <Link to={`/products/${product.id}`}>More details...</Link>
+                }
                 </SingleProduct>)
-                // products.map(product => (
-                //     <div key={product.id} className='product'>
-                //         <img src={product.imgURL} alt={product.name} width='128' height='128'/>       
-                //         <h4>{product.name}</h4>
-                //         <p>{product.category}</p>
-                //         <p>{product.description}</p>
-                //         <p><b>Price:</b> ${product.price}</p>
-                //         <Link to={`/products/${product.id}`}>single view</Link>
-                //     </div>
-                // ))
             }
             </div>
         </>
