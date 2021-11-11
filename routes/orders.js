@@ -88,6 +88,7 @@ ordersRouter.post('/:orderId/products', requireUser, async (req, res, next) => {
         const product = await getProductById(productId);
         const newPrice = quantity * Number(product.price);
         if (order) {
+            console.log(req.user.id)
             if (order.userId !== req.user.id) {
                 res.status(401);
                 throw new Error('UnauthorizedUser')
