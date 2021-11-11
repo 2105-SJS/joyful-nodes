@@ -121,13 +121,13 @@ const App = () => {
     const { admin } = userData;
     if (admin) {
       getOrders();
-    };
-    getCart();
-    if (!cart) {
-      createCart();
-    };
+    };  
     if (token) {
       getUser();
+      getCart();
+      if (!cart) {
+        createCart();
+      };
     };
   }, [token]);
 
