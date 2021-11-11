@@ -10,7 +10,8 @@ import {
   ProductView,
   Register,
   SingleOrder,
-  UserOrders
+  UserOrders,
+  Admin,
 } from './';
 
 const App = () => {
@@ -40,12 +41,12 @@ const App = () => {
 
   const createCart = async () => {
     try {
-      const response = callApi ({ method: 'POST', url: 'orders', token });
-      if  (response) {
-        setCart (response);
-      };      
+      const response = callApi({ method: 'POST', url: 'orders', token });
+      if (response) {
+        setCart(response);
+      };
     } catch (error) {
-      console.error (error);
+      console.error(error);
     };
   };
 
@@ -82,7 +83,7 @@ const App = () => {
     try {
       const response = await callApi({ url: 'users/me', token });
       if (response) {
-        setUserData (response);
+        setUserData(response);
       };
     } catch (error) {
       console.error(error);
@@ -156,6 +157,12 @@ const App = () => {
               }}>Log out</button>
               : <Link to='/users/login' className='nav-link'>Sign in</Link>
           }
+          {
+            userData.isAdmin ?
+              <Link to="/admin" className='nav-link'>Admin Portal</Link>
+              :
+              null
+          }
           <Link to='/cart' className='nav-link cart'>
             <img src='/img/cart.png' width="26" height="22" />
           </Link>
@@ -180,6 +187,9 @@ const App = () => {
         <Route exact path="/products">
           <Products {...props} />
         </Route>
+        <Route exact path="/admin">
+          <Admin {...props} />
+        </Route>
         <Route exact path="/users/login">
           <Login  {...props} />
         </Route>
@@ -192,7 +202,7 @@ const App = () => {
       </main>
       <footer>
         <div>Photo by <a href="https://unsplash.com/@candrawnt_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Candra Winata</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-  </div>
+        </div>
       </footer>
     </div>
   </>
