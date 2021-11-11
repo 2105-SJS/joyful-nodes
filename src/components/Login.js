@@ -1,7 +1,6 @@
 import React from "react";
 import { callApi } from '../util';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { Link, useHistory } from 'react-router-dom';
 
 const Login = ({
   username, 
