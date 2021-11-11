@@ -155,7 +155,7 @@ const App = () => {
               }}>Log out</button>
               : <Link to='/users/login' className='nav-link'>Sign in</Link>
           }
-             {
+          {
             userData.isAdmin ?
               <Link to="/admin" className='nav-link'>Admin Portal</Link>
               :
