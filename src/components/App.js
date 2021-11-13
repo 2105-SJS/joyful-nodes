@@ -143,7 +143,7 @@ const App = () => {
   return <>
     <div className='bg-container'>
       <header>
-        <div><h1><Link to='/' className='site-title'>Awesome Shoe Store Name</Link></h1></div>
+        <div><h1><Link to='/' className='site-title'>Awesome Shoe Store</Link></h1></div>
         <div className='navigation'>
           <Link to='/products' className='nav-link'>Products</Link>
           {

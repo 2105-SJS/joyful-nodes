@@ -37,7 +37,7 @@ const Admin = ({ token, allProducts }) => {
                 history.push('/admin');
             };
         } catch (error) {
-            console.log(error);
+            console.error (error);
         };
     };
 
@@ -47,12 +47,12 @@ const Admin = ({ token, allProducts }) => {
                 url: "users",
                 token
             })
+            console.log(response, '<<<<')
             if (response) {
-                console.log(adminUsers)
                 setAdminUsers(response);
             }
         } catch (error) {
-            console.log(error);
+            console.error (error);
         }
     }
 
