@@ -237,3 +237,20 @@ footer {
     min-width: 100vw;
     padding: 4px;
 }
+
+a {
+    text-decoration: none;
+    color: #087570;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    padding: 8px;
+    color: #ffffff;
+    background-color: #087570;
+    border-radius: 24px;
+    text-decoration: none;
+}

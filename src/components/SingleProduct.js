@@ -38,7 +38,9 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
             <div className='product'>
                 <img className='prodIMG' src={product.imgURL} alt={product.name} width='128' height='128' />
                 <h3>{product.name}</h3>
+                <br />
                 <p>{product.category}</p>
+                <br />
                 <p><b>Price:</b> ${product.price}</p>
                 <br />
                 {!foundProd && token && <button onClick={handleAddtoCart}>Add to cart</button>}
