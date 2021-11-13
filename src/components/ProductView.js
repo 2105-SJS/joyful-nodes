@@ -27,6 +27,7 @@ const ProductView = ({ cart, getCart, token }) => {
 
     return <SingleProduct key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
         { <p>{product.description}</p> }
+        { <br /> }
         { <Link to='/products'>Go back</Link>}
     </SingleProduct>
 };
