@@ -41,10 +41,10 @@ const Admin = ({ token, allProducts }) => {
         };
     };
 
-    const getAdminUsers = async () => {
+    const adminGetUsers = async () => {
         try {
             const response = await callApi({
-                url: "/users",
+                url: "users",
             })
             if (response) {
                 setAdminUsers(response);
@@ -54,45 +54,10 @@ const Admin = ({ token, allProducts }) => {
         }
     }
 
-    // const titleHandler = (event) => {
-    //     setTitle(event.target.value);
-    // }
-
-    // const descriptionHandler = (event) => {
-    //     setDescription(event.target.value);
-    // };
-
-    // const priceHandler = (event) => {
-    //     setPrice(event.target.value);
-    // }
-
-    // const inStockHandler = (event) => {
-    //     setInStock(event.target.value);
-    // }
-    // const categoryHandler = (event) => {
-    //     setCategory(event.target.value);
-    // }
-
-    // const imgHandler = (event) => {
-    //     setImgUrl(event.target.value);
-    // }
-
-    // const submitHandler = (event) => {
-    //     event.preventDefault();
-
-    //     postProduct();
-
-    //     setTitle("");
-    //     setDescription("");
-    //     setPrice("")
-    //     setInStock(false);
-    //     setCategory("");
-    //     setImgUrl("");
-    // }
 
     useEffect(() => {
         if (token) {
-            getAdminUsers();
+            adminGetUsers();
         }
     }, []);
 
