@@ -143,12 +143,12 @@ const App = () => {
   return <>
     <div className='bg-container'>
       <header>
-        <div><h1><Link to='/' className='site-title'>Awesome Shoe Store Name</Link></h1></div>
+        <div><h1><Link to='/' className='site-title'>Awesome Shoe Store</Link></h1></div>
         <div className='navigation'>
           <Link to='/products' className='nav-link'>Products</Link>
           {
             token
-              ? <button className='nav-link' onClick={(event) => {
+              ? <button className='logout nav-link' onClick={(event) => {
                 event.preventDefault();
                 localStorage.removeItem("token");
                 localStorage.removeItem("userData");
@@ -161,10 +161,10 @@ const App = () => {
           }
           {
             userData.isAdmin
-              ? <Link to="/admin" className='nav-link'>Admin Portal</Link>
+              ? <Link to="/admin" className='nav-link cart-link'>Admin Portal</Link>
               : null
           }
-          <Link to='/cart' className='nav-link cart'>
+          <Link to='/cart' className='nav-link cart-link'>
             <img src='/img/cart.png' width="26" height="22" />
           </Link>
         </div>
@@ -191,9 +191,6 @@ const App = () => {
         <Route exact path="/products">
           <Products {...props} />
         </Route>
-        <Route exact path="/admin">
-          <Admin {...props} />
-        </Route>
         <Route exact path="/users/login">
           <Login  {...props} />
         </Route>
@@ -205,8 +202,9 @@ const App = () => {
         </Route>
       </main>
       <footer>
-        <div>Photo by <a href="https://unsplash.com/@candrawnt_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Candra Winata</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+        <div className='photocredit'>Photo by <a href="https://unsplash.com/@candrawnt_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Candra Winata</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
         </div>
+        <div className='creditline'>built with love by Carlos Escamilla, Juan Soto & Jason Lammers | check out our source on <a href='https://github.com/2105-SJS/joyful-nodes.git'><img src='./img/952942.webp' height='24' width='24'/> GitHub</a></div>
       </footer>
     </div>
   </>
