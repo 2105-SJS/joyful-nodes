@@ -3,6 +3,7 @@ const {
   addProductToOrder,
   createProduct,
   createOrder,
+  createAdminUser,
   createUser,
   createReview,
   updateOrder,
@@ -144,6 +145,12 @@ const populateInitialData = async () => {
     console.log(users);
     console.log('Finished creating users!');
 
+    console.log("Creating admin user...");
+    const adminToCreate = { firstName: 'admin', lastName: 'overloard', email: 'admin@awesomeshoestorename.com', password: 'password', isAdmin: true };
+    const admin = await createAdminUser(adminToCreate);
+    console.log('Admin created');
+    console.log(admin);
+    console.log('Finished creating Admin');
 
     console.log("Creating orders...");
     const ordersToCreate = [
