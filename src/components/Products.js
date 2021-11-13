@@ -2,7 +2,7 @@ import React from "react";
 import { SingleProduct } from ".";
 import { Link } from "react-router-dom";
 
-const Products = ({ cart, getCart, products, token }) => {
+const Products = ({ cart, getCart, products, token, reviews }) => {
     
 
     return (
@@ -14,8 +14,6 @@ const Products = ({ cart, getCart, products, token }) => {
                 {
                 <Link to={`/products/${product.id}`}>More details...</Link>
                 }
-                <h3>Reviews:</h3>
-                <p>&#9733; &#9733; &#9733; &#9734; &#9734;</p>
                 </SingleProduct>)
             }
             </div>

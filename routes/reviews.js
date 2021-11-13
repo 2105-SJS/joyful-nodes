@@ -85,14 +85,11 @@ reviewsRouter.patch('/:reviewId', requireUser, async (req, res, next) => {
 reviewsRouter.delete('/:reviewId', requireUser, async (req, res, next) => {
     const { reviewId } = req.params;
     try {
-        const review = await getReviewById(reviewId);
-        if (review.userId === req.user.id) {
             const deletedReview = await destroyReview(reviewId);
             if (deletedReview) {
                 res.status(200);
                 res.send(deletedReview);
             };
-        };
     } catch (error) {
         next(error);
     };
