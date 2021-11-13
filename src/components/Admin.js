@@ -42,7 +42,7 @@ const Admin = ({ token, allProducts }) => {
 
     return (
         <>
-            <Link style={{color: "white", fontSize: "30px"}} to="/users">View Users</Link>
+            <Link className='users-link' style={{color: "white", fontSize: "30px"}} to="/users">View Users</Link>
             <h2 className='component-title'>Post a product</h2>
             <form className="submit-form" onSubmit={postProduct}>
                 <input type="text" placeholder="title" value={name} onChange={(event) => setName(event.target.value)} />

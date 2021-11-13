@@ -178,6 +178,19 @@ main {
     object-fit: contain;
 }
 
+.users-link {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 2px solid #ffffff;
+    background:#005c6d;
+    border-radius: 28px;
+    padding: 12px;
+}
+
+.users-link:hover {
+    background-color: #005d6da8;
+}
+
 .cart-product {
     display: flex;
     flex-direction: row;
