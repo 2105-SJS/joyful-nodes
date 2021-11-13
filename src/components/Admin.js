@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 
 const Admin = ({ token, allProducts }) => {
     const history = useHistory();
-    const [adminUsers, setAdminUsers] = useState([]);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
@@ -40,28 +39,6 @@ const Admin = ({ token, allProducts }) => {
             console.error (error);
         };
     };
-
-    const adminGetUsers = async () => {
-        try {
-            const response = await callApi({
-                url: "users",
-                token
-            })
-            console.log(response, '<<<<')
-            if (response) {
-                setAdminUsers(response);
-            }
-        } catch (error) {
-            console.error (error);
-        }
-    }
-
-
-    useEffect(() => {
-        if (token) {
-            adminGetUsers();
-        }
-    }, []);
 
     return (
         <>
