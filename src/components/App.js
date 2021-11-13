@@ -212,7 +212,7 @@ const App = () => {
       <footer>
         <div className='photocredit'>Photo by <a href="https://unsplash.com/@candrawnt_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Candra Winata</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
         </div>
-        <div className='creditline'>built with love by Carlos Escamilla, Juan Soto & Jason Lammers | check out our source on <a href='https://github.com/2105-SJS/joyful-nodes.git'><img src='./img/952942.webp' height='24' width='24'/> GitHub</a></div>
+        <div className='creditline'>built with love by Carlos Escamilla, Juan Soto & Jason Lammers | check out our source on <a href='https://github.com/2105-SJS/joyful-nodes.git'>GitHub</a></div>
       </footer>
     </div>
   </>
