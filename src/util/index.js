@@ -1,22 +1,20 @@
-export const callApi = async ({ url, method, token, body }) => {
-    try {
-        const options = {
-            method: method ? method.toUpperCase() : "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(body)
-        };
-        if (token) options.headers["Authorization"] = `Bearer ${token}`;
-
-        const response = await fetch(`api${url}`, options);
-        const result = await response.json();
-        if (result.error) {
-            throw (result.error);
-        }
-        return result;
+export const callApi = async ({url, method, token, body}) => {
+  try {
+    const options = {
+      method: method ? method.toUpperCase() : 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    };
+    if (token) options.headers['Authorization'] = `Bearer ${token}`;
+    const response = await fetch(`/api/${url}`, options);
+    const data = await response.json();
+    if(data.error) {
+      return ({error: data.error})
     }
-    catch (error) {
-        console.log(error);
-    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 }

@@ -32,13 +32,32 @@ ordersRouter.get('/', requireAdmin, async (req, res, next) => {
 
 ordersRouter.get('/cart', requireUser, async (req, res, next) => {
     try {
-        const { id } = req.user;
-        const cart = await getCartByUser({ id });
-        if (cart) {
-            res.send(cart);
-        };
+        if (req.user) {
+            const { id } = req.user;
+            const cart = await getCartByUser({ id });
+            if (cart) {
+                res.send(cart[0]);
+            };
+        } else {
+            res.status(500);
+            res.send('Cart not found')
+        };       
     } catch (error) {
         next(error);
+    };
+});
+
+ordersRouter.get('/:orderId/:productId', requireUser, async (req, res, next) =>{
+    try {
+        if (req.user) {
+            const { orderId, productId } = req.params;
+            const orderProd = await getOrderProductByOrderAndProduct({ orderId, productId })
+            if (orderProd) {
+                res.send(orderProd);
+            };
+        };
+    } catch (error) {
+        next (error);
     };
 });
 
@@ -69,6 +88,7 @@ ordersRouter.post('/:orderId/products', requireUser, async (req, res, next) => {
         const product = await getProductById(productId);
         const newPrice = quantity * Number(product.price);
         if (order) {
+            console.log(req.user.id)
             if (order.userId !== req.user.id) {
                 res.status(401);
                 throw new Error('UnauthorizedUser')
@@ -110,11 +130,8 @@ ordersRouter.patch('/:orderId', requireUser, async (req, res, next) => {
     try {
         const { status } = req.body;
         const order = await getOrderById(req.params.orderId)
-        console.log(order)
         if (order.userId === req.user.id) {
-            console.log('true')
             const updatedOrder = await updateOrder({ id: req.params.orderId, status, userId: req.user.id })
-            console.log(updatedOrder)
             if (updatedOrder) {
                 res.status(200);
                 res.send(updatedOrder);
@@ -141,11 +158,8 @@ ordersRouter.delete('/:orderId', requireUser, async (req, res, next) => {
     try {
         const status = 'cancelled';
         const order = await getOrderById(req.params.orderId)
-        console.log(order)
         if (order.userId === req.user.id) {
-            console.log('true')
             const updatedOrder = await updateOrder({ id: req.params.orderId, status, userId: req.user.id })
-            console.log(updatedOrder)
             if (updatedOrder) {
                 res.status(200);
                 res.send(updatedOrder);

@@ -1,4 +1,12 @@
-export {default as Home} from "./Home";
+export { default as Cart } from './Cart';
+export { default as CartProduct } from './CartProduct';
+export { default as Home } from './Home';
+export { default as Login } from './Login';
+export { default as Orders } from './Orders'
 export { default as Products } from './Products';
+export { default as ProductView } from './ProductView';
 export { default as SingleOrder } from './SingleOrder';
-export {default as SingleProduct} from "./SingleProduct"
+export { default as SingleProduct } from './SingleProduct';
+export { default as Register } from './Register';
+export { default as UserOrders } from './UserOrders'
+export { default as Admin } from './Admin'

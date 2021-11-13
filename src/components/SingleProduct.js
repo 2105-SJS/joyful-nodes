@@ -1,16 +1,57 @@
-import React from "react";
-// import { useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { callApi } from "../util";
 
-const SingleProduct = ({ product }) => {
+const SingleProduct = ({ cart, children, getCart, product, token }) => {
+    const [message, setMessage] = useState('');
+    let foundProd;
+    if (cart.products) {
+        foundProd = cart.products.find(prod => prod.id === product.id);
+    };
 
-    return (
-        <>
-            <h4>{product.name}</h4>
-            <p>{product.category}</p>
-            <p>{product.description}</p>
-            <p>{product.price}</p>
+    const handleAddtoCart = async (event) => {
+        event.preventDefault();
+        try {
+            if (cart && product) {
+                const prodId = Number(product.id);
+                const { id } = cart;
+                if (id) {
+                    const response = await callApi({
+                        url: `orders/${id}/products`,
+                        method: 'POST',
+                        token,
+                        body: { quantity: 1, productId: prodId }
+                    });
+                    if (response) {
+                        setMessage(`Item was added to the cart!`)
+                        await getCart();
+                        return response;
+                    };
+                };
+            };
+        } catch (error) {
+            console.error(error);
+        };
+    };
+
+    return product
+        ? <>
+            <div className='product'>
+                <img className='prodIMG' src={product.imgURL} alt={product.name} width='128' height='128' />
+                <h3>{product.name}</h3>
+                <br />
+                <p>{product.category}</p>
+                <br />
+                <p><b>Price:</b> ${product.price}</p>
+                <br />
+                {!foundProd && token && <button onClick={handleAddtoCart}>Add to cart</button>}
+                {foundProd && token && <span>Already in your cart!</span>}
+                <br />
+                {message && <div>{message}</div>}
+                {children}
+
+            </div>
         </>
-    )
+        : 'loading...'
 }
 
 export default SingleProduct;

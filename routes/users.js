@@ -1,10 +1,10 @@
 const express = require("express");
 const usersRouter = express.Router();
 const jwt = require('jsonwebtoken');
-const bcrypt = require ('bcrypt');
+const bcrypt = require('bcrypt');
 const { JWT_SECRET } = process.env;
-const { requireUser } = require('./utils');
-const { createUser, getUserByUsername, getOrdersByUser } = require("../db");
+const { requireUser, requireAdmin } = require('./utils');
+const { createUser, getUserByUsername, getUserById, getOrdersByUser, getAllUsers, getUser, updateUser } = require("../db");
 
 usersRouter.use((req, res, next) => {
     console.log("A request has been made to /users");
@@ -14,24 +14,24 @@ usersRouter.use((req, res, next) => {
 usersRouter.post("/register", async (req, res, next) => {
     const { firstName, lastName, email, username, password } = req.body;
     try {
-        if(!username || !password){
+        if (!username || !password) {
             next({
                 name: 'CredentialsError',
                 message: 'Username and Password are required'
-              });
+            });
         }
         const checkUsername = await getUserByUsername(username);
-        if(checkUsername){
+        if (checkUsername) {
             next({
                 name: 'UsernameError',
                 message: 'Username already exists'
-              });
+            });
         }
-        else if(password.length < 8){
+        else if (password.length < 8) {
             next({
                 name: 'PasswordError',
                 message: 'Password cannot be less than 8 characters'
-              });
+            });
         }
         const user = await createUser({
             firstName: firstName,
@@ -40,11 +40,12 @@ usersRouter.post("/register", async (req, res, next) => {
             username: username.toLowerCase(),
             password: password
         });
-        res.send({
-            user: user
-        });
-    }
-    catch (error) {
+        if (user) {
+            const token = jwt.sign(user, JWT_SECRET);
+            const { id, firstName, lastName, username, isAdmin } = user;
+            res.send({ message: `Thank you for signing up!!`, token, user: { id, firstName, lastName, username, isAdmin } })
+        }
+    } catch (error) {
         next(error);
     }
 });
@@ -56,7 +57,7 @@ usersRouter.post('/login', async (req, res, next) => {
         const hashedPassword = user.password;
         const passwordsMatch = await bcrypt.compare(password, hashedPassword);
         if (!username || !password) {
-            next ({
+            next({
                 name: 'MissingCredentialsError',
                 message: 'Please supply both a username and password'
             });
@@ -70,25 +71,28 @@ usersRouter.post('/login', async (req, res, next) => {
             next({
                 name: 'CredentialsError',
                 message: 'Invalid credentials'
-              });
+            });
         };
     } catch (error) {
         next(error);
     };
 });
 
-usersRouter.get("/me", async (req, res, next) => {
+usersRouter.get('/me', requireUser, async (req, res, next) =>{
+    const prefix = 'Bearer ';
+    const auth = req.headers.authorization;
     try {
-        if(req.auth){
-            res.send(req.auth);
+        if (!auth) {
+            res.sendStatus(401);
+        } else if (auth.startsWith(prefix)) {
+            const token = auth.slice(prefix.length)
+            const { id } = jwt.verify(token, JWT_SECRET);
+            req.user = await getUserById(id);
+            res.send(req.user)
         }
-        else{
-            next('User not found');
-        }
-    }
-    catch (error) {
+    } catch (error) {
         next(error);
-    }
+    };
 });
 
 usersRouter.get('/:userId/orders', requireUser, async (req, res, next) => {
@@ -96,11 +100,38 @@ usersRouter.get('/:userId/orders', requireUser, async (req, res, next) => {
         const { id } = req.user;
         const orders = await getOrdersByUser({ id });
         if (orders) {
-            res.send (orders);
+            res.send(orders);
         };
     } catch (error) {
-        next (error);
+        next(error);
     };
 });
+
+usersRouter.get('/', requireAdmin, async (req, res, next) => {
+    try {
+        const users = await getAllUsers();
+        if (users) {
+            res.send(users);
+        };
+    } catch (error) {
+        next(error);
+    };
+});
+
+usersRouter.patch("/:userId", requireAdmin, async (req, res, next) => {
+    const { userId } = req.params;
+    const { firstName, lastName, email, imageURL, username, password, isAdmin } = req.body;
+    try {
+        const user = await updateUser({ userId, firstName, lastName, email, imageURL, username, password, isAdmin });
+        if (user) {
+            res.send(user);
+        } else {
+            next(error);
+        }
+    } catch (error) {
+        next(error);
+    };
+});
+
 
 module.exports = usersRouter;

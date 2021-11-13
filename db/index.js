@@ -6,5 +6,7 @@ module.exports = {
   ...require("./adapterMethods/products"),
   ...require("./adapterMethods/users"),
   ...require("./adapterMethods/orders"),
-  ...require("./adapterMethods/order_products")
+  ...require("./adapterMethods/order_products"),
+  ...require("./adapterMethods/reviews")
+
 }

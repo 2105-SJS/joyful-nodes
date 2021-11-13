@@ -1,6 +1,7 @@
 const express = require("express");
 const productsRouter = express.Router();
-const { getAllProducts, getProductById } = require("../db");
+const { requireAdmin } = require('./utils');
+const { getAllProducts, getProductById, createProduct, destroyProduct, updateProduct, getOrdersByProduct } = require("../db");
 
 productsRouter.use((req, res, next) => {
     console.log("A request has been made to /products");
@@ -24,10 +25,10 @@ productsRouter.get("/", async (req, res, next) => {
 });
 
 productsRouter.get("/:productId", async (req, res, next) => {
-    const id = req.params.productId;
+    const { productId } = req.params;
 
     try {
-        const product = await getProductById(id);
+        const product = await getProductById(productId);
 
         if (product) {
             res.send(product);
@@ -38,6 +39,69 @@ productsRouter.get("/:productId", async (req, res, next) => {
     catch (error) {
         next(error);
     }
+});
+
+productsRouter.post('/', requireAdmin, async (req, res, next) => {
+    const { name, description, price, imgURL, inStock, category } = req.body;
+    try {
+        if (!imgURL) {
+            imgURL = 'https://louisville.edu/enrollmentmanagement/images/person-icon/image'
+        };
+        const product = await createProduct({
+            name,
+            description,
+            price,
+            imgURL,
+            inStock,
+            category
+        });
+        if (product) {
+            res.send(product);
+        };
+    } catch (error) {
+        next(error);
+    };
+});
+
+productsRouter.delete('/:productId', requireAdmin, async (req, res, next) => {
+    const { productId } = req.params
+    try {
+        const product = await destroyProduct(productId);
+        if (product) {
+            res.send(product);
+        };
+    } catch (error) {
+        next(error);
+    };
+});
+
+productsRouter.patch("/:productId", requireAdmin, async (req, res, next) => {
+    const { productId } = req.params;
+    const { name, description, price, imgURL } = req.body;
+    try {
+        const productUpdated = await updateProduct({ id, name, description, price, imgURL });
+        if (productUpdated) {
+            res.send(productUpdated);
+        } else {
+            next(error);
+        }
+    } catch (error) {
+        next(error);
+    };
+});
+
+productsRouter.get("/:productId/orders", requireAdmin, async (req, res, next) => {
+    const { productId } = req.params;
+    try {
+        const orders = await getOrdersByProduct(productId);
+        if (orders) {
+            res.send(orders);
+        } else {
+            next(error);
+        }
+    } catch (error) {
+        next(error);
+    };
 });
 
 module.exports = productsRouter;
