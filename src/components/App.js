@@ -16,6 +16,7 @@ import {
 
 const App = () => {
   const history = useHistory();
+  const [adminUsers, setAdminUsers] = useState([]);
   const [cart, setCart] = useState({});
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -94,7 +95,23 @@ const App = () => {
     };
   };
 
+  const adminGetUsers = async () => {
+    try {
+        const response = await callApi({
+            url: "users",
+            token
+        });
+        if (response) {
+            setAdminUsers(response);
+        };
+    } catch (error) {
+        console.error (error);
+    };
+};
+
   const props = {
+    adminUsers,
+    setAdminUsers,
     cart,
     setCart,
     email,
@@ -123,13 +140,14 @@ const App = () => {
 
   useEffect(() => {
     allProducts();
-    const { admin } = userData;
-    if (admin) {
-      getOrders();
-    };  
     if (token) {
       getUser();
       getCart();
+      const { isAdmin } = userData;
+      if (isAdmin) {
+        getOrders();
+        adminGetUsers();
+      };  
     };
   }, [token]);
 
