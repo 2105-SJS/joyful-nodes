@@ -122,11 +122,8 @@ const App = () => {
     allProducts,
     getOrders,
     getCart,
-<<<<<<< HEAD
     reviews,
     setReviews
-=======
->>>>>>> d769ea219190f30d8c0b8f8e5c5e329c628d4faf
   };
 
   useEffect(() => {

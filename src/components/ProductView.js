@@ -65,7 +65,6 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
                   }
                 });
                 if (response) {
-                  console.log("[][][]", response)
                   setTitle('');
                   setContent('');
                   setStars('');
