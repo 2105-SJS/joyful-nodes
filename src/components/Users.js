@@ -27,7 +27,8 @@ const Users = ({token}) => {
         <>
             {
                 adminUsers.map((user) => (
-                    <div key={user.id} style={{color: "white"}}>
+                    <div className='user product' key={user.id} style={{color: "white"}}>
+                        <img className='usrIMG' src={user.imageURL} alt={user.name} width='128' height='128'/>
                         <h3>{user.firstName} {user.lastName}</h3>
                         <h4>{user.email}</h4>
                     </div>
