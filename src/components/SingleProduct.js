@@ -12,19 +12,22 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
         event.preventDefault();
         try {
             if (cart && product) {
-                const prodId = Number(product.id)
-                const response = await callApi({
-                    url: `orders/${cart.id}/products`,
-                    method: 'POST',
-                    token,
-                    body: { quantity: 1, productId: prodId }            
-                });
-                if (response) {
-                    setMessage(`Item was added to the cart!`)
-                    await getCart();
-                    return response;
-                };    
-            };            
+                const prodId = Number(product.id);
+                const { id } = cart;
+                if (id) {
+                    const response = await callApi({
+                        url: `orders/${id}/products`,
+                        method: 'POST',
+                        token,
+                        body: { quantity: 1, productId: prodId }            
+                    });
+                    if (response) {
+                        setMessage(`Item was added to the cart!`)
+                        await getCart();
+                        return response;
+                    };   
+                };
+            };
         } catch (error) {
             console.error (error);
         };
@@ -58,8 +61,13 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
                 { !foundProd && <button onClick={handleAddtoCart}>Add to cart</button> }
                 <br />
                 { message && <div>{message}</div> }
+<<<<<<< HEAD
                 { children }                
 
+=======
+                { children }
+      
+>>>>>>> 5a548889a3ebdc4103e4b0b18334be9ab0b257f2
             </div>
         </> 
         : 'loading...'

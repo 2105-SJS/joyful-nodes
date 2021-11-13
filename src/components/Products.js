@@ -3,6 +3,7 @@ import { SingleProduct } from ".";
 import { Link } from "react-router-dom";
 
 const Products = ({ cart, getCart, products, token }) => {
+    
 
     return (
         <>
@@ -23,3 +24,4 @@ const Products = ({ cart, getCart, products, token }) => {
 };
 
 export default Products;
+

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { callApi } from '../util';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const Register = ({
   email,
@@ -37,11 +37,14 @@ const Register = ({
           }
         });
         if (response) {
-          console.log(response)
           const { token, user } = response;
-          setUserData(user);
-          setToken(token);
-          localStorage.setItem("token", token);
+          if (user) {
+            setUserData(user);
+          };
+          if (token) {
+            setToken(token);
+            localStorage.setItem("token", token);
+          };
           setUsername('');
           setPassword('');
           setFirstName('');
