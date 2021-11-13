@@ -146,7 +146,7 @@ const populateInitialData = async () => {
     console.log('Finished creating users!');
 
     console.log("Creating admin user...");
-    const adminToCreate = { firstName: 'admin', lastName: 'overloard', email: 'admin@awesomeshoestorename.com', password: 'password', isAdmin: true };
+    const adminToCreate = { firstName: 'admin', lastName: 'overloard', username: 'admin', email: 'admin@awesomeshoestorename.com', password: 'password', isAdmin: true };
     const admin = await createAdminUser(adminToCreate);
     console.log('Admin created');
     console.log(admin);
