@@ -12,7 +12,7 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
         event.preventDefault();
         try {
             if (cart && product) {
-                const prodId = Number(product.id)
+                const prodId = Number(product.id);
                 const { id } = cart;
                 if (id) {
                     const response = await callApi({
@@ -44,7 +44,7 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
                 <br />
                 { message && <div>{message}</div> }
                 { children }
-
+      
             </div>
         </> 
         : 'loading...'

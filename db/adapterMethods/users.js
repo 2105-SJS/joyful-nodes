@@ -4,9 +4,9 @@ const bcrypt = require("bcrypt");
 const createUser = async ({ firstName, lastName, email, imageURL, username, password, isAdmin }) => {
     try {
         const saltRounds = 10;
-        if (!isAdmin) {
-            isAdmin = false;
-        };
+        // if (!isAdmin) {
+        //     isAdmin = false;
+        // };
         if (!imageURL) {
             imageURL = 'https://louisville.edu/enrollmentmanagement/images/person-icon/image'
         };
