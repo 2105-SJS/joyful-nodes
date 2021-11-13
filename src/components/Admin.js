@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { callApi } from '../util';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 const Admin = ({ token, allProducts }) => {
     const history = useHistory();
@@ -36,25 +36,26 @@ const Admin = ({ token, allProducts }) => {
                 history.push('/admin');
             };
         } catch (error) {
-            console.error (error);
+            console.error(error);
         };
     };
 
     return (
         <>
+            <Link style={{color: "white", fontSize: "30px"}} to="/users">View Users</Link>
             <h2 className='component-title'>Post a product</h2>
             <form className="submit-form" onSubmit={postProduct}>
                 <input type="text" placeholder="title" value={name} onChange={(event) => setName(event.target.value)} />
                 <input type="text" placeholder="description" value={description} onChange={(event) => setDescription(event.target.value)} />
                 <fieldset>
                     $<input type="text" placeholder="price" value={price} onChange={(event) => setPrice(event.target.value)} />
-                </fieldset>               
+                </fieldset>
                 <input type="text" placeholder="category" value={category} onChange={(event) => setCategory(event.target.value)} />
                 <input type="text" placeholder="imgURL" value={imgURL} onChange={(event) => setImgURL(event.target.value)} />
                 <br />
                 <fieldset>
                     <label>In stock: </label>
-                    <select placeholder='no' onChange={(event) => {setInStock(event.target.value)}}>
+                    <select placeholder='no' onChange={(event) => { setInStock(event.target.value) }}>
                         <option value='false'>NO</option>
                         <option value='true'>YES</option>
                     </select>

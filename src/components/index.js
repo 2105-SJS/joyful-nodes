@@ -10,3 +10,4 @@ export { default as SingleProduct } from './SingleProduct';
 export { default as Register } from './Register';
 export { default as UserOrders } from './UserOrders'
 export { default as Admin } from './Admin'
+export { default as Users } from './Users'
