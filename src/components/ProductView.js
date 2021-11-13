@@ -47,9 +47,11 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
 
     return <>
     <SingleProduct key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
-        { <p>{product.description}</p> }
+        <div className='description'>
+            { <p>{product.description}</p> }
+        </div>
         { <br /> }
-        <h2>Write a review</h2>
+        <h2 className='component-title'>Write a review</h2>
         <form className='user-form' onSubmit={ async (event) => {
             event.preventDefault();
             try {
@@ -77,7 +79,7 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
             <br />
             <input type ="text" placeholder="Content" value={content} onChange={(event) => setContent(event.target.value)}></input>
             <br />
-            <input type ="text" placeholder="Stars" value={stars} onChange={(event) => setStars(event.target.value)}></input>
+            <input type ="text" placeholder="Stars (1-5)" value={stars} onChange={(event) => setStars(event.target.value)}></input>
             <br />
             <button type="submit">Submit</button>
             <br />
