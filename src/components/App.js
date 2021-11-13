@@ -12,6 +12,7 @@ import {
   SingleOrder,
   UserOrders,
   Admin,
+  Users
 } from './';
 
 const App = () => {
@@ -121,19 +122,22 @@ const App = () => {
     allProducts,
     getOrders,
     getCart,
+<<<<<<< HEAD
     reviews,
     setReviews
+=======
+>>>>>>> d769ea219190f30d8c0b8f8e5c5e329c628d4faf
   };
 
   useEffect(() => {
     allProducts();
-    const { admin } = userData;
-    if (admin) {
-      getOrders();
-    };  
     if (token) {
       getUser();
       getCart();
+      const { isAdmin } = userData;
+      if (isAdmin) {
+        getOrders();
+      };  
     };
   }, [token]);
 
@@ -200,6 +204,9 @@ const App = () => {
         </Route>
         <Route exact path='/users/:userId/orders'>
           <UserOrders {...props} />
+        </Route>
+        <Route exact path="/users">
+          <Users {...props} />
         </Route>
         <Route exact path="/users/register">
           <Register {...props} />
