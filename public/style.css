@@ -159,6 +159,25 @@ main {
     object-fit: contain;
 }
 
+.user h3 {
+    color: #000000;
+}
+
+.user h4 {
+    color: #272727;
+    font-style: oblique;
+}
+
+.usrIMG {
+    border: 1px solid #005c6d;
+    border-radius: 50%;
+    padding: 6px;
+    background: #ffffff;
+    margin: 8px;
+    box-shadow: 5px 5px 10px #0000007a;
+    object-fit: contain;
+}
+
 .cart-product {
     display: flex;
     flex-direction: row;
