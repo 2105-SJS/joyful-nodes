@@ -159,6 +159,12 @@ main {
     object-fit: contain;
 }
 
+.description {
+    background-color: #f0f8ffce;
+    padding: 12px;
+    border-radius: 12px;
+}
+
 .user h3 {
     color: #000000;
 }
