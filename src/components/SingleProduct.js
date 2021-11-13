@@ -33,7 +33,7 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
         };
     };
 
-    return product
+    return product 
         ? <>
             <div className='product'>
                 <img className='prodIMG' src={product.imgURL} alt={product.name} width='128' height='128' />

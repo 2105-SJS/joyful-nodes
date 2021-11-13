@@ -27,6 +27,8 @@ const App = () => {
   const [token, setToken] = useState('');
   const [username, setUsername] = useState('');
   const [userData, setUserData] = useState({});
+  const [reviews, setReviews] = useState([]);
+
 
   const createCart = async () => {
     try {
@@ -120,6 +122,8 @@ const App = () => {
     allProducts,
     getOrders,
     getCart,
+    reviews,
+    setReviews
   };
 
   useEffect(() => {

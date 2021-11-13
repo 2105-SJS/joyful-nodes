@@ -2,7 +2,7 @@ import React from "react";
 import { SingleProduct } from ".";
 import { Link } from "react-router-dom";
 
-const Products = ({ cart, getCart, products, token }) => {
+const Products = ({ cart, getCart, products, token, reviews }) => {
     
 
     return (
