@@ -61,13 +61,8 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
                 { !foundProd && <button onClick={handleAddtoCart}>Add to cart</button> }
                 <br />
                 { message && <div>{message}</div> }
-<<<<<<< HEAD
-                { children }                
-
-=======
                 { children }
       
->>>>>>> 5a548889a3ebdc4103e4b0b18334be9ab0b257f2
             </div>
         </> 
         : 'loading...'

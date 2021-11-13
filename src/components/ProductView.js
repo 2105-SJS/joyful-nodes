@@ -24,12 +24,15 @@ const ProductView = ({ cart, getCart, token }) => {
 
     const productReviews = async () => {
         try {
+                const id = parseInt(productId, 10);
                 const response = await callApi({
-                    url: `reviews/product/${productId}`        
+                    url: `reviews/product/${id}`,
+                    token        
                 });
                 if (response) {
-                    //console.log("@@!!$$", response);
                     setReviews(response);
+                    console.log("@@!!$$", response);
+
                 };              
         } catch (error) {
             console.error (error);
@@ -38,7 +41,7 @@ const ProductView = ({ cart, getCart, token }) => {
 
     useEffect(() => {
         getSingleProd();
-        productReviews();
+       //productReviews()
     }, [productId]);
 
     return <SingleProduct key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
