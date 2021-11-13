@@ -12,11 +12,11 @@ import {
   SingleOrder,
   UserOrders,
   Admin,
+  Users
 } from './';
 
 const App = () => {
   const history = useHistory();
-  const [adminUsers, setAdminUsers] = useState([]);
   const [cart, setCart] = useState({});
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -95,23 +95,7 @@ const App = () => {
     };
   };
 
-  const adminGetUsers = async () => {
-    try {
-        const response = await callApi({
-            url: "users",
-            token
-        });
-        if (response) {
-            setAdminUsers(response);
-        };
-    } catch (error) {
-        console.error (error);
-    };
-};
-
   const props = {
-    adminUsers,
-    setAdminUsers,
     cart,
     setCart,
     email,
@@ -135,7 +119,7 @@ const App = () => {
 
     allProducts,
     getOrders,
-    getCart
+    getCart,
   };
 
   useEffect(() => {
@@ -146,7 +130,6 @@ const App = () => {
       const { isAdmin } = userData;
       if (isAdmin) {
         getOrders();
-        adminGetUsers();
       };  
     };
   }, [token]);
@@ -214,6 +197,9 @@ const App = () => {
         </Route>
         <Route exact path='/users/:userId/orders'>
           <UserOrders {...props} />
+        </Route>
+        <Route exact path="/users">
+          <Users {...props} />
         </Route>
         <Route exact path="/users/register">
           <Register {...props} />
