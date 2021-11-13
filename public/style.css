@@ -88,10 +88,22 @@ button:hover {
     color: #ffffff;
 }
 
+.nav-link:hover {
+    border: 1px solid #005c6d;
+    background: #005c6d;
+    border-radius: 0;
+    color: #ffffff;
+}
+
 button:active {
     border: 1px solid #005c6d;
     background: #005c6d;
     color: #ffffff;
+}
+
+.logout {
+    border: none;
+    font-size: 22px;
 }
 
 main {

@@ -148,7 +148,7 @@ const App = () => {
           <Link to='/products' className='nav-link'>Products</Link>
           {
             token
-              ? <button className='nav-link' onClick={(event) => {
+              ? <button className='logout nav-link' onClick={(event) => {
                 event.preventDefault();
                 localStorage.removeItem("token");
                 localStorage.removeItem("userData");
@@ -190,9 +190,6 @@ const App = () => {
         </Route>
         <Route exact path="/products">
           <Products {...props} />
-        </Route>
-        <Route exact path="/admin">
-          <Admin {...props} />
         </Route>
         <Route exact path="/users/login">
           <Login  {...props} />

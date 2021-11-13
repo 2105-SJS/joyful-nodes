@@ -7,8 +7,8 @@ const Admin = ({ token, allProducts }) => {
     const [adminUsers, setAdminUsers] = useState([]);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [price, setPrice] = useState(Number);
-    const [inStock, setInStock] = useState(0);
+    const [price, setPrice] = useState(0);
+    const [inStock, setInStock] = useState(false);
     const [category, setCategory] = useState('');
     const [imgURL, setImgURL] = useState('');
 
@@ -45,8 +45,10 @@ const Admin = ({ token, allProducts }) => {
         try {
             const response = await callApi({
                 url: "users",
+                token
             })
             if (response) {
+                console.log(adminUsers)
                 setAdminUsers(response);
             }
         } catch (error) {
@@ -63,13 +65,16 @@ const Admin = ({ token, allProducts }) => {
 
     return (
         <>
-            <h3 style={{ color: "white" }}>Post a product</h3>
+            <h2 className='component-title'>Post a product</h2>
             <form className="submit-form" onSubmit={postProduct}>
                 <input type="text" placeholder="title" value={name} onChange={(event) => setName(event.target.value)} />
                 <input type="text" placeholder="description" value={description} onChange={(event) => setDescription(event.target.value)} />
-                <input type="text" placeholder="price" value={price} onChange={(event) => setPrice(event.target.value)} />
+                <fieldset>
+                    $<input type="text" placeholder="price" value={price} onChange={(event) => setPrice(event.target.value)} />
+                </fieldset>               
                 <input type="text" placeholder="category" value={category} onChange={(event) => setCategory(event.target.value)} />
                 <input type="text" placeholder="imgURL" value={imgURL} onChange={(event) => setImgURL(event.target.value)} />
+                <br />
                 <fieldset>
                     <label>In stock: </label>
                     <select placeholder='no' onChange={(event) => {setInStock(event.target.value)}}>
@@ -77,7 +82,10 @@ const Admin = ({ token, allProducts }) => {
                         <option value='true'>YES</option>
                     </select>
                 </fieldset>
-                <button type='submit' disabled={!name || !description || !price || !category}>Submit</button>
+                <br />
+                <button type='submit' disabled={!name || !description || !price || !category || !imgURL}>Submit</button>
+                <br />
+                <span><i>All fields must be completed</i></span>
             </form>
         </>
     );
