@@ -137,8 +137,7 @@ const populateInitialData = async () => {
     console.log("Creating users...");
     const usersToCreate = [
       { firstName: 'Mary', lastName: 'Jane', email: 'mary.jane@gmail.com', username: 'mj2003', password: 'gr33ni$g00d', isAdmin: false },
-      { firstName: 'Rocco', lastName: 'Stalwart', email: 'deergod@myspace.com', username: 'antlers54', password: 'password124', isAdmin: false },
-      { firstName: 'admin', lastName: 'admin', email: 'admin@admin.com', username: 'admin', password: 'iamtheadmin', isAdmin: true }
+      { firstName: 'Rocco', lastName: 'Stalwart', email: 'deergod@myspace.com', username: 'antlers54', password: 'password124', isAdmin: false }
     ]
     const users = await Promise.all(usersToCreate.map(createUser));
     console.log('Users created:');
@@ -146,7 +145,7 @@ const populateInitialData = async () => {
     console.log('Finished creating users!');
 
     console.log("Creating admin user...");
-    const adminToCreate = { firstName: 'admin', lastName: 'overloard', username: 'admin', email: 'admin@awesomeshoestorename.com', password: 'password', isAdmin: true };
+    const adminToCreate = { firstName: 'admin', lastName: 'admin', email: 'admin@awesomeshoestore.com', username: 'admin', password: 'password', isAdmin: true };
     const admin = await createAdminUser(adminToCreate);
     console.log('Admin created');
     console.log(admin);
