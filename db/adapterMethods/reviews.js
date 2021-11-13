@@ -56,7 +56,7 @@ const getReviewById = async (id) => {
 
 const getReviewsByProduct = async (id) => {
     try {
-        const {rows: review } = await client.query(`
+        const { rows: [review] } = await client.query(`
             SELECT *
             FROM reviews
             WHERE "productId"=$1

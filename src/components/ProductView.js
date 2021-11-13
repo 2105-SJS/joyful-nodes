@@ -6,7 +6,8 @@ import { callApi } from '../util';
 
 const ProductView = ({ cart, getCart, token }) => {
     const { productId } = useParams();
-    const [product, setProduct] = useState([])
+    const [product, setProduct] = useState([]);
+    const [reviews, setReviews] = useState([]);
 
     const getSingleProd = async () => {
         try {
@@ -21,8 +22,23 @@ const ProductView = ({ cart, getCart, token }) => {
         };
     };
 
+    const productReviews = async () => {
+        try {
+                const response = await callApi({
+                    url: `reviews/product/${productId}`        
+                });
+                if (response) {
+                    //console.log("@@!!$$", response);
+                    setReviews(response);
+                };              
+        } catch (error) {
+            console.error (error);
+        };
+    };
+
     useEffect(() => {
         getSingleProd();
+        productReviews();
     }, [productId]);
 
     return <SingleProduct key={product.id} product={product} cart={cart} getCart={getCart} token={token}>

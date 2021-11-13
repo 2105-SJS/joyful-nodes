@@ -30,6 +30,24 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
         };
     };
 
+    const productReviews = async () => {
+        try {
+            if (product) {
+                const prodId = Number(product.id)
+                const response = await callApi({
+                    url: `reviews/product/${prodId}`         
+                });
+                if (response) {
+                    return response;
+                };    
+            };            
+        } catch (error) {
+            console.error (error);
+        };
+    };
+
+   //const reviews = await productReviews();
+
     return product 
         ? <>
             <div className='product'>
@@ -40,7 +58,7 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
                 { !foundProd && <button onClick={handleAddtoCart}>Add to cart</button> }
                 <br />
                 { message && <div>{message}</div> }
-                { children }
+                { children }                
 
             </div>
         </> 
