@@ -44,7 +44,7 @@ const Admin = ({ token, allProducts }) => {
     const getAdminUsers = async () => {
         try {
             const response = await callApi({
-                url: "users",
+                url: "/users",
             })
             if (response) {
                 setAdminUsers(response);

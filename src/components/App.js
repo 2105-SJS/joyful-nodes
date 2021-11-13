@@ -191,6 +191,9 @@ const App = () => {
         <Route exact path="/products">
           <Products {...props} />
         </Route>
+        <Route exact path="/admin">
+          <Admin {...props} />
+        </Route>
         <Route exact path="/users/login">
           <Login  {...props} />
         </Route>
