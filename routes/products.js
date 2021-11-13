@@ -44,13 +44,16 @@ productsRouter.get("/:productId", async (req, res, next) => {
 productsRouter.post('/', requireAdmin, async (req, res, next) => {
     const { name, description, price, imgURL, inStock, category } = req.body;
     try {
+        if (!imgURL) {
+            imgURL = 'https://louisville.edu/enrollmentmanagement/images/person-icon/image'
+        };
         const product = await createProduct({
-            name: name,
-            description: description,
-            price: price,
-            imgURL: imgURL,
-            inStock: inStock,
-            category: category
+            name,
+            description,
+            price,
+            imgURL,
+            inStock,
+            category
         });
         if (product) {
             res.send(product);

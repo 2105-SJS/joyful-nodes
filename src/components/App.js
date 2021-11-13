@@ -10,7 +10,8 @@ import {
   ProductView,
   Register,
   SingleOrder,
-  UserOrders
+  UserOrders,
+  Admin,
 } from './';
 
 const App = () => {
@@ -26,26 +27,30 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [userData, setUserData] = useState({});
 
-  const getCart = async () => {
+  const createCart = async () => {
     try {
-      const response = await callApi({ url: 'orders/cart', token });
+      const response = callApi({ method: 'POST', url: 'orders', token });
       if (response) {
         setCart(response);
-        localStorage.setItem('cart', JSON.stringify(response));
       };
     } catch (error) {
       console.error(error);
     };
   };
 
-  const createCart = async () => {
+  const getCart = async () => {
     try {
-      const response = callApi ({ method: 'POST', url: 'orders', token });
-      if  (response) {
-        setCart (response);
-      };      
+      const response = await callApi({ url: 'orders/cart', token });
+      if (!response) {
+        await createCart();
+        await getCart();
+      };
+      if (response) {
+        setCart(response);
+        localStorage.setItem('cart', JSON.stringify(response));
+      };
     } catch (error) {
-      console.error (error);
+      console.error(error);
     };
   };
 
@@ -82,7 +87,7 @@ const App = () => {
     try {
       const response = await callApi({ url: 'users/me', token });
       if (response) {
-        setUserData (response);
+        setUserData(response);
       };
     } catch (error) {
       console.error(error);
@@ -125,9 +130,6 @@ const App = () => {
     if (token) {
       getUser();
       getCart();
-      if (!cart) {
-        createCart();
-      };
     };
   }, [token]);
 
@@ -146,15 +148,21 @@ const App = () => {
           <Link to='/products' className='nav-link'>Products</Link>
           {
             token
-              ? <button className='nav-link' onClick={(e) => {
-                e.preventDefault();
+              ? <button className='nav-link' onClick={(event) => {
+                event.preventDefault();
                 localStorage.removeItem("token");
                 localStorage.removeItem("userData");
                 setToken('');
                 setUserData({});
+                setCart({});
                 history.push('/');
               }}>Log out</button>
               : <Link to='/users/login' className='nav-link'>Sign in</Link>
+          }
+          {
+            userData.isAdmin
+              ? <Link to="/admin" className='nav-link'>Admin Portal</Link>
+              : null
           }
           <Link to='/cart' className='nav-link cart'>
             <img src='/img/cart.png' width="26" height="22" />
@@ -164,6 +172,9 @@ const App = () => {
       <main>
         <Route exact path="/">
           <Home {...props} />
+        </Route>
+        <Route exact path="/admin">
+          <Admin {...props} />
         </Route>
         <Route exact path='/cart'>
           <Cart {...props} />
@@ -192,7 +203,7 @@ const App = () => {
       </main>
       <footer>
         <div>Photo by <a href="https://unsplash.com/@candrawnt_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Candra Winata</a> on <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-  </div>
+        </div>
       </footer>
     </div>
   </>

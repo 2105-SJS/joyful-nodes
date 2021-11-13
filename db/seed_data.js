@@ -5,7 +5,8 @@ const {
   createOrder,
   createUser,
   createReview,
-   updateOrder, cancelOrder
+  updateOrder,
+  cancelOrder
 } = require('./index');
 
 const dropTables = async () => {
@@ -35,9 +36,9 @@ const createTables = async () => {
     await client.query(`
         CREATE TABLE products (
           id SERIAL PRIMARY KEY,
-          name VARCHAR(255) NOT NULL,
+          name VARCHAR(255) UNIQUE NOT NULL,
           description VARCHAR(255) NOT NULL,
-          price INT NOT NULL,
+          price DECIMAL(100, 2) NOT NULL,
           "imgURL" VARCHAR(255) DEFAULT 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1610416577-vans-1610416571.jpg',
           "inStock" BOOLEAN DEFAULT false NOT NULL,
           category VARCHAR(255) NOT NULL
@@ -134,8 +135,9 @@ const populateInitialData = async () => {
 
     console.log("Creating users...");
     const usersToCreate = [
-      { firstName: 'Mary', lastName: 'Jane', email: 'mary.jane@gmail.com', username: 'mj2003', password: 'gr33ni$g00d' },
-      { firstName: 'Rocco', lastName: 'Stalwart', email: 'deergod@myspace.com', username: 'antlers54', password: 'password124' }
+      { firstName: 'Mary', lastName: 'Jane', email: 'mary.jane@gmail.com', username: 'mj2003', password: 'gr33ni$g00d', isAdmin: false },
+      { firstName: 'Rocco', lastName: 'Stalwart', email: 'deergod@myspace.com', username: 'antlers54', password: 'password124', isAdmin: false },
+      { firstName: 'admin', lastName: 'admin', email: 'admin@admin.com', username: 'admin', password: 'iamtheadmin', isAdmin: true }
     ]
     const users = await Promise.all(usersToCreate.map(createUser));
     console.log('Users created:');
