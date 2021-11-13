@@ -165,8 +165,10 @@ main {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #4d4d4d;
+    border-bottom: .5px solid #4d4d4d78;
     padding-right: 12px;
+    margin: 1em;
+    font-size: 18px;
 }
 
 .cart-product:last-child {
@@ -253,4 +255,12 @@ a:active {
     background-color: #087570;
     border-radius: 24px;
     text-decoration: none;
+}
+
+.cart-total {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding-right: 3em;
+    font-size: 24px;
 }
