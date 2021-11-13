@@ -44,7 +44,7 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
                 <br />
                 { message && <div>{message}</div> }
                 { children }
-
+      
             </div>
         </> 
         : 'loading...'
