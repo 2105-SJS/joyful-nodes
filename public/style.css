@@ -195,6 +195,10 @@ main {
     padding-bottom: -12px;
 }
 
+.cart-quant {
+    width: 56px;
+}
+
 .user-form {
     display: flex;
     flex-direction: column;

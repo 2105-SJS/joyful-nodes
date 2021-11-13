@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CartProduct } from '.';
 
 const Cart = ({ cart, getCart, token }) => {
+    const [quantity, setQuantity] = useState(1)
     const { products } = cart;
     let cartTotal = 0;
     if (products) {
@@ -12,9 +13,7 @@ const Cart = ({ cart, getCart, token }) => {
         return <div className='cart-list'>
             {
             products.map(product => <CartProduct key={product.id} cart={cart} getCart={getCart} product={product} token={token}>
-                {
-                <div>Quantity: {product.quantity}</div>
-                }
+                
             </CartProduct>)
             }
             {
