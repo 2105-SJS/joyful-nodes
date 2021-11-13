@@ -161,10 +161,10 @@ const App = () => {
           }
           {
             userData.isAdmin
-              ? <Link to="/admin" className='nav-link'>Admin Portal</Link>
+              ? <Link to="/admin" className='nav-link cart-link'>Admin Portal</Link>
               : null
           }
-          <Link to='/cart' className='nav-link cart'>
+          <Link to='/cart' className='nav-link cart-link'>
             <img src='/img/cart.png' width="26" height="22" />
           </Link>
         </div>

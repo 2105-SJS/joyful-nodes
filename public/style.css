@@ -138,7 +138,7 @@ main {
     align-items: center;
     justify-content: center;
     width: 28vw;
-    height: 24em;
+    min-height: 24em;
     overflow: hidden;
     border: 2px solid #005c6d;
     border-radius: 12px;
@@ -156,6 +156,7 @@ main {
     background: #ffffff;
     margin: 8px;
     box-shadow: 5px 5px 10px #0000007a;
+    object-fit: contain;
 }
 
 .cart-product {
@@ -187,6 +188,10 @@ main {
     border: 2px solid #005c6d;
     border-radius: 12px;
     padding: 8px;
+}
+
+.cart-link {
+    padding-bottom: -12px;
 }
 
 .user-form {

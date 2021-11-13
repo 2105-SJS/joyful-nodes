@@ -40,6 +40,7 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
                 <h3>{product.name}</h3>
                 <p>{product.category}</p>
                 <p><b>Price:</b> ${product.price}</p>
+                <br />
                 {!foundProd && token && <button onClick={handleAddtoCart}>Add to cart</button>}
                 {foundProd && token && <span>Already in your cart!</span>}
                 <br />
