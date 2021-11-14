@@ -267,6 +267,10 @@ main {
     padding: 8px;
 }
 
+.cart-list button {
+    width: 5em;
+}
+
 .cart-link {
     padding-bottom: -12px;
 }

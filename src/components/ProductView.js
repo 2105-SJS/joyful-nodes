@@ -50,7 +50,7 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
     }, []);
 
     return <>
-    <SingleProduct key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
+    <SingleProduct className='single-view' key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
         <div className='description'>
             { <p>{product.description}</p> }
         </div>
