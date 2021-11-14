@@ -3,8 +3,7 @@ import { Search, SingleProduct } from ".";
 import { Link } from "react-router-dom";
 
 const Products = ({ cart, getCart, products, token,reviews }) => {
-    const [searchTerm, setSearchTerm] = useState('');    
-
+    const [searchTerm, setSearchTerm] = useState('');
     return (
         <>            
             <h2 className='component-title'>Products</h2><br />
@@ -22,6 +21,7 @@ const Products = ({ cart, getCart, products, token,reviews }) => {
                 {
                 <Link to={`/products/${product.id}`}>More details...</Link>
                 }
+                { <br /> }
                 </SingleProduct>)
                 : null
             }

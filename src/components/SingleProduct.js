@@ -43,6 +43,8 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
                 <br />
                 <p><b>Price:</b> ${product.price}</p>
                 <br />
+                <p className='stock'><b>In stock: {product.inStock ? <span className='yes-stock'>yes</span> : <span className='no-stock'>no</span>}</b></p>
+                <br />
                 {!foundProd && token && <button onClick={handleAddtoCart}>Add to cart</button>}
                 {foundProd && token && <span class='alert'>Already in your cart!</span>}
                 <br />

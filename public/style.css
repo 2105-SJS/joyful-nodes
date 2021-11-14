@@ -320,6 +320,14 @@ input {
     text-align: center;
 }
 
+.no-stock {
+    color: #a10000;
+}
+
+.yes-stock {
+    color: #006d09;
+}
+
 footer {
     display: flex;
     flex-wrap: wrap;
