@@ -6,10 +6,10 @@
     font-family: 'Qanelas';
     src: local('Qanelas'), url('./fonts/Qanelas.otf') format('opentype');
 }
-
-
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans&display=swap');
-/* font-family: 'Public Sans', sans-serif; */
+@font-face {
+    font-family: 'Scrypta';
+    src: local('Scrypta'), url('./fonts/Scrypta.ttf') format('truetype');
+}
 
 * {
     display: border-box;
@@ -295,6 +295,12 @@ main {
     font-size: 18px;
 }
 
+.star-select {
+    background-color: #f0f8ffce;
+    border-radius: 6px;
+    font-size: 18px;
+}
+
 .submit-form {
     display: flex;
     flex-direction: column;
@@ -306,6 +312,27 @@ main {
     padding: 8px;
     margin: 8px;
     background-color: #f0f8ffce;
+}
+
+.review {
+    background-color: #f0f8ffce;
+    border-radius: 12px;
+    padding: 6px;
+    margin: 6px;
+    font-size: 20px;
+}
+
+.reviews {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+.review-title {
+    padding-top: .5em;
+    font-family: 'Scrypta', serif;
+    font-size: 38px;
 }
 
 input {

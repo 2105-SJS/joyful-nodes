@@ -30,7 +30,9 @@ const ProductReviews = ({ title, content, stars, authorId, userId, productId, to
     return (
         <div className='review'>
             <h4>{title}</h4>
+            <br />
             <p>{content}</p>
+            <br />
             <h4>Rating: </h4>
             {addStars(stars)}
             { authorId === userId ? <button onClick={handleDelete} >Delete</button> : null }
