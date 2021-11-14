@@ -3,8 +3,8 @@
     src: local('Eastchaft'), url('./fonts/Eastchaft.FREE.ttf') format('truetype');
 }
 @font-face {
-    font-family: 'Kenzo';
-    src: local('Kenzo'), url('./fonts/Kenzo-Kn5X.otf') format('opentype');
+    font-family: 'Qanelas';
+    src: local('Qanelas'), url('./fonts/Qanelas.otf') format('opentype');
 }
 
 
@@ -181,9 +181,9 @@ main {
 }
 
 .prod-title {
-    font-family: 'Kenzo', sans-serif;
+    font-family: 'Qanelas', sans-serif;
     color: #000000b6;
-    font-size: 28px;
+    font-size: 24px;
     padding-top: 1em;
 }
 
