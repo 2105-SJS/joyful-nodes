@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { callApi } from "../util";
 
-const SingleProduct = ({ cart, children, getCart, product, token }) => {
+const SingleProduct = ({ cart, children, prodClass, getCart, product, token }) => {
     const [message, setMessage] = useState('');
     let foundProd;
     if (cart.products) {
@@ -35,7 +35,7 @@ const SingleProduct = ({ cart, children, getCart, product, token }) => {
 
     return product 
         ? <>
-            <div className='product'>
+            <div className={prodClass}>
                 <img className='prodIMG' src={product.imgURL} alt={product.name} width='128' height='128' />
                 <h3 className='prod-title'>{product.name}</h3>
                 <br />

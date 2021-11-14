@@ -17,7 +17,7 @@ const Products = ({ cart, getCart, products, token,reviews }) => {
                     } else if (val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
                         return val
                     }
-                    }).map(product => <SingleProduct key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
+                    }).map(product => <SingleProduct key={product.id} prodClass='product' product={product} cart={cart} getCart={getCart} token={token}>
                 {
                 <Link to={`/products/${product.id}`}>More details...</Link>
                 }

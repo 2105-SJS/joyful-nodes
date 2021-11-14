@@ -50,7 +50,7 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
     }, []);
 
     return <>
-    <SingleProduct className='single-view' key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
+    <SingleProduct prodClass='single-product' key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
         <div className='description'>
             { <p>{product.description}</p> }
         </div>
@@ -116,7 +116,7 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
             { reviews.map(review => <ProductReviews key={review.id} title={review.title} rId={review.id} content={review.content} stars={review.stars} authorId={review.userId} userId={userId} productId={productId} productReviews={productReviews}>
             </ProductReviews>)}
         </div>
-        { <Link to='/products'>Go back</Link>}
+        { <Link to='/products' className='users-link'>Go back</Link>}
 
     </SingleProduct>
     </>

@@ -32,7 +32,7 @@ const ProductReviews = ({ title, content, stars, authorId, userId, productReview
         <div className='review'>
             <h4>{title}</h4>
             <br />
-            <p>{content}</p>
+            <p><i>{content}</i></p>
             <br />
             <h4>Rating: </h4>
             {addStars(stars)}
