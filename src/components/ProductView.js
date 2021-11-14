@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { SingleProduct, ProductReviews } from '.';
 import { callApi } from '../util';
 
 const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) => {
     const { productId } = useParams();
+    const history = useHistory();
     const [product, setProduct] = useState([]);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -42,8 +43,11 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
 
     useEffect(() => {
         getSingleProd();
-       productReviews();
-    }, [productId, reviews]);
+    }, [productId]);
+
+    useEffect(() => {
+        productReviews();
+    }, []);
 
     return <>
     <SingleProduct key={product.id} product={product} cart={cart} getCart={getCart} token={token}>
@@ -52,7 +56,7 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
         </div>
         { <br /> }
         <h2 className='component-title'>Write a review</h2>
-        <form className='user-form' onSubmit={ async (event) => {
+        <form className='submit-form' onSubmit={ async (event) => {
             event.preventDefault();
             try {
                 const response = await callApi({
@@ -70,6 +74,8 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
                   setTitle('');
                   setContent('');
                   setStars('');
+                  productReviews();
+                  history.push(`/products/${productId}`);
                 };
               } catch (error) {
                 console.error(error);
@@ -77,7 +83,7 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
             }}>
             <input type ="text" placeholder="Title" value={title} onChange={(event) => setTitle(event.target.value)}></input>
             <br />
-            <input type ="text" placeholder="Content" value={content} onChange={(event) => setContent(event.target.value)}></input>
+            <input type ="text" class='content-field' placeholder="Content" value={content} onChange={(event) => setContent(event.target.value)}></input>
             <br />
             <input type ="text" placeholder="Stars (1-5)" value={stars} onChange={(event) => setStars(event.target.value)}></input>
             <br />
