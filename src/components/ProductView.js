@@ -86,7 +86,7 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
                 <br />
                 <input type ="text" placeholder="Title" value={title} onChange={(event) => setTitle(event.target.value)}></input>
                 <br />
-                <input type ="text" class='content-field' placeholder="Content" value={content} onChange={(event) => setContent(event.target.value)}></input>
+                <input type ="text" className='content-field' placeholder="Content" value={content} onChange={(event) => setContent(event.target.value)}></input>
                 <br />
                 <fieldset>
                     <label><b>Rating: </b></label>
@@ -113,7 +113,7 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
         { reviews.length > 0 ? <h3 className='review-title'>Reviews: </h3> : null }
         <br />
         <div className='reviews'>
-            { reviews.map(review => <ProductReviews key={review.id} title={review.title} rId={review.id} content={review.content} stars={review.stars} authorId={review.userId} userId={userId} productId={productId}>
+            { reviews.map(review => <ProductReviews key={review.id} title={review.title} rId={review.id} content={review.content} stars={review.stars} authorId={review.userId} userId={userId} productId={productId} productReviews={productReviews}>
             </ProductReviews>)}
         </div>
         { <Link to='/products'>Go back</Link>}
