@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { callApi } from '../util';
 
-const CartProduct = ({ cart, getCart, product, token, children }) => {
+const CartProduct = ({ cart, getCart, product, token }) => {
     const history = useHistory();
     const [quantity, setQuantity] = useState(Number);
     const handleRemoveFromCart = async () => {
