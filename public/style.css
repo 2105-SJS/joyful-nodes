@@ -142,7 +142,7 @@ main {
 }
 
 .component-title {
-    padding-top: 8px;
+    padding-top: .75em;
     font-family: 'Eastchaft', sans-serif;
     font-size: 58px;
     color: #005d6ddf;    
