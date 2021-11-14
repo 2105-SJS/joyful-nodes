@@ -160,13 +160,13 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .product {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    flex-grow: 1;
     align-items: center;
     justify-content: center;
     width: 25vw;
@@ -249,6 +249,20 @@ main {
     background:#005c6d;
     border-radius: 28px;
     padding: 12px;
+}
+
+.products-link {
+    color: #ffffff;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 2px solid #ffffff;
+    background-color:#005c6d;
+    border-radius: 28px;
+    padding: 12px;
+}
+
+.products-link:hover {
+    background-color: #005d6da8;
 }
 
 .users-link:hover {
