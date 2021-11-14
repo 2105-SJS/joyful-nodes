@@ -97,10 +97,10 @@ const ProductView = ({ reviews, setReviews, cart, getCart, token, userData }) =>
                         value={stars}                    
                         onChange={(e) => setStars(e.target.value)}>
                         <option value='5'>★★★★★</option>
-                        <option value='4'>★★★★</option>
-                        <option value='3'>★★★</option>
-                        <option value='2'>★★</option>
-                        <option value='1'>★</option>
+                        <option value='4'>★★★★☆</option>
+                        <option value='3'>★★★☆☆</option>
+                        <option value='2'>★★☆☆☆</option>
+                        <option value='1'>★☆☆☆☆</option>
                     </select>
                 </fieldset>
                 <br />
