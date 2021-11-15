@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom'
 import { callApi } from '../util';
 
-const ProductReviews = ({ title, content, stars, authorId, userId, productId, token, rId }) => {
+const ProductReviews = ({ title, content, stars, authorId, userId, productReviews, productId, token, rId }) => {
     const history = useHistory();
 
     const addStars = (stars) => {
@@ -21,7 +21,8 @@ const ProductReviews = ({ title, content, stars, authorId, userId, productId, to
                 url: `reviews/${rId}`,
                 method: 'DELETE',
                 token
-              });
+            });
+            await productReviews();
         } catch (error) {
             console.error (error);
         };
@@ -30,7 +31,9 @@ const ProductReviews = ({ title, content, stars, authorId, userId, productId, to
     return (
         <div className='review'>
             <h4>{title}</h4>
-            <p>{content}</p>
+            <br />
+            <p><i>{content}</i></p>
+            <br />
             <h4>Rating: </h4>
             {addStars(stars)}
             { authorId === userId ? <button onClick={handleDelete} >Delete</button> : null }

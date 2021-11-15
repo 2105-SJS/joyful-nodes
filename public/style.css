@@ -2,9 +2,14 @@
     font-family: 'Eastchaft';
     src: local('Eastchaft'), url('./fonts/Eastchaft.FREE.ttf') format('truetype');
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans&display=swap');
-/* font-family: 'Public Sans', sans-serif; */
+@font-face {
+    font-family: 'Qanelas';
+    src: local('Qanelas'), url('./fonts/Qanelas.otf') format('opentype');
+}
+@font-face {
+    font-family: 'Scrypta';
+    src: local('Scrypta'), url('./fonts/Scrypta.ttf') format('truetype');
+}
 
 * {
     display: border-box;
@@ -90,6 +95,11 @@ header {
     box-shadow: 5px 5px 10px #0000007a;
 }
 
+.content-field {
+    height: 128px;
+    align-items: top;
+}
+
 button {
     text-decoration: none;
     background: #00000000;
@@ -128,10 +138,11 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-bottom: 2em;
 }
 
 .component-title {
-    padding-top: 8px;
+    padding-top: .75em;
     font-family: 'Eastchaft', sans-serif;
     font-size: 58px;
     color: #005d6ddf;    
@@ -141,20 +152,24 @@ main {
         -2px 2px 0 #f0f8ff,
         2px 2px 0 #f0f8ff;
 }
+.alert {
+    color: #ff4500;
+}
 
 .products-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .product {
     display: flex;
     flex-direction: column;
-    flex-wrap: none;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    width: 28vw;
+    width: 25vw;
     min-height: 24em;
     overflow: hidden;
     border: 2px solid #005c6d;
@@ -164,6 +179,32 @@ main {
     font-size: 18px;
     background-color: #f0f8ffce;
     box-shadow: 5px 5px 10px #0000007a;
+}
+
+.single-product {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    width: 70vw;
+    min-height: 24em;
+    overflow: hidden;
+    border: 2px solid #005c6d;
+    border-radius: 12px;
+    padding: 8px;
+    margin: 8px;
+    font-size: 18px;
+    background-color: #f0f8ffce;
+    box-shadow: 5px 5px 10px #0000007a;
+}
+
+.prod-title {
+    font-family: 'Qanelas', sans-serif;
+    color: #000000b6;
+    font-size: 24px;
+    padding-top: 1em;
 }
 
 .prodIMG {
@@ -210,6 +251,20 @@ main {
     padding: 12px;
 }
 
+.products-link {
+    color: #ffffff;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: 2px solid #ffffff;
+    background-color:#005c6d;
+    border-radius: 28px;
+    padding: 12px;
+}
+
+.products-link:hover {
+    background-color: #005d6da8;
+}
+
 .users-link:hover {
     background-color: #005d6da8;
 }
@@ -246,6 +301,10 @@ main {
     padding: 8px;
 }
 
+.cart-list button {
+    width: 5em;
+}
+
 .cart-link {
     padding-bottom: -12px;
 }
@@ -270,10 +329,17 @@ main {
     font-size: 18px;
 }
 
+.star-select {
+    background-color: #f0f8ffce;
+    border-radius: 6px;
+    font-size: 18px;
+}
+
 .submit-form {
     display: flex;
     flex-direction: column;
     flex-wrap: none;
+    width: 50vw;
     align-items: center;
     justify-content: center;
     border: 1px solid #4d4d4d;
@@ -281,6 +347,32 @@ main {
     padding: 8px;
     margin: 8px;
     background-color: #f0f8ffce;
+}
+
+.submit-form input {
+    width: 45vw;
+}
+
+.review {
+    background-color: #f0f8ffce;
+    border: 1px solid #006d09;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 6px;
+    font-size: 20px;
+}
+
+.reviews {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 8px;
+}
+
+.review-title {
+    padding-top: .5em;
+    font-family: 'Scrypta', serif;
+    font-size: 38px;
 }
 
 input {
@@ -293,6 +385,14 @@ input {
     text-align: center;
 }:-moz-placeholder {
     text-align: center;
+}
+
+.no-stock {
+    color: #a10000;
+}
+
+.yes-stock {
+    color: #006d09;
 }
 
 footer {

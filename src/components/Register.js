@@ -18,6 +18,7 @@ const Register = ({
   setUsername
 }) => {
   let history = useHistory();
+  const [alert, setAlert] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
 
   return <>
@@ -37,25 +38,30 @@ const Register = ({
           }
         });
         if (response) {
-          const { token, user } = response;
-          if (user) {
-            setUserData(user);
+          const { message, token, user } = response;
+          if (message) {
+            setAlert(message);
+          };
+          if (!token) {
+            return;
           };
           if (token) {
             setToken(token);
             localStorage.setItem("token", token);
           };
-          setUsername('');
-          setPassword('');
-          setFirstName('');
-          setLastName('');
-          setEmail('');
-          history.push("/");
+          if (user) {
+            setUserData(user);
+            setUsername('');
+            setPassword('');
+            setFirstName('');
+            setLastName('');
+            setEmail('');
+            history.push("/");
+          };
         };
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error);
-      }
+      };
     }}>      
         <p><b>First Name</b></p>
         <input type="text" placeholder="First Name" value={firstName} onChange={(event) => setFirstName(event.target.value)} />
@@ -79,6 +85,7 @@ const Register = ({
       <br />
       <button type="submit" disabled={!username || !password || password.length < 8 || password !== confirmPass || !firstName || !lastName || !email}>REGISTER</button>
       <br />
+      <div className='alert'>{alert}</div>
       <span>
         Already have an account? Click <Link to="/users/login" className='login-link'>here</Link> to sign in!
       </span>

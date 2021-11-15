@@ -9,7 +9,7 @@ const Home = ({ token, userData }) => {
         </>
     } else {return <>
         <div>
-            <h2 className='component-title'>Welcome to Awesome Shoe Store Name!</h2>
+            <h2 className='component-title'>Welcome to Awesome Shoe Store!</h2>
         </div> 
     </>}
 };
