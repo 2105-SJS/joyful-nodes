@@ -73,6 +73,23 @@ header {
     box-shadow: 5px 5px 10px #0000007a;
 }
 
+.search {
+    display: flex;
+    border: 2px solid #006d09;
+    border-radius: 50px;
+    font-size: 22px;
+    padding: 12px;
+    width: 45vw;
+    max-height: 24px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-top: 8px;
+    margin-bottom: 1em;
+    background-color: #f0f8ffce;
+    box-shadow: 5px 5px 10px #0000007a;
+}
+
 button {
     text-decoration: none;
     background: #00000000;
@@ -271,6 +288,11 @@ input {
     border-radius: 8px;
     padding: 4px;
     margin: 5px;
+    text-align: center;
+}::-webkit-input-placeholder {
+    text-align: center;
+}:-moz-placeholder {
+    text-align: center;
 }
 
 footer {
