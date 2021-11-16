@@ -45,8 +45,7 @@ const getReviewById = async (id) => {
         const {rows: [review] } = await client.query(`
             SELECT *
             FROM reviews
-            WHERE id=$1
-            RETURNING *;
+            WHERE id=$1;
         `, [id]);
         return review;
     } catch (error) {
@@ -56,11 +55,10 @@ const getReviewById = async (id) => {
 
 const getReviewsByProduct = async (id) => {
     try {
-        const {rows: review } = await client.query(`
+        const { rows: review } = await client.query(`
             SELECT *
             FROM reviews
-            WHERE "productId"=$1
-            RETURNING *;
+            WHERE "productId"=$1;
         `, [id]);
         return review;
     } catch (error) {
@@ -72,8 +70,7 @@ const getAllReviews = async () => {
     try {
         const {rows: [reviews] } = await client.query(`
             SELECT *
-            FROM reviews
-            RETURNING *;
+            FROM reviews;
         `);
         return reviews;
     } catch (error) {

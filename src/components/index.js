@@ -1,3 +1,4 @@
+export { default as Admin } from './Admin'
 export { default as Cart } from './Cart';
 export { default as CartProduct } from './CartProduct';
 export { default as Home } from './Home';
@@ -9,4 +10,6 @@ export { default as SingleOrder } from './SingleOrder';
 export { default as SingleProduct } from './SingleProduct';
 export { default as Register } from './Register';
 export { default as UserOrders } from './UserOrders'
-export { default as Admin } from './Admin'
+export { default as ProductReviews } from './ProductReviews';
+export { default as StripeCheckoutButton } from './StripeCheckoutButton'
+export { default as Users } from './Users'

@@ -9,6 +9,7 @@ const {
     getReviewsByProduct,
     getAllReviews
 } = require('../db');
+const { types } = require('pg');
 
 reviewsRouter.use((req, res, next) => {
     console.log('A request is being made to /reviews');
@@ -41,7 +42,8 @@ reviewsRouter.get('/:reviewId', requireUser, async (req, res, next) => {
 reviewsRouter.get('/product/:productId', requireUser, async (req, res, next) => {
     const { productId } = req.params;
     try {
-        const reviews = await getReviewsByProduct(productId);
+        const id = parseInt(productId, 10);
+        const reviews = await getReviewsByProduct(id);
         if (reviews) {
             res.send(reviews);
         };
@@ -83,14 +85,11 @@ reviewsRouter.patch('/:reviewId', requireUser, async (req, res, next) => {
 reviewsRouter.delete('/:reviewId', requireUser, async (req, res, next) => {
     const { reviewId } = req.params;
     try {
-        const review = await getReviewById(reviewId);
-        if (review.userId === req.user.id) {
             const deletedReview = await destroyReview(reviewId);
             if (deletedReview) {
                 res.status(200);
                 res.send(deletedReview);
             };
-        };
     } catch (error) {
         next(error);
     };

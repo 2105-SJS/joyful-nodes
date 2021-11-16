@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { callApi } from '../util';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ const Login = ({
   setUserData
 }) => {
     const history = useHistory();
+    const [alert, setAlert] = useState('');
 
     return <>
         <h2 className='component-title'>Sign in</h2>
@@ -26,17 +27,23 @@ const Login = ({
                   }
                 });
                 if (response) {
-                  const { token, user } = response;
-                  if (user) {
-                    setUserData(user);
+                  const { message, token, user } = response;
+                  if (message) {
+                    setAlert(message);
+                  };
+                  if (!token) {
+                    return;
                   };
                   if (token) {
                     setToken(token);
                     localStorage.setItem("token", token);
                   };
-                  setUsername('');
-                  setPassword('');
-                  history.push("/");
+                  if (user) {
+                    setUserData(user);
+                    setUsername('');
+                    setPassword('');
+                    history.push("/");
+                  };
                 };
               } catch (error) {
                 console.error(error);
@@ -52,6 +59,7 @@ const Login = ({
             <br />
             <button type="submit">LOGIN</button>
             <br />
+            <div className='alert'>{alert}</div>
             <span>
               Don't have an account yet? Click <Link to="/users/register" className='login-link'>here</Link> to register!
             </span> 
