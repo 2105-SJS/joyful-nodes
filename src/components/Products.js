@@ -11,7 +11,7 @@ const Products = ({ cart, getCart, products, token,reviews }) => {
             <div className='products-list'>
             {
             products 
-                ? products.filter((val) => {
+                ? products.reverse().filter((val) => {
                     if (searchTerm == '') {
                         return val
                     } else if (val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
